@@ -1,0 +1,21 @@
+@mixin box-sizing($boxmodel) {
+  -webkit-box-sizing: $boxmodel;
+     -moz-box-sizing: $boxmodel;
+          box-sizing: $boxmodel;
+}
+
+@mixin clearfix() {
+  *zoom: 1;
+
+  &:before,
+  &:after {
+    display: block;
+    content: " ";
+    width: 0;
+    height: 0;
+    visibility: hidden;
+  }
+  &:after {
+    clear: both;
+  }
+}

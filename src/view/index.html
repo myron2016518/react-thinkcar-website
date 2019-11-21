@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <meta name="keywords" content="Launch|ThinkCar|星卡" />
+  <meta name="description" content="ThinkCar" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <title>Thinkcar</title>
+  <link rel="bookmark" href="https://mythinkcar.com/Home/img/favicon.ico" type="image/x-icon" />
+  <link rel="icon" href="https://mythinkcar.com/Home/img/favicon.ico" type="image/x-icon" />
+  <link rel="shortcut icon" href="https://mythinkcar.com/Home/img/favicon.ico" type="image/x-icon" />
+
+</head>
+
+<body>
+  <div id="root"></div>
+  <!-- <script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak=1XjLLEhZhQNUzd93EjU5nOGQ"></script> -->
+
+  <script src="https://pv.sohu.com/cityjson?ie=utf-8"></script>
+  <div id="fb-root"></div>
+  <script>
+    window.fbAsyncInit = function () {
+      FB.init({
+        xfbml: true,
+        version: 'v5.0'
+      });
+    };
+    (function (d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+  <div class="fb-customerchat" attribution="setup_tool" page_id="113879770027054"  theme_color="#2e3192"></div>
+</body>
+
+</html>

@@ -1,0 +1,2079 @@
+@import "variables.scss";
+@import "mixins.scss";
+
+input:-webkit-autofill,
+textarea:-webkit-autofill,
+select:-webkit-autofill {
+  /* 去除chrome下input输入框等黄色背景 */
+  -webkit-box-shadow: 0 0 0px 1000px white inset !important;
+}
+
+
+ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+#root {
+  height: 100%;
+}
+
+.bordered {
+  border: 1px solid #d9d9d9;
+  border-radius: 5px;
+}
+
+.img-responsive {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.mt-5 {
+  margin-top: 5px !important;
+}
+
+.mt-15 {
+  margin-top: 15px !important;
+}
+
+.mt-30 {
+  margin-top: 30px !important;
+}
+
+.mb-15 {
+  margin-bottom: 15px !important;
+}
+
+.small {
+  font-size: 80%;
+}
+
+.large {
+  font-size: 120%;
+}
+
+.inline-block {
+  display: inline-block !important;
+}
+
+.center-block {
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.middle-block {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+}
+
+.pull-right {
+  float: right !important;
+}
+
+.pull-left {
+  float: left !important;
+}
+
+.bfc {
+  overflow: hidden;
+  *zoom: 1;
+}
+
+.hide {
+  display: none !important;
+}
+
+.show {
+  display: block !important;
+}
+
+.invisible {
+  visibility: hidden;
+}
+
+.text-center {
+  text-align: center !important;
+}
+
+.text-right {
+  text-align: right !important;
+}
+
+.disabled {
+  cursor: not-allowed;
+  pointer-events: none;
+  color: #999;
+
+}
+
+.main-color {
+  color: $main-color;
+
+}
+
+.red {
+  color: #f5222d !important;
+}
+
+.blue {
+  color: #0A75E2;
+}
+
+.orange {
+  color: orange;
+}
+
+.green {
+  color: #13c150;
+}
+
+.badge {
+  display: inline-block;
+  min-width: 10px;
+  padding: 3px 7px;
+  font-size: 12px;
+  font-weight: bold;
+  line-height: 1;
+  color: #fff;
+  text-align: center;
+  text-align: -webkit-center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  background-color: #777;
+  border-radius: 10px;
+}
+
+.text-muted {
+  color: $muted-color !important;
+}
+
+.box-shadow {
+  -webkit-box-shadow: 0 3px 10px 1px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0 3px 10px 1px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 3px 10px 1px rgba(0, 0, 0, 0.2);
+}
+
+.relative {
+  position: relative !important;
+}
+
+.bc-white {
+  background-color: #fff;
+}
+
+.container {
+  height: 100%;
+  margin: 0;
+  /* padding:$container-padding; */
+  min-width: 768px;
+  display: flex;
+  display: -webkit-flex;
+  flex-direction: column;
+}
+
+.main-content {
+  flex: 1;
+  overflow: auto;
+  background-color: #fff;
+}
+
+.clear-padding {
+  margin-left: -$container-padding;
+  margin-right: -$container-padding;
+}
+
+.padding {
+  padding: $container-padding;
+}
+
+.masker {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  //background-color: rgba(0,0,0,.3);
+  z-index: 10000;
+}
+
+.loading {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin-left: -10px;
+  margin-top: -12px;
+  z-index: 10000;
+
+  .ant-spin-dot-item {
+    background-color: #1C1F86 !important;
+  }
+}
+
+.fixed-bottom-btn {
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding: 15px;
+  background: #eee;
+}
+
+
+.ant-btn.border-btn {
+  color: $main-color;
+  background-color: #fff;
+  border: 1px solid $main-color;
+}
+
+.btn-block {
+  width: 100%;
+}
+
+
+/* 修改drawer样式 */
+.ant-drawer {
+  .ant-drawer-header {
+    padding: 10px 16px;
+  }
+
+  .ant-drawer-close {
+    height: 43px;
+    line-height: 43px;
+  }
+
+}
+
+
+
+/* 登录 */
+.tc-login-page {
+  .tc-login-title {
+    padding: 3% 43%;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .tc-login-form {
+    background-color: #fff;
+    border-radius: 5px;
+    margin: 0px 37%;
+    padding: 2%;
+
+    .tc-login-form-title {
+      color: #1C1F86;
+      padding: 2% 18%;
+      text-align: center;
+      font-size: 0.3rem;
+      font-weight: 800;
+    }
+
+    .ant-input-affix-wrapper .ant-input:not(:first-child) {
+      padding-left: 45px;
+      background: #eee;
+    }
+
+    .tc-login-fb-tw {
+      text-align: center;
+      padding: 5% 0 0 0;
+    }
+  }
+
+  .tc-login-footer {
+    padding: 3%;
+    text-align: center;
+    color: #fff;
+  }
+}
+
+/* 注册 */
+.register-wrapper {
+  width: 90%;
+  min-width: 500px;
+  max-width: 768px;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  border: 1px solid #d4d4d4;
+  padding: 40px;
+  background-color: #fff;
+
+}
+
+button.btn-get-captcha {
+  color: $main-color;
+  background: -webkit-linear-gradient(#fff, #f4f4f4);
+  /* Safari 5.1 - 6.0 */
+  background: -o-linear-gradient(#fff, #f4f4f4);
+  /* Opera 11.1 - 12.0 */
+  background: -moz-linear-gradient(#fff, #f4f4f4);
+  /* Firefox 3.6 - 15 */
+  background: linear-gradient(#fff, #f4f4f4);
+  /* 标准的语法 */
+  -webkit-box-shadow: 2px 2px 5px rgba(0, 0, 0, .3);
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, .3);
+}
+
+/* 主页 */
+
+.binnerList {
+  text-align: center;
+  text-align: -webkit-center;
+  // height: 260px;
+  // line-height: 260px;
+
+}
+
+.think-car-home-tip1-h1 {
+  padding-top: 4%;
+  padding-bottom: 4%;
+}
+
+.think-car-home-tip2 {
+  padding-bottom: 4%;
+
+  .think-car-home-img {
+    display: inline-block;
+    width: 80%;
+    text-align: center;
+    text-align: -webkit-center;
+    object-fit: cover;
+  }
+}
+
+.think-car-home-img-bk {
+  .ant-card-cover {
+    background: -webkit-gradient(linear, left top, left bottom, from(#f7f7f7), to(#fff), color-stop(0.5, #f7f7f7), color-stop(0.5, #fff));
+  }
+}
+
+.think-car-home-price-img {
+  display: inline-block !important;
+  width: 100%;
+  text-align: center;
+  text-align: -webkit-center;
+  object-fit: cover;
+}
+
+.think-car-home-price-img-logo {
+  display: inline-block !important;
+  width: 10%;
+  text-align: center;
+  text-align: -webkit-center;
+  object-fit: cover;
+  float: right;
+}
+
+.think-car-margin-top-3 {
+  margin-top: 3.5%;
+}
+
+.think-car-margin-top-20 {
+  margin-top: 20px !important;
+}
+
+.think-car-margin-bottom-20 {
+  margin-bottom: 20px !important;
+}
+
+.think-car-home-padding-lef5 {
+  padding-left: 2% !important;
+}
+
+
+
+.think-car-home-padding-right5 {
+  padding-right: 5px !important;
+}
+
+.thinkCar-price1 {
+  text-align: center;
+  text-align: -webkit-center;
+  background-color: #F7F7F7;
+}
+
+.think-car-last-price {
+  background-color: #ffffff;
+  padding-top: 30px;
+  padding-bottom: 40px;
+
+  .ant-card-cover {
+    width: 50%;
+    display: inline-block;
+    margin-bottom: 5px;
+  }
+
+  .ant-card-body {
+    padding: 2px;
+
+    .ant-card-meta-description {
+      font-weight: bold;
+      color: #000000;
+    }
+  }
+}
+
+.think-car-home-money-tip {
+  color: #231890;
+  font-weight: bold;
+  padding-top: 5%;
+  font-size: 18px;
+}
+
+.think-car-home-line1 {
+  border-bottom: 3px solid #000000;
+  padding-top: 35%;
+}
+
+
+.icon-plus-circle {
+  font-size: 18px;
+  /* margin-left:5px;
+  margin-right:20px; */
+}
+
+.home-menu {
+  position: fixed;
+  right: $container-padding;
+  top: 10px;
+  z-index: 2;
+}
+
+.current-task-wrapper {
+  min-height: 200px;
+  padding: 15px;
+  color: #fff;
+  background-color: #130f40;
+}
+
+.task-status {
+  width: 95px;
+  height: 95px;
+  line-height: 95px;
+  font-size: 16px;
+  text-align: center;
+  text-align: -webkit-center;
+  border-radius: 50%;
+  background-color: #fff;
+  border: 2px solid #bfbfbf;
+
+}
+
+.task-status-not-start {
+  color: $main-color;
+  border-color: $main-color;
+}
+
+.task-status-underway {
+  color: #0A75E2;
+  border-color: #0A75E2;
+}
+
+.task-list {
+  .task-list-item {
+    margin-bottom: 15px;
+    padding: 15px;
+  }
+}
+
+.my-task-title {
+  display: inline-block;
+  font-size: 18px;
+  background: #2980b9;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+/* 订单评价 */
+.comment {
+  font-size: 50px;
+  color: #d9d9d9;
+  cursor: pointer;
+
+  &.active {
+    color: $main-color;
+  }
+}
+
+.reason-list {
+  .reason-item {
+    float: left;
+    padding: 5px 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+
+    &.selected {
+      color: #fff;
+      background-color: $main-color;
+    }
+  }
+}
+
+.breadcrumb-nav {
+  padding-left: 0;
+  font-size: 16px;
+  margin-bottom: 0;
+}
+
+.breadcrumb-nav>.breadcrumb {
+  display: inline-block;
+  position: relative;
+  height: 32px;
+  line-height: 32px;
+  padding-left: 35px;
+  padding-right: 35px;
+  border: 1px solid $main-color;
+  background-color: #efefef;
+}
+
+.breadcrumb-nav>.breadcrumb {
+  border-left: none;
+  border-right: none;
+}
+
+.breadcrumb-nav>.breadcrumb:after,
+.breadcrumb-nav>.breadcrumb:before,
+.breadcrumb-nav>.breadcrumb>a:after,
+.breadcrumb-nav>.breadcrumb>a:before {
+  position: absolute;
+  border: 15px solid transparent;
+  width: 0;
+  height: 0;
+  top: 0;
+  content: ' ';
+}
+
+.breadcrumb-nav>.breadcrumb>a {
+  color: inherit;
+}
+
+.breadcrumb-nav>.breadcrumb:before {
+  border-left-color: $main-color;
+  left: 1px;
+}
+
+.breadcrumb-nav>.breadcrumb:after {
+  border-right-color: #fff;
+  right: -1px;
+  /* border宽度*2 取负值 */
+}
+
+.breadcrumb-nav>.breadcrumb>a:before {
+  border-left-color: #fff;
+  left: 0;
+}
+
+.breadcrumb-nav>.breadcrumb>a:after {
+  border-right-color: $main-color;
+  right: 0;
+}
+
+// common
+.think-car-padding0 {
+  padding: 0 !important;
+}
+
+.think-car-padd-top5 {
+  padding-top: 5px !important;
+}
+
+.think-car-padding10 {
+  padding-left: 10% !important;
+  padding-right: 10% !important;
+}
+
+.think-car-home-padding-lef15 {
+  padding-left: 15% !important;
+}
+
+// header
+.tc-header-remotediagnosis {
+  float: left;
+  background-color: #B90000;
+  color: #fff;
+  padding: 2px 20px;
+  margin-right: 20px;
+  font-size: 13px;
+  font-weight: bold;
+
+  &:hover {
+    color: #fff;
+  }
+}
+
+.tc-header-pc-userinfo-popover {
+  top: 32px !important;
+}
+
+.think-car-header-submenu-main {
+  width: 25%;
+
+  // border-radius: 0px;
+  .ant-menu-vertical.ant-menu-sub .ant-menu-item,
+  .ant-menu-vertical-left.ant-menu-sub .ant-menu-item,
+  .ant-menu-vertical-right.ant-menu-sub .ant-menu-item {
+    float: left;
+    height: 100%;
+    background: #fff;
+    width: 50%;
+    padding-bottom: 3%;
+  }
+
+  .ant-menu {
+    border-radius: 0px !important;
+  }
+
+  .tc-header-product-list-img {
+    display: inline-block !important;
+    height: 100px;
+    text-align: center;
+    text-align: -webkit-center;
+    object-fit: cover;
+  }
+
+  .tc-txt {
+    text-align: center;
+    text-align: -webkit-center;
+    line-height: 22px;
+    color: #000;
+  }
+}
+
+.header {
+  height: $header-height;
+  line-height: $header-height;
+  padding: 0px;
+  z-index: 10;
+  color: #fff;
+  background-color: transparent;
+
+  .ant-page-header {
+    background-color: #000;
+    padding: 0px;
+
+    .ant-page-header-heading-sub-title {
+      color: #fff;
+      margin: 3px 0;
+    }
+  }
+
+  .think-car-header-buy {
+    float: left;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 500;
+    height: 30px;
+    margin-right: 30px;
+    background: #333237;
+    border-radius: 0;
+
+    &:active,
+    &:focus,
+    &:hover {
+      color: #fff !important;
+    }
+
+  }
+
+  .ant-page-header-heading-extra {
+    .ant-avatar {
+      width: 21px;
+      height: 23px;
+      padding-top: 5px;
+      margin-right: 20px;
+      cursor: pointer;
+    }
+  }
+
+
+
+  .thinkcar-menu {
+    background: #000000;
+    // -webkit-transition: 100ms;
+    // transition: 100ms;
+    color: #fff;
+    border-bottom: 0px;
+    font-weight: 500;
+    padding: 3px 0px;
+
+  }
+
+
+
+  .thinkcar-menu-ismove {
+    background: rgba(255, 255, 255, 0.9) !important;
+    color: #000000;
+
+    .ant-menu-horizontal>.ant-menu-item:hover,
+    .ant-menu-horizontal>.ant-menu-submenu:hover,
+    .ant-menu-horizontal>.ant-menu-item-active,
+    .ant-menu-horizontal>.ant-menu-submenu-active,
+    .ant-menu-horizontal>.ant-menu-item-open,
+    .ant-menu-horizontal>.ant-menu-submenu-open,
+    .ant-menu-horizontal>.ant-menu-item-selected,
+    .ant-menu-horizontal>.ant-menu-submenu-selected {
+      color: #000 !important;
+      border-bottom: 2px solid #1D2187 !important;
+    }
+  }
+
+  .logo {
+    font-size: 20px;
+    color: #000;
+
+    .launch {
+      padding-right: 5px;
+      font-size: 30px;
+      font-weight: bold;
+      color: red;
+    }
+  }
+}
+
+.has-fixed-header {
+  margin-top: $header-height
+}
+
+.select-lang-wrap {
+  position: fixed;
+  top: 10px;
+  right: 15px;
+  z-index: 2;
+}
+
+
+
+// footer
+.thinkCar-footer-main {
+  .thinkCar-footer {
+    background-color: #000;
+    color: #fff;
+    padding: 2% 10%;
+
+    .thinkCar-footer-ul {
+      text-align: left;
+
+      li {
+        line-height: 30px;
+        // cursor: pointer;
+      }
+
+      .tc-f-ul-title {
+        font-size: 18px;
+        font-weight: bold;
+      }
+
+      .tc-f-ul-line {
+        width: 40px;
+        border-bottom: 2px solid #fff;
+        margin-bottom: 10px;
+        margin-top: 10px;
+      }
+    }
+  }
+
+  .tc-footer-last {
+    background-color: #2C2C2C;
+    color: #fff;
+    padding: 1% 10%;
+
+    .tc-footer-last-link {
+      cursor: pointer;
+    }
+  }
+}
+
+
+//product
+.tc-product-page {
+  .tc-product-page-tabs-title {
+    font-size: 18px;
+    font-weight: 500;
+    color: #000;
+  }
+
+  .tc-product-page-tabs {
+    // padding-bottom: 5%;
+
+    .ant-tabs-bar {
+      margin-bottom: 0px;
+    }
+
+    .ant-tabs-nav-container {
+      // padding-right: 15%;
+    }
+
+    .ant-tabs-tab-disabled {
+      font-size: 18px;
+      font-weight: 500;
+      color: #000;
+      cursor: pointer;
+      padding-right: 74%;
+    }
+
+    .ant-tabs-tab-disabled:hover {
+      color: #000 !important;
+      cursor: pointer !important;
+    }
+  }
+
+  .tc-product-page-tab-comm {
+    padding: 2% 10%;
+    background-color: #fff;
+  }
+}
+
+//product buy
+
+.tc-product-buy-title {
+  padding: 0px 10%;
+  background-color: #FAFAFA;
+  color: #000;
+  -moz-box-shadow: 0px 10px 10px #ECECEC;
+  -webkit-box-shadow: 0px 10px 10px #ECECEC;
+  box-shadow: 0px 10px 20px #ECECEC;
+
+  .tc-product-btn-one {
+    height: 30px;
+    line-height: 30px;
+    background-color: #B90000;
+    border: 0px;
+    border-radius: 0px;
+    margin-top: 5px;
+
+    &:hover {
+      background-color: #B90000;
+    }
+  }
+
+  .tc-product-buy-title-tip1 {
+    font-size: 18px;
+    font-weight: 500;
+    padding: 7px 0px;
+    cursor: pointer;
+  }
+
+  .tc-product-buy-title-tip2 {
+    padding: 15px 0;
+    cursor: pointer;
+    font-size: 13px;
+
+    &:hover {
+      color: #1C1F86;
+    }
+  }
+
+  .tc-product-tab-select {
+    border-bottom: 2px solid #1C1F86;
+    color: #1C1F86;
+  }
+}
+
+.tc-product-buy-page {
+
+  // padding-bottom: 5%;
+  .tc-product-buy-info-main {
+    padding-top: 3%;
+    background-color: #fff;
+
+    .ant-carousel .slick-dots li button {
+      background-color: #000 !important;
+    }
+
+    .ant-carousel .slick-dots-bottom {
+      bottom: 0 !important;
+    }
+
+
+  }
+
+
+
+  .tc-product-buy-info {
+    padding-left: 10% !important;
+    text-align: left;
+    padding-bottom: 5%;
+
+    .tc-buy-btn {
+      width: 100%;
+      height: 50px;
+      border-radius: 0px;
+      color: #fff;
+      font-size: 16px;
+    }
+
+    .tc-buy-btn-addBuy {
+      background-color: #1C1F86;
+    }
+
+    .tc-buy-btn-nowBuy {
+      background-color: #B90000;
+    }
+
+    .tc-buyNumberInfoStyle {
+      width: 100%;
+      border-radius: 0;
+
+      &:hover,
+      &:focus {
+        color: #1C1F86 !important;
+        border-color: #1C1F86 !important;
+      }
+
+      .ant-input-number-handler-wrap {
+        display: none !important;
+      }
+    }
+
+    .tc-title2 {
+      padding-top: 20px;
+      padding-bottom: 20px;
+      font-size: 18px;
+    }
+
+    .tc-product-buy-diag-presale {
+      background-color: #B70303;
+      color: #fff;
+      font-size: 14px;
+      padding: 2%;
+    }
+
+    .tc-title3 {
+      font-size: 18px;
+    }
+
+    .ant-radio-wrapper {
+      font-size: 16px;
+    }
+
+    .ant-radio-wrapper-checked {
+      border: 1px solid #B70303 !important;
+      color: #B70303 !important;
+
+      .ant-radio-checked {
+        .ant-radio-inner {
+          border-color: #B70303 !important;
+          color: #B70303 !important;
+        }
+
+        .ant-radio-inner::after {
+          background-color: #B70303 !important;
+        }
+      }
+
+
+    }
+
+    .tc-service-info {
+      .ant-checkbox-wrapper {
+        display: block;
+        border: 1px solid rgb(232, 232, 232);
+        padding: 4%;
+        margin-bottom: 4%;
+        margin-left: 0px !important;
+        font-size: 16px;
+      }
+
+      .ant-checkbox-wrapper:hover .ant-checkbox-inner {
+        border-color: #B70303 !important;
+      }
+
+      .ant-checkbox-wrapper-checked {
+        border-color: #B70303 !important;
+        color: #B70303 !important;
+
+        .ant-checkbox-checked .ant-checkbox-inner {
+          border-color: #B70303 !important;
+          background-color: #B70303 !important;
+        }
+
+      }
+    }
+  }
+}
+
+//think-car-buycar-page
+.tc-buy-car-list-div {
+  padding-bottom: 5%;
+  border-bottom: 1px solid #00000054;
+  margin-bottom: 5%;
+
+  .tc-buy-car-img {
+    border: 1px solid rgb(232, 232, 232);
+    padding: 3%;
+  }
+
+  .tc-bc-info-title {
+    font-size: 15px;
+    font-weight: 500;
+  }
+
+  .tc-bc-info-title2 {
+    font-size: 15px;
+    font-weight: 500;
+    color: #AF0005;
+    text-align: right;
+  }
+
+  .tc-buyNumberInfoStyle {
+    width: 100%;
+    border-radius: 0;
+
+    &:hover,
+    &:focus {
+      color: #1C1F86 !important;
+      border-color: #1C1F86 !important;
+    }
+
+    .ant-input-number-handler-wrap {
+      display: none !important;
+    }
+  }
+
+  .tc-service-info {
+    padding: 10px;
+    background-color: #F1F1F1;
+  }
+
+  .tc-buy-cart-list-delete-tiem {
+
+    &:hover,
+    &:focus {
+      color: #1C1F86 !important;
+      background-color: #fff;
+      border-color: #1C1F86 !important;
+    }
+  }
+}
+
+//history-task-page
+.tc-history-task-page {
+  .ant-drawer-header {
+    border-radius: 0;
+
+    .ant-drawer-title {
+      color: #fff !important;
+    }
+
+    .ant-drawer-close {
+      height: 60px;
+      line-height: 43px;
+      color: #fff;
+    }
+
+    .ant-drawer-close:focus,
+    .ant-drawer-close:hover {
+      color: #fff;
+    }
+  }
+
+
+  .tc-buy-car-product-all-info {
+    .tc-row-5 {
+      padding: 5px 0px;
+
+      .tc-buy-btn {
+        width: 100%;
+        height: 50px;
+        border-radius: 0px;
+        color: #fff;
+        font-size: 16px;
+      }
+
+      .tc-buy-btn-addBuy {
+        background-color: #1C1F86;
+      }
+
+      .tc-buy-btn-nowBuy {
+        background-color: #B90000;
+      }
+    }
+
+    .tc-title1 {
+      font-size: 15px;
+      font-weight: 500;
+    }
+
+    .tc-title2 {
+      font-size: 15px;
+      font-weight: 500;
+      color: #AF0005;
+    }
+  }
+}
+
+
+
+
+// tc-order-page
+.tc-order-page {
+  padding: 0% 10% 5% 10%;
+
+  .tc-title {
+    padding: 3%;
+    margin-bottom: 2%;
+    background-color: #F8F8F8;
+    font-size: 40px;
+  }
+
+  .tc-order-steps {
+    padding: 2% 10%;
+  }
+
+  .tc_order_address_is_same {
+    margin-left: 2%;
+    margin-right: 2%;
+
+    .ant-checkbox-wrapper:hover .ant-checkbox-inner,
+    .ant-checkbox:hover .ant-checkbox-inner,
+    .ant-checkbox-input:focus+.ant-checkbox-inner {
+      border-color: #B70303 !important;
+    }
+
+    .ant-checkbox-checked .ant-checkbox-inner {
+      background-color: #B70303 !important;
+      border-color: #B70303 !important;
+    }
+
+  }
+
+  .tc-order-shipping-info {
+    .tc-shipping-tc-price {
+      font-size: 15px;
+      font-weight: 500;
+      color: #AF0005;
+      float: right;
+      margin-left: 5%;
+    }
+
+    .tc-shipping-tc-dec {
+      color: #ccc;
+      float: right;
+    }
+
+    .tc-shipping-tc-title {
+      color: #000;
+    }
+
+    .ant-radio-wrapper:hover .ant-radio,
+    .ant-radio:hover .ant-radio-inner,
+    .ant-radio-input:focus+.ant-radio-inner {
+      border-color: #B70303 !important;
+    }
+
+    .ant-radio-wrapper-checked {
+
+      .ant-radio-checked {
+        .ant-radio-inner {
+          border-color: #B70303 !important;
+        }
+
+        .ant-radio-inner::after {
+          background-color: #B70303 !important;
+        }
+      }
+    }
+  }
+
+  .tc-order-summary-info {
+    border: 1px solid #d9d9d9;
+    padding: 5%;
+
+    .tc-row-5 {
+      padding: 5px 0px;
+      color: #000;
+      font-size: 14px;
+
+      .tc-title2 {
+        color: #AF0005;
+      }
+
+      .tc-title3 {
+        font-size: 18px;
+        font-weight: 500;
+      }
+    }
+
+    .tc-buy-btn {
+      width: 100%;
+      height: 50px;
+      border-radius: 0px;
+      color: #fff;
+      font-size: 16px;
+    }
+
+    .tc-buy-btn-addBuy {
+      background-color: #1C1F86;
+    }
+
+  }
+}
+
+// about page
+.tc-about-page-route {
+  .tc-about-page {
+    .tc-about-info {
+      padding: 2% 10%;
+      background-color: #fff;
+
+      .tc-txt {
+        color: #7B7B7B;
+        font-size: 15px;
+        font-family: "Roboto", sans-serif;
+        text-align: justify;
+        padding-bottom: 10px;
+      }
+
+      .tc-map-info {
+
+        .tc-map-info-txt {
+          position: absolute;
+          width: 50%;
+          background: #1b69b2d4;
+          height: 100%;
+          padding-top: 10%;
+
+          .tc-txt2 {
+            color: #fff;
+            font-size: 15px;
+            font-family: "Roboto", sans-serif;
+            text-align: center;
+            text-align: -webkit-center;
+            padding-bottom: 10px;
+
+          }
+        }
+      }
+    }
+  }
+}
+
+// news page
+.tc-news-page-route {
+  .tc-news-page {
+    .tc-news-list {
+      padding: 2% 10%;
+      background: #fff;
+
+      .tc-news-list-txt-doc {
+        padding-top: 2%;
+        color: #7B7B7B;
+        font-size: 15px;
+      }
+
+      .tc-news-btn-read {
+        background-color: #308bdf;
+        color: #fff;
+        border-radius: 0px;
+        font-size: 12px;
+
+        &:hover {
+          color: #fff;
+          background-color: #308bdf;
+          border-color: #308bdf;
+        }
+      }
+    }
+  }
+}
+
+// news-detail page
+.tc-news-detail-page-route {
+  .tc-news-detail-page {
+    .tc-news-detail-list {
+      padding: 2% 10%;
+      background: #fff;
+
+      .tc-newDetail_title {
+        font-size: 30px;
+        font-weight: 400;
+      }
+
+      .tc-newDetail_img {
+        text-align: center;
+        padding: 2% 0;
+      }
+
+      .tc-newDetail_txt {
+        padding: 1% 0;
+
+        .tc-newDetail_txt_content {
+          color: #7B7B7B;
+          font-size: 15px;
+          text-align: justify;
+        }
+
+      }
+
+    }
+  }
+}
+
+// faq
+.tc-faq-page {
+  .tc-faq-info {
+    padding: 2% 10%;
+    background: #fff;
+
+    .tc-faq-info-left {
+      background-color: #F8F8F8;
+      text-align: center;
+      margin-right: 25%;
+      padding-bottom: 60%;
+
+      .tc-faq-info-left-title {
+        padding: 10%;
+        font-size: 25px;
+        font-weight: bold;
+      }
+
+      .tc-faq-info-left-list {
+        padding: 5%;
+        border-bottom: 1px solid #d9d9d9;
+        cursor: pointer;
+        font-weight: 500;
+      }
+
+      .tc-fqa-model-choose {
+        color: #fff;
+        background-color: #1D2087;
+      }
+
+
+    }
+
+    .tc-faq-info-right {
+      .tc-faq-right-think1-span {
+        font-size: 16px;
+        font-weight: 600;
+      }
+    }
+
+
+  }
+}
+
+// message
+.tc-p-message-page {
+  background: #fff;
+  padding: 5% 0;
+}
+
+// redemption-page-route
+.tc-redemption-page-route {
+  .tc-redemption-page {
+    background-color: #2E6FAC;
+    padding: 3% 40%;
+
+    .tc-redemption-info {
+      background-color: #fff;
+      padding: 8% 0;
+      border-radius: 5px;
+
+      .tc-redemption-img1 {
+        padding: 0 5%;
+      }
+
+      .tc-redemption-title1 {
+        text-align: center;
+        padding: 5% 0;
+
+        h4 {
+          color: #286DAD;
+          font-weight: 600;
+          font-size: 18px;
+        }
+
+      }
+
+      .tc-redemption-title2 {
+
+        .tc-redemption-dotted-left {
+          right: -1px;
+          border-radius: 10px 0 0 10px;
+          background-color: #2E6FAC;
+        }
+
+        .tc-redemption-dotted-right {
+          border-radius: 0 10px 10px 0;
+          background-color: #2E6FAC;
+          left: -1px;
+        }
+
+        .tc-redemption-dotted-left,
+        .tc-redemption-dotted-right {
+          position: absolute;
+          z-index: 1;
+          width: 10px;
+          height: 20px;
+        }
+
+        .tc-redemption-dotted-center {
+          border: 0;
+          border-top: 3px dotted #DDE7F0;
+          position: absolute;
+          width: 100%;
+        }
+      }
+
+      .tc-redemption-form-info {
+        padding: 7% 5% 0%;
+      }
+    }
+  }
+}
+
+// coverage-page-route
+.tc-coverage-page-route {
+  .tc-coverage-page {
+    background-color: #fff;
+    // padding: 1% 0%;
+
+    .tc-coverage-info {
+      .tc-coverage-form-info {
+        position: absolute;
+        top: 45%;
+        width: 100%;
+        text-align: center;
+
+        .tc-coverage-form-title {
+          color: #fff;
+          // font-size: 25px;
+        }
+
+        .tc-coverage-btn-list {
+          padding: 2% 20%;
+
+          .ant-select-selection {
+            border-radius: 0;
+          }
+        }
+      }
+
+      .tc-coverage-title1 {
+        font-size: 16px;
+        font-weight: 600;
+        padding: 1% 10%;
+
+        .tc-coverage-support-functions {
+          border: 1px solid #eee;
+          text-align: center;
+          height: 80px;
+          padding-top: 20px;
+        }
+
+        .tc-coverage-support-functions2 {
+          border: 1px solid #eee;
+          text-align: center;
+          color: #fff;
+          background-color: #1E1E1E;
+          padding: 1% 0;
+        }
+
+        .tc-coverage-support-functions3 {
+          border: 1px solid #eee;
+          text-align: center;
+          padding: 1% 0;
+        }
+      }
+    }
+  }
+}
+
+// thinkstore-page-route
+.tc-thinkstore-page-route {
+  .tc-thinkstore-page {
+    .tc-thinkstore-tab-list {
+      text-align: center;
+
+      .tcts-tab {
+        padding: 1%;
+        cursor: pointer;
+        display: inline-block;
+        font-size: 15px;
+        color: #000;
+
+        &:hover {
+          color: #fff;
+          background-color: #130f40;
+        }
+      }
+    }
+
+    .tc-thinkstore-list {
+      padding-top: 4%;
+
+      .tc-thinkstore-card {
+        .ant-card-meta-title {
+          font-size: 20px;
+        }
+      }
+
+      .think-car-home-img-presale {
+        display: inline-block;
+        position: absolute;
+        width: 40%;
+        text-align: center;
+        text-align: -webkit-center;
+        object-fit: cover;
+        left: 0;
+      }
+    }
+
+  }
+}
+
+// tc-orderlist-page
+.tc-orderlist-page-route {
+  .tc-orderlist-page {
+    .tc-order-list-info {
+      background-color: #fff;
+
+      .tc-order-title {
+        text-align: left;
+        padding: 2% 0;
+
+      }
+
+      .tc-roderdetail-btn-more {
+        margin-bottom: 1%;
+
+      }
+
+      .tc-orderdetail-info {
+        font-size: 15px;
+        font-weight: 500;
+        padding-bottom: 1%;
+        height: auto;
+        transition: height 2s linear;
+        -moz-transition: height 2s linear;
+        -webkit-transition: height 2s linear;
+        -o-transition: height 2s linear;
+
+        .tc-order-more-status {
+          display: none;
+        }
+
+        .tc-orderdetail-row {
+          padding: 1% 0 0 0;
+
+        }
+
+        .tc-order-cartl-row {
+          height: 1rem;
+
+          .tx-orderdetail-cartlist {
+            border: 1px solid #eee;
+            padding: 1% 2%;
+            height: 1rem;
+
+            .tc-order-info-txt {
+              text-align: left;
+            }
+
+            .tc-order-cart-line {
+              border-bottom: 1px solid #000000;
+              padding-top: 3%;
+            }
+
+            .tc-cartlist-img {
+              .think-car-home-price-img {
+                width: 60%;
+                border: 1px solid #eee;
+              }
+            }
+          }
+        }
+
+
+        .tc-order-txt1 {
+          text-align: right;
+        }
+
+        .tc-order-txt2 {
+          color: #AF0005;
+        }
+
+        .tc-order-txt-amount {
+          font-weight: bold;
+          font-size: 18px;
+        }
+      }
+    }
+  }
+}
+
+// tc-forgotpassword-page-route
+.tc-forgotpassword-page-route {
+  padding: 5% 30%;
+  background-color: #fff;
+
+  .tc-forgotpassword-page {
+    margin: 0 auto;
+
+    .ant-input-affix-wrapper .ant-input:not(:first-child) {
+      padding-left: 45px;
+      background: #eee;
+    }
+
+    .tc-register-vc-btn {
+      background-color: #B90000;
+      color: #fff;
+
+      &:hover {
+        border-color: #B90000;
+      }
+
+      &:focus {
+        border-color: #B90000;
+      }
+    }
+  }
+
+}
+
+// tc-tcregister-page-route
+.tc-tcregister-page-route {
+  padding: 2% 30%;
+  // background-color: #fff;
+
+  .tc-tcregister-page {
+    margin: 0 auto;
+
+    .tc-register-title-left {
+      font-size: 0.3rem;
+      font-weight: 800;
+      color: #1C1F86;
+    }
+
+    .tc-register-title-right {
+      text-align: right;
+      color: #1C1F86;
+      padding-bottom: 2%;
+
+      .tc-rtr-btn {
+        cursor: pointer;
+        text-decoration: underline;
+        // padding-left: 2%;
+      }
+    }
+
+    .tc-register-title2 {
+      background-color: #1C1F86;
+      color: #fff;
+      text-align: center;
+      padding: 3%;
+      font-size: 0.2rem;
+    }
+
+    .tc-register-form {
+      background-color: #fff;
+      padding: 5% 20%;
+
+      .ant-input-affix-wrapper .ant-input:not(:first-child) {
+        padding-left: 45px;
+        background: #eee;
+      }
+
+      .tc-register-vc-btn {
+        background-color: #B90000;
+        color: #fff;
+
+        &:hover {
+          border-color: #B90000;
+        }
+
+        &:focus {
+          border-color: #B90000;
+        }
+      }
+    }
+
+    .tc-register-footer {
+      text-align: center;
+      padding: 3% 0;
+    }
+  }
+
+}
+
+// commom 
+.tc-float-right {
+  float: right !important;
+}
+
+.tc-text-align-right {
+  text-align: right !important;
+}
+
+.tc-padding-top-1 {
+  padding-top: 1%;
+}
+
+#cnzz_stat_icon_1277968549 {
+  // display: none;
+}
+
+// 主体颜色 修改
+.ant-select-focused .ant-select-selection,
+.ant-select-selection:focus,
+.ant-select-selection:active,
+.ant-select-selection:hover,
+.ant-input:hover,
+.ant-input:focus,
+.ant-input-number:hover,
+.ant-input-number:focus,
+.ant-input-number-focused {
+  border-color: #1C1F86 !important;
+  box-shadow: 0 !important;
+}
+
+
+
+
+
+.ant-btn-primary {
+  color: #fff !important;
+  background-color: #1C1F86 !important;
+  border-color: #1C1F86 !important;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.12);
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.045);
+
+  &:active,
+  &:focus,
+  &:hover {
+    color: #fff !important;
+  }
+}
+
+
+
+
+.ant-select-dropdown-menu-item:hover:not(.ant-select-dropdown-menu-item-disabled),
+.ant-select-dropdown-menu-item-active:not(.ant-select-dropdown-menu-item-disabled) {
+  background-color: #1c1f861f !important;
+}
+
+
+.thinkcar-menu-ismove.thinkcar-menu>.ant-menu-item:hover:not(.thinkCar-header-logo),
+.thinkcar-menu-ismove.thinkcar-menu>.ant-menu-submenu:hover,
+.thinkcar-menu-ismove.thinkcar-menu>.ant-menu-item-active:not(.thinkCar-header-logo),
+.thinkcar-menu-ismove.thinkcar-menu>.ant-menu-submenu-active,
+.thinkcar-menu-ismove.thinkcar-menu>.ant-menu-item-open:not(.thinkCar-header-logo),
+.thinkcar-menu-ismove.thinkcar-menu>.ant-menu-submenu-open,
+.thinkcar-menu-ismove.thinkcar-menu>.ant-menu-item-selected:not(.thinkCar-header-logo),
+.thinkcar-menu-ismove.thinkcar-menu>.ant-menu-submenu-selected {
+  color: #000 !important;
+  border-bottom: 2px solid #1C1F86 !important;
+}
+
+
+
+.ant-menu-item:hover,
+.ant-menu-item-active,
+.ant-menu-submenu-title:hover {
+  color: #000 !important;
+}
+
+.thinkcar-menu>.ant-menu-item:hover:not(.thinkCar-header-logo),
+.thinkcar-menu>.ant-menu-submenu:hover,
+.thinkcar-menu>.ant-menu-item-active:not(.thinkCar-header-logo),
+.thinkcar-menu>.ant-menu-submenu-active,
+.thinkcar-menu>.ant-menu-item-open:not(.thinkCar-header-logo),
+.thinkcar-menu>.ant-menu-submenu-open,
+.thinkcar-menu>.ant-menu-item-selected:not(.thinkCar-header-logo),
+.thinkcar-menu>.ant-menu-submenu-selected {
+  color: #fff !important;
+  border-bottom: 2px solid #fff !important;
+}
+
+.thinkcar-menu:not(.thinkcar-menu-ismove) {
+
+  .ant-menu-submenu-title,
+  .Professional {
+    &:hover {
+      color: #fff !important;
+    }
+  }
+}
+
+.tc-header-menu-li {
+  .ant-menu-item-selected {
+    color: #1C1F86 !important;
+  }
+
+  .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
+    background-color: #1c1f861f !important;
+  }
+}
+
+
+
+.thinkCar-header-logo {
+  border-bottom: 0px !important;
+  padding-left: 0px !important;
+
+  .thinkCar-header-logo-div {
+    position: relative;
+    height: 47px !important;
+    background: url(../img/logo.png) no-repeat center center;
+    background-size: contain;
+    width: 150px;
+  }
+
+  .thinkCar-header-logo-div-ismove {
+    background: url(../img/logo2.png) no-repeat center center;
+    background-size: contain;
+  }
+}
+
+.think-car-header-submenu-main,
+.tc-header-menu-support-list {
+  .ant-menu-item-group-title {
+    padding: 0px !important;
+  }
+}
+
+.tc-header-menu-product-list {
+  .tc-header-menu-li-product {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    padding: 2% !important;
+  }
+}
+
+
+// app 兼容性
+.tc-mobile-hide {
+  display: none !important;
+}
+
+.tc-pc-hide {
+  display: block !important;
+}
+
+@media (max-width: 576px) {
+  .tc-mobile-hide {
+    display: block !important;
+  }
+
+  .tc-pc-hide {
+    display: none !important;
+  }
+
+  .tc-mobile-col-widthmax {
+    width: 100% !important;
+  }
+
+  .thinkcar-menu>.ant-menu-item:hover:not(.thinkCar-header-logo),
+  .thinkcar-menu>.ant-menu-submenu:hover,
+  .thinkcar-menu>.ant-menu-item-active:not(.thinkCar-header-logo),
+  .thinkcar-menu>.ant-menu-submenu-active,
+  .thinkcar-menu>.ant-menu-item-open:not(.thinkCar-header-logo),
+  .thinkcar-menu>.ant-menu-submenu-open,
+  .thinkcar-menu>.ant-menu-item-selected:not(.thinkCar-header-logo),
+  .thinkcar-menu>.ant-menu-submenu-selected,
+  .thinkcar-menu:not(.thinkcar-menu-ismove) .ant-menu-submenu-title:hover,
+  .thinkcar-menu:not(.thinkcar-menu-ismove) .Professional:hover {
+    color: #000 !important;
+  }
+
+  .thinkcar-menu {
+    border-right: 0 !important;
+
+    .ant-menu-vertical .ant-menu-item:not(:last-child),
+    .ant-menu-vertical-left .ant-menu-item:not(:last-child),
+    .ant-menu-vertical-right .ant-menu-item:not(:last-child),
+    .ant-menu-inline .ant-menu-item:not(:last-child) {
+      margin-bottom: 0px !important;
+    }
+
+    .ant-menu-inline .ant-menu-item {
+      height: 1rem;
+      margin-top: 0;
+      line-height: 1rem;
+    }
+
+    .ant-menu-item-group-title {
+      padding: 0px;
+    }
+
+    .tc-header-product-list-img {
+      display: inline-block !important;
+      width: 50%;
+      text-align: center;
+      text-align: -webkit-center;
+      object-fit: cover;
+    }
+
+    .thinkCar-header-logo {
+      background-color: #fff !important;
+
+      &:after {
+        border-right: 0 !important;
+      }
+    }
+  }
+
+  .header {
+    display: block;
+    width: 100%;
+    height: 1.3rem;
+    overflow: hidden;
+
+    .tc-mobile-header-main {
+      padding: 0 0% 0 2%;
+      background-color: #000000;
+      // height: 1.5rem;
+      line-height: 0rem;
+
+      .ant-avatar {
+        width: 42px;
+        height: 42px;
+      }
+
+      .tc-mobile-header-buy-car {
+        img {
+          width: 80%;
+          height: 80%;
+          padding-top: 10%;
+        }
+      }
+
+      .tc-mobile-header-sns {
+        background-color: #b41a20;
+        margin-left: 4%;
+
+        .ant-avatar-square {
+          border-radius: 0;
+          // height: 100%;
+          // width: 13%;
+        }
+      }
+
+    }
+  }
+
+  .tc-mobile-transport-page {
+    .ant-col-3 {
+      width: 33.3%;
+      height: 3.5rem;
+    }
+
+    .tc-mobile-line-hide {
+      display: none;
+    }
+  }
+
+  .thinkCar-footer-main {
+    .tc-mobile-footer-col {
+      width: 100%;
+    }
+
+    .tc-footer-last {
+      text-align: center;
+    }
+  }
+
+  .tc-thinkstore-page {
+    .tc-mobile-store-page-product {
+      padding-left: 0% !important;
+      margin-bottom: 5%;
+    }
+  }
+
+  .tc-news-page {
+    .tc-mobile-news-iframe {
+      min-height: 8rem !important;
+    }
+  }
+
+  .tc-news-detail-page {
+    .think-car-home-img {
+      display: inline-block !important;
+      width: 100%;
+      text-align: center;
+      text-align: -webkit-center;
+      object-fit: cover;
+    }
+  }
+
+  .tc-product-page {
+    .tc-mobile-product-buy-title {
+      padding: 0 5%;
+
+      .tc-mobile-col-width3 {
+        width: auto;
+        height: 1.5rem;
+        padding: 3% 0%;
+        margin: 0 3%;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+    }
+  }
+
+  .tc-order-page {
+    .tc-mobile-shipping-tc-price {
+      width: 30%;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+  }
+
+  .tc-redemption-page-route .tc-redemption-page {
+    padding: 3% !important;
+  }
+
+
+  .tc-coverage-page-route .tc-coverage-page .tc-coverage-info .tc-coverage-form-info {
+    top: 8%;
+  }
+
+  .tc-mobile-clear-paddingbottom {
+    padding-bottom: 0 !important;
+  }
+
+  .tc-forgotpassword-page-route,
+  .tc-tcregister-page-route {
+    padding: 5%;
+
+  }
+
+  .tc-login-page {
+    .tc-login-form {
+      margin: 0px 3%;
+
+      .tc-login-form-title {
+        font-size: 0.8rem;
+      }
+    }
+
+    .tc-login-title {
+      padding: 3% 20%;
+    }
+  }
+
+  .tc-tcregister-page-route {
+    .tc-tcregister-page {
+      .tc-register-title-left {
+        font-size: 0.7rem;
+
+      }
+
+      .tc-register-title2 {
+        font-size: 0.7rem;
+
+      }
+
+      .tc-register-form {
+        padding: 5% 3%;
+      }
+    }
+  }
+
+}
