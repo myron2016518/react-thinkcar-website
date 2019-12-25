@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import objectAssign from 'object-assign';//ie不支持Object.assign
+import 'es6-promise';//fetch是基于Promise来实现的，所以还需要Promise的polyfillpromise的polyfill
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { Form, Icon, Input, Button, Checkbox, message, Select, Row, Avatar } from 'antd';
 //import { StickyContainer, Sticky } from 'react-sticky';
@@ -112,7 +113,7 @@ class LoginForm extends React.Component {
         })
 
 
-      }).catch(function (error) {
+      }).catch(error => {
         message.error(this.props.intl.formatMessage({ id: 'tcLoginError' }))
       });
 

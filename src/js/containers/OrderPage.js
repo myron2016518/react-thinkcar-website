@@ -77,7 +77,7 @@ class OrderForm extends React.Component {
       var _pOb = JSON.parse(props.match.params.data);
       var _d = getProductByLang(props.intl.locale, props.InitData) || [];
       _d = _d.find(_item => _item.id == _pOb.id);
-      var _o = Object.assign({}, _pOb, _d);
+      var _o = objectAssign({}, _pOb, _d);
       _list.push(_o);
     } else if (props.match.params.type === 'buyCarList') {
       _list = props.buyDrawerList.list;
@@ -187,17 +187,17 @@ class OrderForm extends React.Component {
     }
     // 获取国家、州 值
     var _c = '', _z = '';
-    var _fcl = regionData.find((_i) => _i.id = getFieldValue('tcOFCountryOrRegion'));
+    var _fcl = regionData.find((_i) => _i.id == getFieldValue('tcOFCountryOrRegion'));
     if (_fcl) {
       _c = _fcl.name;
-      var _fzl = stateRegionList.find((_i) => _i.id = getFieldValue('tcOFStateRegion'));
+      var _fzl = stateRegionList.find((_i) => _i.id == getFieldValue('tcOFStateRegion'));
       _fzl && (_z = _fzl.name)
     }
 
     // console.log(encodeURIComponent(JSON.stringify(_cart_json)));
     var _pr = { // 接口参数
       "lang": this.props.intl.locale,
-      "user_ip": ishaveCode ? returnCitySN.cip : '',
+      // "user_ip": ishaveCode ? returnCitySN.cip : '',
       "user_id": "",
       "cart_ids": _cart_ids.length ? _cart_ids.toString() : "",
       "cart_json": _cart_json.length ? JSON.stringify(_cart_json) : "",
@@ -248,10 +248,10 @@ class OrderForm extends React.Component {
 
 
       // 获取国家、州 值 Bill
-      var _fclb = regionData.find((_i) => _i.id = getFieldValue('tcOFCountryOrRegionBill'));
+      var _fclb = regionData.find((_i) => _i.id == getFieldValue('tcOFCountryOrRegionBill'));
       if (_fclb) {
         _pr.bill_country = _fclb.name || "";
-        var _fzlb = stateRegionBillList.find((_i) => _i.id = getFieldValue('tcOFStateRegionBill'));
+        var _fzlb = stateRegionBillList.find((_i) => _i.id == getFieldValue('tcOFStateRegionBill'));
         _fzlb && (_pr.bill_province = _fzlb.name || "")
       }
 
@@ -378,9 +378,10 @@ class OrderForm extends React.Component {
             shippingprice: _shippingDisabled[0].price
           });
           this.props.form.setFieldsValue({
-            tcOFStateRegionBill: _l.length ? _l[0].id : '',
+            // tcOFStateRegionBill: _l.length ? _l[0].id : '',
             shippingRadio: _shippingDisabled.length ? _shippingDisabled[0].id : '',
           });
+          this.props.form.resetFields(['tcOFStateRegionBill']);
 
           return true
         } else {
@@ -493,16 +494,20 @@ class OrderForm extends React.Component {
               shippingprice: _shippingDisabled[0].price
             });
             this.props.form.setFieldsValue({
-              tcOFStateRegion: _l.length ? _l[0].id : '',
+              // tcOFStateRegion: _l.length ? _l[0].id : '',
+              // tcOFStateRegion: '',
               shippingRadio: _shippingDisabled.length ? _shippingDisabled[0].id : '',
             });
+            this.props.form.resetFields(['tcOFStateRegion']);
           } else {
             this.setState({
               stateRegionList: _l
             });
-            this.props.form.setFieldsValue({
-              tcOFStateRegion: _l.length ? _l[0].id : ''
-            });
+            // this.props.form.setFieldsValue({
+            //   tcOFStateRegion: _l.length ? _l[0].id : ''
+            // });
+            this.props.form.resetFields(['tcOFStateRegion']);
+
           }
 
           return true
@@ -699,35 +704,7 @@ class OrderForm extends React.Component {
                       </Form.Item>
                     </Col>
                   </Row>
-                  {/* 州 ， 输入地址详情 */}
-                  <Row gutter={[_row_span]}>
-                    <Col className="tc-mobile-col-widthmax" span={12}>
 
-                      <Form.Item >
-                        {getFieldDecorator('tcOFStateRegion', {
-                          rules: [{ required: false }],
-                          // rules: [{ required: true, message: <FormattedMessage id="inputStateRegionTip" /> }],
-                        })(
-                          <Select
-                            placeholder={formatMessage({ id: "tcOrderStateRegion" })}
-                          >
-                            {stateRegionList.map(_item => (
-                              <Option key={_item.id} value={_item.id}>{_item.name}</Option>
-                            ))}
-                          </Select>
-                        )}
-                      </Form.Item>
-                    </Col>
-                    <Col className="tc-mobile-col-widthmax" span={12}>
-                      <Form.Item>
-                        {getFieldDecorator('tcOFCity', {
-                          rules: [{ required: true, message: <FormattedMessage id="inputCityTip" /> }],
-                        })(
-                          <Input placeholder={formatMessage({ id: "tcOrderCity" }) + " *"} />
-                        )}
-                      </Form.Item>
-                    </Col>
-                  </Row>
                   {/* 地址1 ， 地址2 */}
                   <Row gutter={[_row_span]}>
                     <Col className="tc-mobile-col-widthmax" span={12}>
@@ -749,6 +726,41 @@ class OrderForm extends React.Component {
                       </Form.Item>
                     </Col>
                   </Row>
+                  {/* 州 ， 输入地址详情 */}
+                  <Row gutter={[_row_span]}>
+                    <Col className="tc-mobile-col-widthmax" span={12}>
+                      <Form.Item>
+                        {getFieldDecorator('tcOFCity', {
+                          rules: [{ required: true, message: <FormattedMessage id="inputCityTip" /> }],
+                        })(
+                          <Input placeholder={formatMessage({ id: "tcOrderCity" }) + " *"} />
+                        )}
+                      </Form.Item>
+                    </Col>
+                    <Col className="tc-mobile-col-widthmax" span={12}>
+
+                      <Form.Item >
+                        {getFieldDecorator('tcOFStateRegion', {
+                          rules: [{ required: false }],
+                          // rules: [{ required: true, message: <FormattedMessage id="inputStateRegionTip" /> }],
+                        })(
+                          <Select
+                            showSearch
+                            filterOption={(input, option) =>
+                              option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                            }
+                            placeholder={formatMessage({ id: "tcOrderStateRegion" })}
+                          >
+                            {stateRegionList.map(_item => (
+                              <Option key={_item.id} value={_item.id}>{_item.name}</Option>
+                            ))}
+                          </Select>
+                        )}
+                      </Form.Item>
+                    </Col>
+
+                  </Row>
+
                   {/* 邮编 ， 电话 */}
                   <Row gutter={[_row_span]}>
                     <Col className="tc-mobile-col-widthmax" span={12}>
@@ -838,35 +850,7 @@ class OrderForm extends React.Component {
                           </Form.Item>
                         </Col>
                       </Row>
-                      {/* 州 ， 输入地址详情 */}
-                      <Row gutter={[_row_span]}>
-                        <Col className="tc-mobile-col-widthmax" span={12}>
 
-                          <Form.Item >
-                            {getFieldDecorator('tcOFStateRegionBill', {
-                              rules: [{ required: false }],
-                              // rules: [{ required: true, message: <FormattedMessage id="inputStateRegionTip" /> }],
-                            })(
-                              <Select
-                                placeholder={formatMessage({ id: "tcOrderStateRegion" })}
-                              >
-                                {stateRegionBillList.map(_item => (
-                                  <Option key={_item.id + "Bill"} value={_item.id}>{_item.name}</Option>
-                                ))}
-                              </Select>
-                            )}
-                          </Form.Item>
-                        </Col>
-                        <Col className="tc-mobile-col-widthmax" span={12}>
-                          <Form.Item>
-                            {getFieldDecorator('tcOFCityBill', {
-                              rules: [{ required: true, message: <FormattedMessage id="inputCityTip" /> }],
-                            })(
-                              <Input placeholder={formatMessage({ id: "tcOrderCity" }) + " *"} />
-                            )}
-                          </Form.Item>
-                        </Col>
-                      </Row>
                       {/* 地址1 ， 地址2 */}
                       <Row gutter={[_row_span]}>
                         <Col className="tc-mobile-col-widthmax" span={12}>
@@ -888,6 +872,41 @@ class OrderForm extends React.Component {
                           </Form.Item>
                         </Col>
                       </Row>
+                      {/* 州 ， 输入地址详情 */}
+                      <Row gutter={[_row_span]}>
+
+                        <Col className="tc-mobile-col-widthmax" span={12}>
+                          <Form.Item>
+                            {getFieldDecorator('tcOFCityBill', {
+                              rules: [{ required: true, message: <FormattedMessage id="inputCityTip" /> }],
+                            })(
+                              <Input placeholder={formatMessage({ id: "tcOrderCity" }) + " *"} />
+                            )}
+                          </Form.Item>
+                        </Col>
+                        <Col className="tc-mobile-col-widthmax" span={12}>
+
+                          <Form.Item >
+                            {getFieldDecorator('tcOFStateRegionBill', {
+                              rules: [{ required: false }],
+                              // rules: [{ required: true, message: <FormattedMessage id="inputStateRegionTip" /> }],
+                            })(
+                              <Select
+                                showSearch
+                                filterOption={(input, option) =>
+                                  option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                                }
+                                placeholder={formatMessage({ id: "tcOrderStateRegion" })}
+                              >
+                                {stateRegionBillList.map(_item => (
+                                  <Option key={_item.id + "Bill"} value={_item.id}>{_item.name}</Option>
+                                ))}
+                              </Select>
+                            )}
+                          </Form.Item>
+                        </Col>
+                      </Row>
+
                       {/* 邮编 ， 电话 */}
                       <Row gutter={[_row_span]}>
                         <Col className="tc-mobile-col-widthmax" span={12}>
@@ -1031,7 +1050,14 @@ class OrderForm extends React.Component {
                       )}
                     </Form.Item>
                   </Row>
+                  <Row>
+                    <Form.Item style={{ marginBottom: 0 }}>
+                      <Button className="tc-buy-btn tc-buy-btn-addBuy" htmlType="submit" >
+                        <FormattedMessage id="tcHTPSettleNowr" />
+                      </Button>
 
+                    </Form.Item>
+                  </Row>
                 </Col>
 
                 <Col className="tc-mobile-col-widthmax" span={8} >

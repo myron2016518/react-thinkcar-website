@@ -59,13 +59,13 @@ var config = {
   module: {
     rules: [
       {//js、jsx
-        test: /\.jsx?$/,
+        test: /\.js[x]?$/,
         exclude: /node_modules/,//排除node_modules中的库文件，加快编译速度
         loader: 'babel-loader',
         query: {
-          presets: ['latest', 'react'],
+          presets: ['latest', 'react', 'env'],
           //"plugins": ["transform-runtime"]
-          "plugins": [["import", antdOptions], "transform-runtime"]
+          "plugins": [["import", antdOptions], "transform-runtime", "syntax-dynamic-import"]
         }
       },
       {
@@ -165,9 +165,9 @@ var config = {
   ],
   optimization: {
     splitChunks: {
-      chunks: 'all',
+      chunks: 'initial',
       minSize: 30000,
-      maxSize: 0,
+      // maxSize: 0,
       minChunks: 1,
       maxAsyncRequests: 5,
       maxInitialRequests: 3,

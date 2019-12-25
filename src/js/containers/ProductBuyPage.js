@@ -10,7 +10,7 @@ import { injectIntl, FormattedMessage, FormattedDate, defineMessages } from 'rea
 import { Button, Row, Col, Icon, Tabs, Carousel, Radio, InputNumber, Card, Checkbox } from 'antd';
 //import { StickyContainer, Sticky } from 'react-sticky';
 import config from '../../public/config'
-import request, { transformStatus, transformTime, getProductByLang } from '../../public/common'
+import request, { _requestWebUrlOrBtnClick, transformStatus, transformTime, browserRedirect, getProductByLang } from '../../public/common'
 
 import Loading from '../components/Loading'
 import ThinkcarTransportPage from './ThinkcarTransportPage'
@@ -76,6 +76,7 @@ class ProductBuyPage extends React.Component {
       var _findo = this.state.productObj.serviceList.find(tl => tl.id == this.state.selectService[0]);
       _findo && (_g.service = true, _g.serviceType = _findo.id);
     }
+    _requestWebUrlOrBtnClick({ "body": { "tab": "/order/buynow/" + this.props.match.params.id, "button": "buynow" + this.props.match.params.id } });
     this.props.history.push('/order/buynow/' + JSON.stringify(_g))
   }
   onChangeType (e) {
@@ -104,12 +105,13 @@ class ProductBuyPage extends React.Component {
   }
   productAddCart () {
 
-    var _obj = Object.assign({}, this.state.productObj, { number: this.state.buyNumber, serviceType: '0', service: false });
+    var _obj = objectAssign({}, this.state.productObj, { number: this.state.buyNumber, serviceType: '0', service: false });
     if (this.state.selectService.length) {
       var _findo = this.state.productObj.serviceList.find(tl => tl.id == this.state.selectService[0]);
       _findo && (_obj.service = true, _obj.serviceType = _findo.id);
     }
     this.props.headerShowBuy(_obj);
+    _requestWebUrlOrBtnClick({ "body": { "tab": "addBuyCar", "button": "addbuycar" + this.props.match.params.id } });
   }
 
   onClickProductTab (_type) {
@@ -117,12 +119,14 @@ class ProductBuyPage extends React.Component {
   }
 
   onCickPoint () {
+    _requestWebUrlOrBtnClick({ "body": { "tab": "/pointdetail", "button": "pointdetail" } });
     this.props.history.push(`/pointdetail`)
   }
 
   render () {
     let { isFetching, productObj, buyNumber, selectService, currTab } = this.state;
     let { InitData } = this.props;
+    let _isMob = browserRedirect();
     const radioStyle = {
       display: 'block',
       border: '1px solid #e8e8e8',
@@ -242,13 +246,13 @@ class ProductBuyPage extends React.Component {
               <FormattedMessage id="tcQuantity" />
             </Row>
             <Row gutter={[4]} className="think-car-margin-top-3">
-              <Col span={2}>
+              <Col span={3}>
                 <Button className="tc-buyNumberInfoStyle" icon="plus" onClick={() => this.quantityBtnClick('add')} />
               </Col>
-              <Col span={20}>
+              <Col span={18}>
                 <InputNumber className="tc-buyNumberInfoStyle" min={1} value={buyNumber} onChange={this.onChangeBuyNumber} />
               </Col>
-              <Col span={2}>
+              <Col span={3}>
                 <Button className="tc-buyNumberInfoStyle" icon="minus" onClick={() => this.quantityBtnClick('minus')} />
               </Col>
             </Row>
@@ -275,7 +279,7 @@ class ProductBuyPage extends React.Component {
           </Col>
         </Row>
         <Row className="thinkCar-price1" onClick={this.onCickPoint} style={{ cursor: 'pointer' }}>
-          <img alt="THINKCAR" className="think-car-home-price-img" src={InitData._homeImgPath + "/Home/img" + (InitData._isPcOrMobile ? '' : '/mobile') + "/point.jpg"} />
+          <img alt="THINKCAR" className="think-car-home-price-img" src={InitData._homeImgPath + "/Home/img" + (_isMob ? '' : '/mobile') + "/point.jpg"} />
         </Row>
         <ThinkcarTransportPage />
 

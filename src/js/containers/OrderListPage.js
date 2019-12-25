@@ -3,7 +3,7 @@ import objectAssign from 'object-assign';//ie不支持Object.assign
 import { injectIntl, FormattedMessage, FormattedDate, defineMessages } from 'react-intl';
 import { Button, Row, Col, Empty, message, Pagination } from 'antd';
 import config from '../../public/config'
-import request, { transformStatus, transformTime, getProductByLang, getSign, deepObjectMerge, get_session_cache } from '../../public/common'
+import request, { transformStatus, transformTime, browserRedirect, getProductByLang, getSign, deepObjectMerge, get_session_cache } from '../../public/common'
 import Loading from '../components/Loading'
 import ThinkcarTransportPage from './ThinkcarTransportPage'
 import OrederListDetail from './OrederListDetail'
@@ -66,6 +66,17 @@ class OrderListPage extends React.Component {
               orderList: data.data.list
             })
             return true
+
+          } else if (data.code == -2) {
+            this.setState({
+              isFetching: false
+            }, () => {
+              message.error(data.message)
+              setTimeout(() => {
+                this.props.history.push('/login');
+              }, 2000)
+            })
+            return false
           } else {
             this.setState({
               isFetching: false
@@ -97,20 +108,25 @@ class OrderListPage extends React.Component {
     let { isFetching, orderList, page, total } = this.state;
     let { InitData, intl } = this.props;
     const gutter = 16;
-
+    let _isMob = browserRedirect();
+    let _bannerImg = _isMob ? InitData._homeImgPath + '/Home/img/order_banner.jpg' : InitData._homeImgPath + '/Home/img/mobile/order_banner.jpg'
     return (
       <div className="tc-orderlist-page">
         <Row className="thinkCar-price1"  >
-          <img alt="order" className="think-car-home-price-img" src={InitData._homeImgPath + "/Home/img/order_banner.jpg"} />
+          <img alt="order" className="think-car-home-price-img" src={_bannerImg} />
         </Row>
-        <Row className="thinkCar-price1 think-car-padding10 think-car-home-tip2 tc-order-list-info"  >
+        <Row className={_isMob ? "thinkCar-price1 think-car-padding10 think-car-home-tip2 tc-order-list-info" : "thinkCar-price1 think-car-home-tip2 tc-order-list-info tc-orderlist-mobile"}  >
           <Row>
             <h2 className="tc-order-title"><FormattedMessage id="tcOrderListTitle" /></h2>
           </Row>
           <Row >
             {
               orderList.length > 0 && orderList.map((_item, _idx) => {
-                return <OrederListDetail key={'orderListItem_' + _item.id} InitData={InitData} itemdata={_item} />
+                return <OrederListDetail
+                  key={'orderListItem_' + _item.id}
+                  history={this.props.history}
+                  InitData={InitData} itemdata={_item}
+                />
               })
             }
             {orderList.length > 0 &&

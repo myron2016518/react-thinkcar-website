@@ -5,7 +5,7 @@ import { injectIntl, FormattedMessage, FormattedDate, defineMessages } from 'rea
 import { Button, Row, Col, Tabs, Card, Empty } from 'antd';
 //import { StickyContainer, Sticky } from 'react-sticky';
 import config from '../../public/config'
-import request, { transformStatus, transformTime, getProductByLang } from '../../public/common'
+import request, { _requestWebUrlOrBtnClick, browserRedirect, transformStatus, transformTime, getProductByLang } from '../../public/common'
 import Loading from '../components/Loading'
 import HistoryTask from './HistoryTask'
 // import InitData from '../components/InitData'
@@ -30,10 +30,11 @@ class ProductPage extends React.Component {
     }
 
     this.productBuyBtn = this.productBuyBtn.bind(this)//购买
-    this.initFun = this.initFun.bind(this)//购买
+    this.initFun = this.initFun.bind(this)
     this.onClickProductTab = this.onClickProductTab.bind(this)//点击导航
     this.onCickPoint = this.onCickPoint.bind(this)
     this.openTcPopUpLayer = this.openTcPopUpLayer.bind(this)
+    this.productImgBuyBtn = this.productImgBuyBtn.bind(this)
 
   }
   componentDidMount () {
@@ -50,6 +51,7 @@ class ProductPage extends React.Component {
       var _d = getProductByLang(props.intl.locale, props.InitData) || [];
       let _find = _d.find(_item => _item.id == props.match.params.id);
       _find && this.setState({ productObj: _find });
+      props.match.params.id == '3' && this.setState({ currTab: 't1' })
     }
   }
 
@@ -58,15 +60,34 @@ class ProductPage extends React.Component {
     // this.props.match.params.id != '3' && this.props.history.push('/ProductBuyPage/' + this.props.match.params.id)
 
     if (this.props.match.params.id == '3') {
-      window.location.href = 'https://ks.mythinkcar.com/';
+      _requestWebUrlOrBtnClick({ "body": { "tab": `/ProductBuy_kickstarter `, "button": `ProductBuyPage3` } });
+      window.open('https://www.kickstarter.com/projects/ericwang/thinkdiag-your-professional-car-technician-diagnostic-tool?ref=4isoa7')
+      // window.location.href = 'https://www.kickstarter.com/projects/ericwang/thinkdiag-your-professional-car-technician-diagnostic-tool?ref=4isoa7';
     } else {
+      _requestWebUrlOrBtnClick({ "body": { "tab": '/ProductBuyPage/' + this.props.match.params.id, "button": 'ProductBuyPage' + this.props.match.params.id } });
       this.props.history.push('/ProductBuyPage/' + this.props.match.params.id)
+    }
+  }
+  productImgBuyBtn (_path) {
+
+    if (_path == 'default') {
+      if (this.props.match.params.id == '3') {
+        // window.location.href = 'https://www.kickstarter.com/projects/ericwang/thinkdiag-your-professional-car-technician-diagnostic-tool?ref=4isoa7';
+      } else {
+        _requestWebUrlOrBtnClick({ "body": { "tab": '/ProductBuyPage/' + this.props.match.params.id, "button": 'ProductBuyPage' + this.props.match.params.id } });
+        this.props.history.push('/ProductBuyPage/' + this.props.match.params.id)
+      }
+    } else if (_path == 'video_id7' || _path == 'video_id8') {
+      this.props.history.push('/video/' + _path)
+    } else {
+
     }
   }
   onClickProductTab (_type) {
     _type === 'home' ? this.props.history.push('/') : this.setState({ currTab: _type });
   }
   onCickPoint () {
+    _requestWebUrlOrBtnClick({ "body": { "tab": "/pointdetail", "button": "pointdetail" } });
     this.props.history.push(`/pointdetail`)
   }
 
@@ -84,7 +105,14 @@ class ProductPage extends React.Component {
       fontSize: '12px',
       padding: '2%',
     };
+    let _isMob = browserRedirect();
+
     var _videoList = [
+      { 'id': 'video_id9', 'author': 'THINKCAR', 'url': 'https://www.youtube.com/embed/WfaFxNNFQ18', 'title': 'Smallest Most Powerful Diagnostic Tools' },
+      { 'id': 'video_id10', 'author': 'THINKCAR', 'url': 'https://www.youtube.com/embed/83FQXpR_26E', 'title': 'THINKCAR OBD II Functions Tutorial' },
+      { 'id': 'video_id11', 'author': 'THINKCAR', 'url': 'https://www.youtube.com/embed/ghSU_0MRiz4', 'title': 'THINKCAR Full Vehicle Modules Scan Tutorial' },
+      { 'id': 'video_id12', 'author': 'THINKCAR', 'url': 'https://www.youtube.com/embed/V25Z_toq0Wk', 'title': 'THINKCAR Black Box Tutorial' },
+      { 'id': 'video_id13', 'author': 'THINKCAR', 'url': 'https://www.youtube.com/embed/yvwc1m01g3U', 'title': 'Thinkcar Real Time Remote Diagnostics Tutorial' },
       { 'id': 'video_id1', 'author': 'THINKCAR', 'url': 'https://www.youtube.com/embed/CCJR1pGoQ2Q', 'title': 'OBD Using' },
       { 'id': 'video_id2', 'author': 'THINKCAR', 'url': 'https://www.youtube.com/embed/f7P1Z7I5byk', 'title': 'Full Vehicle Modules Scan' },
       { 'id': 'video_id3', 'author': 'THINKCAR', 'url': 'https://www.youtube.com/embed/H32bX8ufyV8', 'title': 'Real Time Diagnostics' },
@@ -104,36 +132,36 @@ class ProductPage extends React.Component {
               <Col span={2} className={`tc-product-buy-title-tip2 text-center tc-mobile-col-width3 ${currTab == 't3' ? 'tc-product-tab-select' : ''}`} onClick={() => this.onClickProductTab('t3')}><FormattedMessage id="tcProductTabs3" /></Col>
             }
             {/* <Col span={3} className={`tc-product-buy-title-tip2 text-center tc-mobile-col-widthmax ${currTab == 't4' ? 'tc-product-tab-select' : ''}`} onClick={() => this.onClickProductTab('t4')}><FormattedMessage id="tcProductTabs4" /></Col> */}
+            <Col span={3} className={`tc-product-buy-title-tip2 text-center tc-mobile-col-width3 ${currTab == 't5' ? 'tc-product-tab-select' : ''}`} onClick={() => this.onClickProductTab('t5')}><FormattedMessage id="tcProductTabs5" /></Col>
             {
-              this.props.match.params.id != '3' &&
-              <Col span={3} className={`tc-product-buy-title-tip2 text-center tc-mobile-col-width3 ${currTab == 't5' ? 'tc-product-tab-select' : ''}`} onClick={() => this.onClickProductTab('t5')}><FormattedMessage id="tcProductTabs5" /></Col>
+              this.props.match.params.id == '3' &&
+              <Col span={2} className={`tc-product-buy-title-tip2 text-center tc-mobile-col-width3 `} ></Col>
             }
 
-
             {
-              this.props.match.params.id != '3' &&
-              (
-                InitData._isPcOrMobile ? <Col span={2} className="text-center tc-mobile-col-width3" >
-                  {/* <Button type="primary" onClick={this.productBuyBtn} className="tc-product-btn-one" >
+              // this.props.match.params.id != '3' &&
+              // (
+              _isMob ? <Col span={2} className="text-center tc-mobile-col-width3" >
+                {/* <Button type="primary" onClick={this.productBuyBtn} className="tc-product-btn-one" >
                 <FormattedMessage id="tcProductBtnBuy" />
               </Button> */}
-                  <img
-                    alt="buy"
-                    style={{ cursor: 'pointer' }}
-                    onClick={this.productBuyBtn}
-                    className="think-car-home-price-img"
-                    src={InitData._homeImgPath + '/Home/img/buy_btn.png'}
-                  />
-                </Col>
-                  :
-                  <img
-                    alt="buy"
-                    style={{ cursor: 'pointer', width: '25%' }}
-                    onClick={this.productBuyBtn}
-                    className="think-car-home-price-img"
-                    src={InitData._homeImgPath + '/Home/img/buy_btn.png'}
-                  />
-              )
+                <img
+                  alt="buy"
+                  style={{ cursor: 'pointer' }}
+                  onClick={this.productBuyBtn}
+                  className="think-car-home-price-img"
+                  src={InitData._homeImgPath + '/Home/img/buy_btn.png'}
+                />
+              </Col>
+                :
+                <img
+                  alt="buy"
+                  style={{ cursor: 'pointer', width: '25%' }}
+                  onClick={this.productBuyBtn}
+                  className="think-car-home-price-img"
+                  src={InitData._homeImgPath + '/Home/img/buy_btn.png'}
+                />
+              // )
 
             }
 
@@ -142,18 +170,44 @@ class ProductPage extends React.Component {
         {
           currTab == 't1' && productObj.imgList.length &&
           productObj.imgList.map((ob, idx) => {
-            let _url = ob.url;
-            !InitData._isPcOrMobile && (_url = _url.slice(0, 9) + '/mobile' + _url.slice(9))
-            return <Row className="thinkCar-price1" key={"pdimgList" + idx} onClick={this.productBuyBtn} style={{ cursor: 'pointer' }}>
-              <img alt="example" className="think-car-home-price-img" src={InitData._homeImgPath + _url} />
+            let _url = ob.url, _imgStyle = {}, _goPath = ob.path || '';
+            if (idx == 0 && this.props.match.params.id != '3') {
+              _imgStyle = { cursor: 'pointer' };
+              _goPath = 'default'
+            }
+
+            if ((idx == 7 || idx == 9) && this.props.match.params.id == '3') {
+              _imgStyle = { cursor: 'pointer' };
+              _goPath = idx == 7 ? 'video_id7' : 'video_id8';
+            }
+
+            !_isMob && (_url = _url.slice(0, 9) + '/mobile' + _url.slice(9));
+            return <Row className="thinkCar-price1" key={"pdimgList" + idx} onClick={() => { this.productImgBuyBtn(_goPath) }} style={_imgStyle}>
+              <img alt="THINKCAR" className="think-car-home-price-img" src={InitData._homeImgPath + _url} />
+              {
+                this.props.match.params.id == '3' && idx == 2 && <img
+                  alt="THINKCAR"
+                  style={_isMob ? { width: '20%', position: 'absolute', top: '5%', right: '10%' } : {}}
+                  className="think-car-home-price-img"
+                  src={InitData._homeImgPath + '/Home/img/thinkdiag/3_1.gif'}
+                />
+              }
             </Row>
           })
+
+        }
+
+        {
+          currTab == 't1' && this.props.match.params.id == '3' && <Row className="tc-product-ti-id3-pb" >
+            <h1 className="tc-product-ti-id3-pb-title" ><FormattedMessage id="tcProductFAQ" /></h1>
+            <ThinkDiagProblemPage />
+          </Row>
 
         }
         {
           currTab == 't2' && <Row>
             <Row className="thinkCar-price1" >
-              <img alt="example" className="think-car-home-price-img" src={InitData._homeImgPath + "/Home/img" + (InitData._isPcOrMobile ? '' : '/mobile') + "/point.jpg"} />
+              <img alt="THINKCAR" className="think-car-home-price-img" src={InitData._homeImgPath + "/Home/img" + (_isMob ? '' : '/mobile') + "/point.jpg"} />
             </Row>
             <Row style={{ padding: '3% 30%', backgroundColor: '#fff' }}>
               <Card bordered={false}>
@@ -254,7 +308,7 @@ class ProductPage extends React.Component {
           </TabPane>
           <TabPane tab={<FormattedMessage id="tcProductTabs2" />} key="2">
             <Row className="thinkCar-price1" >
-              <img alt="example" className="think-car-home-price-img"  src={InitData._homeImgPath + "/Home/img" + (InitData._isPcOrMobile ? '' : '/mobile') + "/point.jpg"} />
+              <img alt="example" className="think-car-home-price-img"  src={InitData._homeImgPath + "/Home/img" + (_isMob ? '' : '/mobile') + "/point.jpg"} />
             </Row>
             <Row style={{ padding: '3% 30%', backgroundColor: '#fff' }}>
               <Card bordered={false}>
@@ -283,7 +337,7 @@ class ProductPage extends React.Component {
 
         </Tabs> */}
         <Row className="thinkCar-price1" onClick={this.onCickPoint} style={{ cursor: 'pointer' }}>
-          <img alt="" className="think-car-home-price-img" src={InitData._homeImgPath + "/Home/img" + (InitData._isPcOrMobile ? '' : '/mobile') + "/point.jpg"} />
+          <img alt="" className="think-car-home-price-img" src={InitData._homeImgPath + "/Home/img" + (_isMob ? '' : '/mobile') + "/point.jpg"} />
         </Row>
         <ThinkcarTransportPage />
         <TcPopUpLayer ref="tcPopUpLayer" tcpath={videoBannerPath} tctitle={videoTitle} />

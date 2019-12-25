@@ -171,7 +171,7 @@ class TcRegisterForm extends React.Component {
               rules: [
                 { required: true, message: <FormattedMessage id="tcregisterusernameTip" /> },
                 { min: 4, message: <FormattedMessage id="tcregisterusernameTip" /> },
-                { max: 6, message: <FormattedMessage id="tcregisterusernameTip" /> },
+                { max: 20, message: <FormattedMessage id="tcregisterusernameTip" /> },
               ],
 
             })(<Input

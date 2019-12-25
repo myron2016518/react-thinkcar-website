@@ -1,7 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl';
 import { PageHeader, Button, Descriptions, Menu, Popover, Spin, Avatar, Card, Row, Affix, Col, Icon, Drawer } from 'antd';
-import { getInitDataByLang, getProductByLang, set_session_cache, remove_session_cache } from '../../public/common'
+import { _requestWebUrlOrBtnClick, getInitDataByLang, browserRedirect, getProductByLang, set_session_cache, remove_session_cache } from '../../public/common'
 import SelectLang from '../components/SelectLang'
 // import InitData from '../components/InitData'
 import '../../css/style.scss'
@@ -10,7 +10,7 @@ import ficebook2 from '../../img/ficebook.png'
 import ut2 from '../../img/ut.png'
 import md1Imge from '../../img/md1.png'
 import point2Imge from '../../img/point2.png'
-import myImge from '../../img/my.png'
+import _myImage from '../../img/my.png'
 import buycarImge from '../../img/buycar.png'
 import mobileSnsImg from '../../img/sns.png'
 import mobilelogoImg from '../../img/logo.png'
@@ -69,9 +69,12 @@ export default class HeaderThinkCar extends React.Component {
     this.props.history.push('/')
   }
   headerGoRedemption () {
+    _requestWebUrlOrBtnClick({ "body": { "tab": '/redemption', "button": 'redemption' } });
     this.props.history.push('/redemption')
+
   }
   headerShowBuy () {
+    _requestWebUrlOrBtnClick({ "body": { "tab": 'showbuycar', "button": 'showbuycar' } });
     this.props.headerShowBuy()
   }
 
@@ -116,65 +119,75 @@ export default class HeaderThinkCar extends React.Component {
     });
   }
   handleClick (e) {
+    if (e.key == 'ANDROID') {
+      // window.open('http://wzapi.golo5.com/vAdmin/index.php?mod=down&code=latest_app&pid=19')
+      window.location.href = 'http://wzapi.golo5.com/vAdmin/index.php?mod=down&code=latest_app&pid=19';
+      return;
+    }
     this.setState({
       current: e.key,
     });
+    let _router = '/';
     switch (e.key) {
       case 'home':
-        this.props.history.push('/')
+        _router = '/';
         break;
       case 'tc_header_product_list_1':
-        this.props.history.push('/ProductPage/1/t1')
+        _router = '/ProductPage/1/t1';
         break;
       case 'tc_header_product_list_2':
-        this.props.history.push('/ProductPage/2/t1')
+        _router = '/ProductPage/2/t1';
         break;
       case 'tc_header_product_list_3':
-        this.props.history.push('/ProductPage/3/t1')
+        _router = '/ProductPage/3/t1';
         break;
       case 'tc_header_product_list_mobile_1':
-        this.props.history.push('/ProductPage/1/t1')
+        _router = '/ProductPage/1/t1';
         break;
       case 'tc_header_product_list_mobile_2':
-        this.props.history.push('/ProductPage/2/t1')
+        _router = '/ProductPage/2/t1';
         break;
       case 'tc_header_product_list_mobile_3':
-        this.props.history.push('/ProductPage/3/t1')
+        _router = '/ProductPage/3/t1';
         break;
       case 'Device':
-        this.props.history.push('/')
+        _router = '/';
+
         break;
       case 'ModulesFittings':
-        this.props.history.push('/')
+        _router = '/';
         break;
       case 'ThinkStore':
-        this.props.history.push('/thinkstore')
+        _router = '/thinkstore';
         break;
       case 'ThinkMoments':  // 社区
-        this.props.history.push('/moments')
+        _router = '/moments';
+        // _router = '/community';
         break;
       case 'Support':
-        this.props.history.push('/')
+        _router = '/';
         break;
       case 'FAQ':
-        this.props.history.push('/faq')
+        _router = '/faq';
         break;
       case 'COVERAGE':  // 车型覆盖
-        this.props.history.push('/coverage')
+        _router = '/coverage/default';
         break;
       case 'VIDEO':  // 视频
-        this.props.history.push('/video/all')
+        _router = '/video/all';
         break;
       case 'News':   // 新闻
-        this.props.history.push('/news')
+        _router = '/news';
         break;
       case 'About': // 关于
-        this.props.history.push('/about')
+        _router = '/about';
         break;
 
       default:
-        this.props.history.push('/')
+        _router = '/';
     }
+    _requestWebUrlOrBtnClick({ "body": { "tab": _router, "button": e.key } });
+    this.props.history.push(_router)
     this.onClosemobileMeunDrawer();
   };
 
@@ -192,6 +205,14 @@ export default class HeaderThinkCar extends React.Component {
   render () {
     let { lang, isLogin, loginListvisible, loginListvisibleMobile, headerNavIsMove, productList } = this.state;
     let { InitData } = this.props;
+    let myImge = _myImage;
+    // 显示头像
+    // if (isLogin && InitData.userInfo.avatar) {
+    //   if (InitData.userInfo.avatar.url) {
+    //     myImge = InitData.userInfo.avatar.url;
+    //   }
+    // }
+    let _isMob = browserRedirect();
     let _pc_userInfoList = isLogin ?
       [
         <p key="tc_pc_signup"><a onClick={() => this.headerLogin('out')}><FormattedMessage id="tcSignOut" /></a></p>,
@@ -228,7 +249,11 @@ export default class HeaderThinkCar extends React.Component {
           <Icon type="bars" style={{ fontSize: '1rem' }} onClick={this.showmobileMeunDrawer} />
         </Col>
         <Col span={3} style={{ textAlign: 'left' }} >
-          <a href="https://sns.mythinkcar.com" className="tc-mobile-header-sns"  >
+          <a
+            href="https://sns.mythinkcar.com"
+            className="tc-mobile-header-sns"
+            onClick={() => { _requestWebUrlOrBtnClick({ "body": { "tab": "remotediagnosis", "button": "remotediagnosis" } }); }}
+          >
             <Avatar shape="square" src={mobileSnsImg} />
           </a>
         </Col>
@@ -278,7 +303,7 @@ export default class HeaderThinkCar extends React.Component {
           >
             <Menu.Item key="home" className="thinkCar-header-logo">
               {
-                InitData._isPcOrMobile ?
+                _isMob ?
                   <div className={(this.props.headerNavIsMove || this.props.history.location.pathname != '/') ? "thinkCar-header-logo-div thinkCar-header-logo-div-ismove" : "thinkCar-header-logo-div"}></div> :
                   <div className={"thinkCar-header-logo-div thinkCar-header-logo-div-ismove"}></div>
               }
@@ -301,16 +326,16 @@ export default class HeaderThinkCar extends React.Component {
                     let _is, _menuItem;
                     switch (ob.id) {
                       case '1':
-                        _is = InitData._homeImgPath + "/Home/img/product_2.png";
+                        _is = InitData._homeImgPath + "Home/img/product_2.png";
                         break;
                       case '2':
-                        _is = InitData._homeImgPath + "/Home/img/product_3.png";
+                        _is = InitData._homeImgPath + "Home/img/product_3.png";
                         break;
                       case '3':
-                        _is = InitData._homeImgPath + "/Home/img/product_1.png";
+                        _is = InitData._homeImgPath + "Home/img/product_1.png";
                         break;
                       default:
-                        _is = InitData._homeImgPath + "/Home/img/product_2.png";
+                        _is = InitData._homeImgPath + "Home/img/product_2.png";
                     }
                     if (ob.id == '2') {
                       return false;
@@ -364,6 +389,23 @@ export default class HeaderThinkCar extends React.Component {
               <FormattedMessage id="headerNavTip8" />
             </Menu.Item>
 
+            {/* <SubMenu
+              key="DOWNLOAD"
+              popupClassName="tc-header-menu-li tc-header-menu-support-list"
+              title={
+                <span className="Professional">
+                  <FormattedMessage id="headerNavTip9" />
+                </span>
+              }
+            >
+              <Menu.ItemGroup className="tc-header-menu-li">
+                <Menu.Item key="ANDROID" className="tc-header-menu-li">
+                  <FormattedMessage id="headerNavTip9_1" />
+                </Menu.Item>
+              </Menu.ItemGroup>
+            </SubMenu> */}
+
+
           </Menu>
         </Drawer>
 
@@ -382,9 +424,15 @@ export default class HeaderThinkCar extends React.Component {
         ]}
         subTitle={<FormattedMessage id="headerTip1" />}
         extra={[
-          <a className="tc-header-remotediagnosis" style={{ width: '185px' }} key="starter1" href="https://sns.mythinkcar.com" target="_blank" >
+          <a
+            className="tc-header-remotediagnosis"
+            style={{ width: '185px' }} key="starter1"
+            onClick={() => { _requestWebUrlOrBtnClick({ "body": { "tab": "remotediagnosis", "button": "remotediagnosis" } }); }}
+            href="https://sns.mythinkcar.com"
+            target="_blank"
+          >
             {/* <FormattedMessage id="headerTip2" /> */}
-            <img alt="THINKCAR" className="think-car-home-price-img" src={InitData._homeImgPath + '/Home/img/remote.png'} />
+            <img alt="THINKCAR" className="think-car-home-price-img" src={InitData._homeImgPath + 'Home/img/remote.png'} />
           </a>,
           <Avatar key="starter2" shape="square" src={md1Imge} />,
           <Avatar key="starter3" shape="square" src={point2Imge} onClick={this.headerGoRedemption} />,
@@ -442,16 +490,16 @@ export default class HeaderThinkCar extends React.Component {
                   let _is, _menuItem;
                   switch (ob.id) {
                     case '1':
-                      _is = InitData._homeImgPath + "/Home/img/product_2.png";
+                      _is = InitData._homeImgPath + "Home/img/product_2.png";
                       break;
                     case '2':
-                      _is = InitData._homeImgPath + "/Home/img/product_3.png";
+                      _is = InitData._homeImgPath + "Home/img/product_3.png";
                       break;
                     case '3':
-                      _is = InitData._homeImgPath + "/Home/img/product_1.png";
+                      _is = InitData._homeImgPath + "Home/img/product_1.png";
                       break;
                     default:
-                      _is = InitData._homeImgPath + "/Home/img/product_2.png";
+                      _is = InitData._homeImgPath + "Home/img/product_2.png";
                   }
                   if (ob.id == '2') {
                     return false;
@@ -522,6 +570,23 @@ export default class HeaderThinkCar extends React.Component {
           <Menu.Item key="About" className="tc-header-menu-li">
             <FormattedMessage id="headerNavTip8" />
           </Menu.Item>
+
+          {/* <SubMenu
+            key="DOWNLOAD"
+            popupClassName="tc-header-menu-li tc-header-menu-support-list"
+            title={
+              <span className="Professional">
+                <FormattedMessage id="headerNavTip9" />
+              </span>
+            }
+          >
+            <Menu.ItemGroup className="tc-header-menu-li">
+              <Menu.Item key="ANDROID" className="tc-header-menu-li">
+                <FormattedMessage id="headerNavTip9_1" />
+              </Menu.Item>
+
+            </Menu.ItemGroup>
+          </SubMenu> */}
         </Menu>
       }
     </div >

@@ -58,7 +58,7 @@ class FAQPage extends React.Component {
             <ul className="tc-faq-info-left tc-mobile-clear-paddingbottom">
               <li className="tc-faq-info-left-title"><FormattedMessage id="tcFaqTitleModel" /></li>
               <li onClick={() => this.onClickModel('one')} className={chooseModel === 'one' ? "tc-faq-info-left-list tc-fqa-model-choose" : "tc-faq-info-left-list"}><FormattedMessage id="tcThinkcar1and1s" /></li>
-              {/* <li onClick={() => this.onClickModel('two')} className={chooseModel === 'two' ? "tc-faq-info-left-list tc-fqa-model-choose" : "tc-faq-info-left-list"}><FormattedMessage id="tcThinkdiag" /></li> */}
+              <li onClick={() => this.onClickModel('two')} className={chooseModel === 'two' ? "tc-faq-info-left-list tc-fqa-model-choose" : "tc-faq-info-left-list"}><FormattedMessage id="tcThinkdiag" /></li>
               {/* <li onClick={() => this.onClickModel('three')} className={chooseModel === 'three' ? "tc-faq-info-left-list tc-fqa-model-choose" : "tc-faq-info-left-list"}>Thinkplus</li> */}
             </ul>
           </Col>

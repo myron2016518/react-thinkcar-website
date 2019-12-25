@@ -3,7 +3,7 @@ import objectAssign from 'object-assign';//ie不支持Object.assign
 import { injectIntl, FormattedMessage, FormattedDate, defineMessages } from 'react-intl';
 import { Button, Row, Col, Card, Empty } from 'antd';
 import config from '../../public/config'
-import request, { transformStatus, transformTime, getProductByLang } from '../../public/common'
+import request, { _requestWebUrlOrBtnClick, transformStatus, transformTime, browserRedirect, getProductByLang } from '../../public/common'
 import Loading from '../components/Loading'
 import ThinkcarTransportPage from './ThinkcarTransportPage'
 
@@ -39,13 +39,17 @@ class ThinkStorePage extends React.Component {
   }
   onClickStoreProduct (_id) {
     if (_id == '3') {
-      window.location.href = 'https://ks.mythinkcar.com/';
+      _requestWebUrlOrBtnClick({ "body": { "tab": `/thinkstore_kickstarter`, "button": `ProductBuyPage3` } });
+      window.open('https://www.kickstarter.com/projects/ericwang/thinkdiag-your-professional-car-technician-diagnostic-tool?ref=4isoa7')
+      // window.location.href = 'https://www.kickstarter.com/projects/ericwang/thinkdiag-your-professional-car-technician-diagnostic-tool?ref=4isoa7';
     } else {
+      _requestWebUrlOrBtnClick({ "body": { "tab": `/ProductBuyPage/${_id}`, "button": `ProductBuyPage${_id}` } });
       this.props.history.push(`/ProductBuyPage/${_id}`)
     }
     // _id != '3' && this.props.history.push(`/ProductBuyPage/${_id}`)
   }
   onCickPoint () {
+    _requestWebUrlOrBtnClick({ "body": { "tab": "/pointdetail", "button": "pointdetail" } });
     this.props.history.push(`/pointdetail`)
   }
 
@@ -53,6 +57,7 @@ class ThinkStorePage extends React.Component {
     let { isFetching, productObj } = this.state;
     let { InitData, intl } = this.props;
     const gutter = 16;
+    let _isMob = browserRedirect();
     var _dl = getProductByLang(intl.locale, InitData) || [];
     return (
       <div className="tc-thinkstore-page">
@@ -93,7 +98,7 @@ class ThinkStorePage extends React.Component {
                   cover={_imgl}
                 >
                   <Meta title={_item.name} description={[
-                    <h4 key={"index_thinkstore_Meta_" + _item.id} >{_item.id == '3' ? 'Pre-order coming soon' : "$" + _item.price}</h4>]}
+                    <h4 key={"index_thinkstore_Meta_" + _item.id} >{_item.id == '3' ? <FormattedMessage id="tcDiagTip1" /> : "$" + _item.price}</h4>]}
                   />
                 </Card>
               </Col>
@@ -105,7 +110,7 @@ class ThinkStorePage extends React.Component {
 
         <Row className="thinkCar-price1" onClick={this.onCickPoint} style={{ cursor: 'pointer' }}>
           <img alt="" className="think-car-home-price-img"
-            src={InitData._homeImgPath + "/Home/img" + (InitData._isPcOrMobile ? '' : '/mobile') + "/point.jpg"}
+            src={InitData._homeImgPath + "/Home/img" + (_isMob ? '' : '/mobile') + "/point.jpg"}
           />
         </Row>
         <ThinkcarTransportPage />

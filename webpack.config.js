@@ -71,10 +71,35 @@ var config = {
           //'^/collectInfo':''
         }
       },
+      '/Api/Other': {
+        target: 'http://tapi.mythinkcar.com/',//国内测试
+        changeOrigin: true,
+        pathRewrite: {
+          //'^/collectInfo':''
+        }
+      },
+      '/Api/Statistics': {
+        target: 'http://tapi.mythinkcar.com/',//国内测试
+        //target:'https://www.mythinkcar.com',//海外测试
+        // target: 'https://www.mythinkcar.com',//海外正式
+        secure: false,//若地址为https，需要设置为false
+        changeOrigin: true,
+        pathRewrite: {
+          //'^/collectInfo':''
+        }
+      },
       '/api/v2': {
         target: 'http://ithinkcar.com/',//国内测试
         //target:'https://www.mythinkcar.com',//海外测试
         // target: 'https://www.mythinkcar.com',//海外正式
+        secure: false,//若地址为https，需要设置为false
+        changeOrigin: true,
+        pathRewrite: {
+          //'^/collectInfo':''
+        }
+      },
+      '/storage/public': {
+        target: 'http://ithinkcar.com/',//国内测试
         secure: false,//若地址为https，需要设置为false
         changeOrigin: true,
         pathRewrite: {
@@ -87,13 +112,13 @@ var config = {
   module: {
     rules: [
       {//js、jsx
-        test: /\.jsx?$/,
+        test: /\.js[x]?$/,
         exclude: /node_modules/,//排除node_modules中的库文件，加快编译速度
         loader: 'babel-loader',
         query: {
-          presets: ['latest', 'react'],
+          presets: ['latest', 'react', 'env'],
           //"plugins": ["transform-runtime"]
-          "plugins": [["import", antdOptions], "transform-runtime"]
+          "plugins": [["import", antdOptions], "transform-runtime", "syntax-dynamic-import"]
         },
 
       },

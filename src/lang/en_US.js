@@ -7,8 +7,8 @@ const en_US = {
   tcSearch: 'SEARCH',
   invalidEmail: ' The email format is incorrect',
   tcBtnReadMove: 'READ MORE',
-  tcMessageTitlePayfailure: 'Failure to pay',
-  tcMessageTitlePaysuccess: 'Successful Payment',
+  tcMessageTitlePayfailure: 'Payment Failure',
+  tcMessageTitlePaysuccess: 'Payment Success',
   tcMessageTitlePaycancel: 'Cancel',
   tcMessageTitleHaveToPay: ' ',
   tcMessageTip: 'Operation is completed',
@@ -41,6 +41,34 @@ const en_US = {
   tcOnlyChange: 'SERVICE UPDATE',
   tcEasyToPay: 'EASY TO PAY',
   tcOperationFailure: 'The operation failure',
+  tcLoginAgain: 'Login is invalid, please login again',
+  tcDiagTip1: 'RESERVE NOW',
+  tcViewLinks: 'View links',
+  tcLike: 'Like',
+  tcComment: 'Comment',
+  tcForward: 'Forward',
+  tcShare: 'Share',
+  tcLikes: 'Likes',
+  tcComments: 'Comments',
+  tcForwards: 'Forwards',
+  tcViews: 'Views',
+  tcSend: 'Send',
+  tcReport: 'Report',
+  tcBlock: 'Block',
+  tcUnblock: 'Unblock',
+  tcNoSomething: 'no something',
+  tcMale: 'male',
+  tcFeMale: 'female',
+  tcSecret: 'secret',
+  tcGender: 'Gender',
+  tcInfo: 'Info',
+  tcPosts: 'Posts',
+  tcPhotos: 'Photos',
+  tcVideos: 'Videos',
+  tcDone: 'Done',
+  tcMore: 'More',
+  tcUpload: 'Upload',
+  tcDelete: 'Delete',
 
   // login
   tcLoginEmail: 'Your Email Address',
@@ -93,6 +121,8 @@ const en_US = {
   headerNavTip6_3: 'VIDEO',
   headerNavTip7: 'News',
   headerNavTip8: 'About',
+  headerNavTip9: 'DOWNLOAD',
+  headerNavTip9_1: 'ANDROID',
 
   footerCol1Tip1: 'Quick Guide',
   footerCol1Tip2: 'About Us',
@@ -106,6 +136,13 @@ const en_US = {
   footerLastTip2: 'Remote Diagnosis',
   footerLastTip3: 'Redeem',
   footerLastTip4: 'ThinkStore',
+  footerLastTip5: 'Service Agreement',
+  footerLastTip6: 'Privacy Policy',
+  footerLastTip7: 'Refund Policy',
+  footerLastTip8: 'Terms and Conditions',
+  footerLastTip9: 'No terms and conditions apply',
+
+
 
   // 备注：Home页面。此行不用翻译
   thinkCarHomeTip1: 'Troubleshooting? How to choose can',
@@ -120,6 +157,8 @@ const en_US = {
   tcOrderListTip5: 'Delivery Time',
   tcOrderListBtnMore: 'MORE',
   tcOrderListBtnCOLLAPSE: 'COLLAPSE',
+  tcOrderListMobileTip1: 'Quantity: ',
+  tcOrderListMobileTip2: ' ',
 
   // order page 
   tcOrderTitle: 'ORDER INFORMATION',
@@ -172,6 +211,7 @@ const en_US = {
   tcProductTabs4: 'Tutorials',
   tcProductTabs5: 'Common Problem',
   tcProductBtnBuy: 'Buy',
+  tcProductFAQ: 'FREQUENTLY ASKED QUESTIONS',
 
   // product buy
   tcProductBuyAddCart: 'ADD TO CART',
@@ -236,6 +276,48 @@ const en_US = {
 
   // news 
   tcNewsPageRT: 'Release time: ',
+
+  // community
+  tcCommunityExplore: 'Explore',
+  tcCommunityHotspot: 'Hotspot',
+  tcCommunityFollow: 'Follow',
+  tcCommunityFollowers: 'Followers',
+  tcCommunityFollowing: 'Following',
+  tcCommunityDeatilTipe1: 'official',
+  tcCommunityDeatilTipe2: 'view all ',
+  tcCommunityDeatilTipe3: ' comments',
+  tcCommentSaySomething: 'Say something~~',
+  tcCommentReply: 'reply',
+  tcCommentDeleteComment: 'delete comment',
+  tcCommentDeleteReportTip1: 'Report the post of ',
+  tcCommentDeleteReportTip2: 'Please enter reasons for reporting',
+  tcCommentDeleteReportSuccess: 'Report successful, thank you.',
+
+  // feed community
+  tcFeedCommunityTitle: 'Create Post',
+  tcFeedCommunityInputPr: 'Enter what you want to say',
+  tcFeedFriends: 'Friends',
+
+  // add feed 
+  tcAddFeedViewPicture: 'View Picture',
+  tcAddFeedViewVideo: 'View Video',
+
+  // tags
+  tcUserTagTip1: 'You can choose 8 labels,',
+  tcUserTagTip2: 'labels already',
+
+  // user Edit
+  tcUserInfoEditTitle: 'Personal Data',
+  tcUserInfoEditPhoto: 'Change profile photo',
+  tcUserName: 'User name',
+  tcUserNamePr: 'Set username',
+  tcUserNameInputTip: 'Please input user name',
+  tcUserIntro: 'Intro',
+  tcUserEditIntroPr: 'Edit intro',
+  tcUserEditIntroInputTip: 'Please input intro',
+  tcUserTags: 'Tags',
+  tcUserCityPr: 'fill address',
+  tcUserChangeprofilephoto: 'Change profile photo',
 
 }
 export default en_US;

@@ -1,8 +1,8 @@
-import 'es6-promise';//fetch是基于Promise来实现的，所以还需要Promise的polyfillpromise的polyfill
+// import 'es6-promise';//fetch是基于Promise来实现的，所以还需要Promise的polyfillpromise的polyfill
 import 'whatwg-fetch';//fetch的polyfill实现
 import objectAssign from 'object-assign';//ie不支持Object.assign
 import forge from 'node-forge'//各种加密算法插件，本项目用MD5
-import config from './config'//各种加密算法插件，本项目用MD5
+import config from './config'
 import { message } from 'antd';
 
 function checkStatus (response) {
@@ -16,6 +16,7 @@ function checkStatus (response) {
 function parseJSON (response) {
   return response.statusText != 'No Content' ? response.json() : response;
 }
+
 function request (url, options = {}) {
   let data = options.body || {};
   let _headers = {
@@ -89,6 +90,22 @@ function requestToken (url, options = {}) {
 }
 
 
+function _requestWebUrlOrBtnClick (options = {}) {
+  let data = options.body || {};
+  let _url = config.webUrlOrBtnClick;
+  let _headers = {
+    'Accept': 'application/json, text/plain, */*',
+    'Content-type': 'application/x-www-form-urlencoded;charset=UTF-8'
+  }
+  options.body = transformParas(data);
+  return fetch(_url, objectAssign({}, {
+    method: 'post',
+    credentials: 'include',
+    headers: _headers
+  }, options))
+    .then((data) => (data))
+    .catch((err) => (err));
+}
 
 /**
  * 解析查询字符串，返回包含所有参数的对象
@@ -978,6 +995,37 @@ function formatTime (number, format) {
   return format;
 }
 
+function dateFormat (fmt, date) {
+  let ret;
+  let opt = {
+    "Y+": date.getFullYear().toString(),        // 年
+    "m+": (date.getMonth() + 1).toString(),     // 月
+    "d+": date.getDate().toString(),            // 日
+    "H+": date.getHours().toString(),           // 时
+    "M+": date.getMinutes().toString(),         // 分
+    "S+": date.getSeconds().toString()          // 秒
+    // 有其他格式化字符需求可以继续添加，必须转化成字符串
+  };
+  for (let k in opt) {
+    ret = new RegExp("(" + k + ")").exec(fmt);
+    if (ret) {
+      fmt = fmt.replace(ret[1], (ret[1].length == 1) ? (opt[k]) : (opt[k].padStart(ret[1].length, "0")))
+    };
+  };
+  return fmt;
+}
+
+function isURL (domain) {
+  var name = /http[s]{0,1}:\/\/([\w.]+\/?)\S*/;
+  if (!(name.test(domain))) {
+    return false;
+  }
+  else {
+    return true;
+  }
+}
+
+
 //数据转化  
 function formatNumber (n) {
   n = n.toString()
@@ -1003,6 +1051,34 @@ function browserRedirect () {
   }
   return _isPc;
 }
+
+function getIsLogin () {
+  var _getSeuserInfo = get_session_cache('tc_temporary_user_info');
+  let _islo = false;
+  _getSeuserInfo && (_islo = true)
+  return _islo;
+}
+
+function getHeadersAuthorization () {
+  let _headers = {
+    'Accept': 'application/json, text/plain, */*',
+    'Content-type': 'application/x-www-form-urlencoded;charset=UTF-8'
+  };
+  sessionStorage.tc_access_token_token && (_headers.Authorization = 'Bearer' + sessionStorage.tc_access_token_token);
+  return _headers;
+}
+
+//转换url
+function tcReplaceUrl (text) {
+  if (!text) return;
+  // var re = /(http[s]?:\/\/([\w-]+.)+([:\d+])?(\/[\w-\.\/\?%&=]*)?)/gi;
+  var re = /(https?:\/\/|ftps?:\/\/)?((\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(:[0-9]+)?|(localhost)(:[0-9]+)?|([\w]+\.)(\S+)(\w{2,4})(:[0-9]+)?)(\/?([\w#!:.?+=&%@!\-\/]+))?/ig;
+  var s = text.replace(re, function (a) {
+    return '<a href="' + a + '" target="_blank" >View links</a>';
+  });
+  return s;
+}
+
 
 export {
   request as default,
@@ -1043,6 +1119,12 @@ export {
   encodeTC,
   decodeTC,
   formatTime,
-  browserRedirect
+  dateFormat,
+  isURL,
+  browserRedirect,
+  getIsLogin,
+  getHeadersAuthorization,
+  _requestWebUrlOrBtnClick,
+  tcReplaceUrl
 }
 

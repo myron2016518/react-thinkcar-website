@@ -3,7 +3,7 @@ import React from 'react'
 import objectAssign from 'object-assign';//ie不支持Object.assign
 import { injectIntl, FormattedMessage, FormattedDate, defineMessages } from 'react-intl';
 import { Modal, Button, Row, Col, Form, Input, message, Select, Empty } from 'antd';
-import request, { deepObjectMerge, getSign, transformStatus, transformTime, getProductByLang } from '../../public/common'
+import request, { deepObjectMerge, getSign, browserRedirect, transformStatus, transformTime, getProductByLang } from '../../public/common'
 import Loading from '../components/Loading'
 import config from '../../public/config'
 
@@ -20,6 +20,7 @@ class CoveragePage extends React.Component {
       coverageSelect4Data: [], // 年款选择
       select1ChooseData: [], //产品 支持功能
       selectAllChooseData: [], //支持检测系统
+      isShowAllChooseData: true,
 
     }
 
@@ -103,6 +104,7 @@ class CoveragePage extends React.Component {
             coverageSelect3Data: [],
             coverageSelect4Data: [],
             selectAllChooseData: [],
+            isShowAllChooseData: _find.product_type != '0'
           });
           this.props.form.resetFields(['tcCoverageSelect2', 'tcCoverageSelect3', 'tcCoverageSelect4']);
           // this.props.form.setFieldsValue({ tcCoverageSelect2: '', tcCoverageSelect3: '', tcCoverageSelect4: '' });
@@ -126,12 +128,16 @@ class CoveragePage extends React.Component {
 
   };
   coverageSelect2Change (value) {
-    var _find = this.state.coverageSelect2Data.find(_item => _item.id == value) || null;
-
+    const { getFieldValue } = this.props.form;
+    let _id = value.split('|&|');
+    _id = _id[0];
+    var _find = this.state.coverageSelect2Data.find(_item => _item.id == _id) || null;
+    var _findPt = this.state.coverageSelect1Data.find(_item => _item.goods_id == getFieldValue('tcCoverageSelect1')) || null;
     let _url = config.getModelByMake;
     var _pr = { // 接口参数
       "lang": this.props.intl.locale || "",
-      "car_make_id": value || "",
+      "car_make_id": _id || "",
+      "product_type": _findPt.product_type || "0",
     };
     this.setState({
       isFetching: true
@@ -172,12 +178,16 @@ class CoveragePage extends React.Component {
       })
   };
   coverageSelect3Change (value) {
+    const { getFieldValue } = this.props.form;
+    var _findPt = this.state.coverageSelect1Data.find(_item => _item.goods_id == getFieldValue('tcCoverageSelect1')) || null;
     var _find = this.state.coverageSelect3Data.find(_item => _item.id == value) || null;
     let _url = config.getYearByMakeAndModel;
     var _pr = { // 接口参数
       "lang": this.props.intl.locale || "",
       "car_make_id": _find.make_id || "",
       "car_model_id": value || "",
+      "car_model": _find.model || "",
+      "product_type": _findPt.product_type || "0"
     };
     this.setState({
       isFetching: true
@@ -219,28 +229,89 @@ class CoveragePage extends React.Component {
   coverageSelect4Change (value) {
     const { getFieldValue } = this.props.form;
     var _find = this.state.coverageSelect4Data.find(_item => _item.id == value) || null;
-
     var _find2 = this.state.coverageSelect1Data.find(_item => _item.goods_id == getFieldValue('tcCoverageSelect1')) || null;
-    var _l = _find2.goods_functions || [];
+    let _l = _find2.goods_functions || [];
+    if (_find2.product_type == '1') {
+      var _find3 = this.state.coverageSelect3Data.find(_item => _item.id == _find.model_id) || null;
+      let _url = config.getThinkDiagSupportSysByCar;
+      var _pr = { // 接口参数
+        "lang": this.props.intl.locale || "",
+        "car_make_id": _find.make_id || "",
+        "car_model_id": _find.model_id || "",
+        "car_model": _find3.model || "",
+        "car_year": _find.year || ""
+      };
+      this.setState({
+        isFetching: true
+      });
+      let _param = deepObjectMerge(_pr, { sign: getSign(_pr).toUpperCase() });
+      return request(_url, {
+        method: 'POST',
+        body: _param,
 
-    let _allList = [];
-    if (_find.support_system) {
-      for (let _i in _find.support_system) {
-        let _o = { 'name': _find.support_system[_i], 'isUp': true };
-        _allList.push(_o)
+      })
+        .then(data => {
+          if (data.code == 0) {
+
+            let _allList = [], _data2 = data.data || {};
+            if (_data2.support_system.length) {
+              for (let _i in _data2.support_system) {
+                let _o = { 'name': _data2.support_system[_i], 'isUp': true };
+                _allList.push(_o)
+              }
+            }
+            if (_data2.un_support_system.length) {
+              for (let _i in _data2.un_support_system) {
+                let _o = { 'name': _data2.un_support_system[_i], 'isUp': false };
+                _allList.push(_o)
+              }
+            }
+            // console.log('=====_allList===========', _allList);
+            this.setState({
+              isFetching: false,
+              selectAllChooseData: _allList,
+              select1ChooseData: _l || [],
+            });
+
+            return true
+
+          } else {
+            this.setState({
+              isFetching: false
+            }, () => message.error(data.msg))
+            return false
+
+          }
+        })
+        .catch(err => {
+          this.setState({
+            isFetching: false
+          }, () => message.error(err.toString()))
+          return false
+        })
+
+    } else {
+
+      let _allList = [];
+      if (_find.support_system) {
+        for (let _i in _find.support_system) {
+          let _o = { 'name': _find.support_system[_i], 'isUp': true };
+          _allList.push(_o)
+        }
       }
-    }
-    if (_find.un_support_system) {
-      for (let _i in _find.un_support_system) {
-        let _o = { 'name': _find.un_support_system[_i], 'isUp': false };
-        _allList.push(_o)
+      if (_find.un_support_system) {
+        for (let _i in _find.un_support_system) {
+          let _o = { 'name': _find.un_support_system[_i], 'isUp': false };
+          _allList.push(_o)
+        }
       }
+      // console.log('=====_allList===========', _allList);
+      this.setState({
+        selectAllChooseData: _allList,
+        select1ChooseData: _l || [],
+      });
     }
-    // console.log('=====_allList===========', _allList);
-    this.setState({
-      selectAllChooseData: _allList,
-      select1ChooseData: _l || [],
-    });
+
   };
   handleSubmit (e) {
     e.preventDefault();
@@ -255,58 +326,16 @@ class CoveragePage extends React.Component {
     // });
   }
 
-  onClickRewardsCode () {
 
-    const { getFieldValue } = this.props.form;
-    let _url = config.rewardsCode;
-    var _pr = { // 接口参数
-      "lang": this.props.intl.locale,
-      "user_email": getFieldValue("tcRedemptionInputEmail") || "",
-      "rcode": getFieldValue("tcRedemptionInputRewardsCode") || "",
-    };
-    this.setState({
-      isFetching: true
-    });
-    let _param = deepObjectMerge(_pr, { sign: getSign(_pr).toUpperCase() });
-    // console.log('=======', _param);
-    return request(_url, {
-      method: 'POST',
-      body: _param,
-
-    })
-      .then(data => {
-        if (data.code == 0) {
-          this.setState({
-            isFetching: false,
-          })
-          Modal.success({
-            content: 'Redeem success',
-          });
-          return true
-
-        } else {
-          this.setState({
-            isFetching: false
-          }, () => message.error(data.msg))
-          return false
-
-        }
-      })
-      .catch(err => {
-        // console.log('===err====', err);
-        this.setState({
-          isFetching: false
-        }, () => message.error(err.toString()))
-        return false
-      })
-  }
 
   render () {
-    let { isFetching, coverageSelect1Data, coverageSelect2Data, coverageSelect3Data, coverageSelect4Data, select1ChooseData, selectAllChooseData } = this.state;
+    let { isFetching, isShowAllChooseData, coverageSelect1Data, coverageSelect2Data, coverageSelect3Data, coverageSelect4Data, select1ChooseData, selectAllChooseData } = this.state;
     const { getFieldDecorator } = this.props.form;
     const { intl: { formatMessage }, InitData } = this.props;
     const gutter = 24;
-    let _bannerImg = InitData._isPcOrMobile ? InitData._homeImgPath + '/Home/img/coverage_bg.jpg' : InitData._homeImgPath + '/Home/img/mobile/coverage_bg.jpg'
+    let _isMob = browserRedirect();
+    let _bannerImg = _isMob ? InitData._homeImgPath + '/Home/img/coverage_bg.jpg' : InitData._homeImgPath + '/Home/img/mobile/coverage_bg.jpg'
+    let _style2 = _isMob ? { padding: '2% 20%' } : { padding: '2%' }
     return (
       <div className="tc-coverage-page">
 
@@ -343,8 +372,8 @@ class CoveragePage extends React.Component {
                           placeholder={formatMessage({ id: "tcCoverageSelect2" }) + " *"}
                           onChange={this.coverageSelect2Change}
                         >
-                          {coverageSelect2Data.map(_item => (
-                            <Option key={"coverageSelect2" + _item.id} value={_item.id}>{_item.make}</Option>
+                          {coverageSelect2Data.map((_item, _idx) => (
+                            <Option key={_idx + "coverageSelect2" + _item.id + "" + _item.make} value={_item.id + "|&|" + _item.make}>{_item.make}</Option>
                           ))}
                         </Select>
                       )}
@@ -399,8 +428,8 @@ class CoveragePage extends React.Component {
               {!select1ChooseData.length && <Empty />}
 
             </Row>
-            {/* <Row><FormattedMessage id="tccoverageTitle3" /></Row>
-            <Row style={{ padding: '2% 20%' }}>
+            {isShowAllChooseData && <Row><FormattedMessage id="tccoverageTitle3" /></Row>}
+            {isShowAllChooseData && <Row style={_style2}>
               <Row>
                 <Col span={12} className="tc-coverage-support-functions2"><FormattedMessage id="tccoverageTitle3_1" /></Col>
                 <Col span={12} className="tc-coverage-support-functions2"><FormattedMessage id="tccoverageTitle3_2" /></Col>
@@ -409,8 +438,8 @@ class CoveragePage extends React.Component {
               {
                 selectAllChooseData.length > 0 && selectAllChooseData.map((_x, _d) => {
                   var _img = _x.isUp ? InitData._homeImgPath + '/Home/img/coverage_ok.png' : InitData._homeImgPath + '/Home/img/coverage_err.png';
-                  return <Row key={"selectAllChooseData" + _x.name + "" + _d}>
-                    <Col span={12} className="tc-coverage-support-functions3" >{_x.name}</Col>
+                  return <Row key={"selectAllChooseData" + _x.name + "" + _d} style={{ border: '1px solid #eee' }}>
+                    <Col span={12} className="tc-coverage-support-functions3" style={{ borderRight: '1px solid #eee' }} >{_x.name}</Col>
                     <Col span={12} className="tc-coverage-support-functions3" >
                       <img alt="THINKCAR" className="think-car-home-price-img" style={{ width: '20px' }} src={_img} />
                     </Col>
@@ -420,7 +449,8 @@ class CoveragePage extends React.Component {
               }
               {!selectAllChooseData.length && <Empty style={{ marginTop: '2%' }} />}
 
-            </Row> */}
+            </Row>
+            }
           </Row>
 
 

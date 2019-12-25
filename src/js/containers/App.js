@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import objectAssign from 'object-assign';//ie不支持Object.assign
 import PropTypes from 'prop-types'
 import { Router, Switch, Route, Redirect } from 'react-router-dom'
 // import { connect } from "react-redux";
@@ -7,13 +8,14 @@ import { Router, Switch, Route, Redirect } from 'react-router-dom'
 // import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom'
 // import createBrowserHistory from 'history/createBrowserHistory';
 import history from "../../public/history";
-import { ConfigProvider, Layout, message, Select, Menu, Affix, BackTop, Drawer } from 'antd';
+import Loadable from '../components/loadable'
+import { ConfigProvider, Layout, message, Select, Affix, BackTop, Drawer } from 'antd';
 import zhCN from 'antd/lib/locale-provider/zh_CN';
 import enUS from 'antd/lib/locale-provider/en_Us';
 //如果浏览器没有自带intl，则需要在使用npm安装intl之后添加如下代码
 import { IntlProvider, addLocaleData, FormattedDate, FormattedMessage } from 'react-intl';
-import request, { getSign, browserRedirect, deepObjectMerge, getProductByLang, get_session_cache, set_session_cache, remove_session_cache } from '../../public/common'
-//import intl from 'intl';
+import request, { isWeiXin, getSign, browserRedirect, deepObjectMerge, getProductByLang, get_session_cache, set_session_cache, remove_session_cache } from '../../public/common'
+import intl from 'intl';
 import zh from 'react-intl/locale-data/zh';
 import en from 'react-intl/locale-data/en'
 //引入locale配置文件，具体路径根据实际情况填写
@@ -23,29 +25,77 @@ import en_US from '../../lang/en_US';
 import '../../css/style.scss'
 import config from '../../public/config'
 import InitData from '../components/InitData'
-import NoMatch from './NoMatch'
-import Login from './Login'
-import ForgotPassword from './ForgotPassword'
-import TcRegister from './TcRegister'
-import OrderPage from './OrderPage'
-import OrderListPage from './OrderListPage'
-import ProductPage from './ProductPage'
-import ProductBuyPage from './ProductBuyPage'
-import HistoryTask from './HistoryTask'
-import AboutPage from './AboutPage'
-import NewsPage from './NewsPage'
-import NewsDetailPage from './NewsDetailPage'
-import PMessagePage from './PMessagePage'
-import FAQPage from './FAQPage'
-import VideoPage from './VideoPage'
-import RedemptionPage from './RedemptionPage'
-import MomentsPage from './MomentsPage'
-import CoveragePage from './CoveragePage'
-import ThinkStorePage from './ThinkStorePage'
-import PointDetail from './PointDetail'
-import SelectLang from '../components/SelectLang'
-// import Register from './Register'
-import Home from './Home'
+
+const NoMatch = Loadable(() => import('./NoMatch'));
+const Login = Loadable(() => import('./Login'));
+const ForgotPassword = Loadable(() => import('./ForgotPassword'));
+const TcRegister = Loadable(() => import('./TcRegister'));
+const OrderPage = Loadable(() => import('./OrderPage'));
+const OrderListPage = Loadable(() => import('./OrderListPage'));
+const OrederListDetailPage = Loadable(() => import('./OrederListDetailPage'));
+const ProductPage = Loadable(() => import('./ProductPage'));
+const ProductBuyPage = Loadable(() => import('./ProductBuyPage'));
+const HistoryTask = Loadable(() => import('./HistoryTask'));
+const AboutPage = Loadable(() => import('./AboutPage'));
+const NewsPage = Loadable(() => import('./NewsPage'));
+const NewsDetailPage = Loadable(() => import('./NewsDetailPage'));
+const PMessagePage = Loadable(() => import('./PMessagePage'));
+const FAQPage = Loadable(() => import('./FAQPage'));
+const VideoPage = Loadable(() => import('./VideoPage'));
+const RedemptionPage = Loadable(() => import('./RedemptionPage'));
+const MomentsPage = Loadable(() => import('./MomentsPage'));
+const CoveragePage = Loadable(() => import('./CoveragePage'));
+const ThinkStorePage = Loadable(() => import('./ThinkStorePage'));
+const PointDetail = Loadable(() => import('./PointDetail'));
+const SomethingPicturePage = Loadable(() => import('./SomethingPicturePage'));
+const TcCommunityHomePage = Loadable(() => import('./community/TcCommunityHomePage'));
+const TcCommunityInfoDetailPage = Loadable(() => import('./community/TcCommunityInfoDetailPage'));
+const TcCommunityLikesPage = Loadable(() => import('./community/TcCommunityLikesPage'));
+const TcCommunityAddFeeds = Loadable(() => import('./community/TcCommunityAddFeeds'));
+const TcCommunityTopicPage = Loadable(() => import('./community/TcCommunityTopicPage'));
+const TcUserInfo = Loadable(() => import('./userinfo/TcUserInfo'));
+const TcUserFollowPage = Loadable(() => import('./userinfo/TcUserFollowPage'));
+const TcUserTagsPage = Loadable(() => import('./userinfo/TcUserTagsPage'));
+const TcUserInfoEdit = Loadable(() => import('./userinfo/TcUserInfoEdit'));
+// const SelectLang = Loadable(() => import('./components/SelectLang'));
+const Home = Loadable(() => import('./Home'));
+
+
+
+// import NoMatch from './NoMatch'
+// import Login from './Login'
+// import ForgotPassword from './ForgotPassword'
+// import TcRegister from './TcRegister'
+// import OrderPage from './OrderPage'
+// import OrderListPage from './OrderListPage'
+// import OrederListDetailPage from './OrederListDetailPage'
+// import ProductPage from './ProductPage'
+// import ProductBuyPage from './ProductBuyPage'
+// import HistoryTask from './HistoryTask'
+// import AboutPage from './AboutPage'
+// import NewsPage from './NewsPage'
+// import NewsDetailPage from './NewsDetailPage'
+// import PMessagePage from './PMessagePage'
+// import FAQPage from './FAQPage'
+// import VideoPage from './VideoPage'
+// import RedemptionPage from './RedemptionPage'
+// import MomentsPage from './MomentsPage'
+// import CoveragePage from './CoveragePage'
+// import ThinkStorePage from './ThinkStorePage'
+// import PointDetail from './PointDetail'
+// import SomethingPicturePage from './SomethingPicturePage'
+// import TcCommunityHomePage from './community/TcCommunityHomePage'
+// import TcCommunityInfoDetailPage from './community/TcCommunityInfoDetailPage'
+// import TcCommunityLikesPage from './community/TcCommunityLikesPage'
+// import TcCommunityAddFeeds from './community/TcCommunityAddFeeds'
+// import TcCommunityTopicPage from './community/TcCommunityTopicPage'
+// import TcUserInfo from './userinfo/TcUserInfo'
+// import TcUserFollowPage from './userinfo/TcUserFollowPage'
+// import TcUserTagsPage from './userinfo/TcUserTagsPage'
+// import TcUserInfoEdit from './userinfo/TcUserInfoEdit'
+// import SelectLang from '../components/SelectLang'
+// // import Register from './Register'
+// import Home from './Home'
 import HeaderThinkCar from '../components/Header'
 import FooterThinkCar from '../components/Footer'
 import Loading from '../components/Loading'
@@ -98,6 +148,8 @@ class App extends React.Component {
     this.setState({
       initDataObj: _initDa
     });
+
+    sessionStorage.appVersion = isWeiXin();
 
     this.getGoodsList();
     this.handleLangChange(this.state.lang)
@@ -188,7 +240,7 @@ class App extends React.Component {
                 var _suijiId = `tc${new Date().getTime()}${_item.dateline}`
                 var _d = getProductByLang(this.state.lang, this.state.initDataObj) || [];
                 _d = _d.find(_item2 => _item2.id == _item.goods_id);
-                var _obj = Object.assign({}, _d,
+                var _obj = objectAssign({}, _d,
                   {
                     _suijiId: _suijiId,
                     cart_id: _item.id,
@@ -549,7 +601,7 @@ class App extends React.Component {
             </div> */}
 
               <Header className="header" >
-                <Affix key="affixeOne" offsetTop={this.state.top} onChange={affixed => this.headernNavAffixMove(affixed)} >
+                <Affix key="affixeOne" style={{ zIndex: '999' }} offsetTop={this.state.top} onChange={affixed => this.headernNavAffixMove(affixed)} >
                   <HeaderThinkCar
                     key="HeaderThinkCarMainKey"
                     InitData={initDataObj}
@@ -594,11 +646,17 @@ class App extends React.Component {
                     <Route path="/orderlist" render={(props) => <div className="tc-orderlist-page-route">
                       <OrderListPage {...props} InitData={initDataObj} />
                     </div>} />
+                    <Route path="/orderlistdetail/:orderid" render={(props) => <div className="tc-orderlistdetail-page-route">
+                      <OrederListDetailPage {...props} InitData={initDataObj} />
+                    </div>} />
                     <Route path="/about" render={(props) => <div className="tc-about-page-route">
                       <AboutPage {...props} InitData={initDataObj} />
                     </div>} />
                     <Route path="/pointdetail" render={(props) => <div className="tc-pointdetail-page-route">
                       <PointDetail {...props} InitData={initDataObj} />
+                    </div>} />
+                    <Route path="/somethingpicture/:type" render={(props) => <div className="tc-somethingpicture-page-route">
+                      <SomethingPicturePage {...props} InitData={initDataObj} />
                     </div>} />
                     <Route path="/news" render={(props) => <div className="tc-news-page-route">
                       <NewsPage {...props} InitData={initDataObj} />
@@ -618,11 +676,38 @@ class App extends React.Component {
                     <Route path="/moments" render={(props) => <div className="tc-moments-page-route">
                       <MomentsPage {...props} InitData={initDataObj} />
                     </div>} />
-                    <Route path="/coverage" render={(props) => <div className="tc-coverage-page-route">
+                    <Route path="/coverage/:type" render={(props) => <div className="tc-coverage-page-route">
                       <CoveragePage {...props} InitData={initDataObj} />
                     </div>} />
                     <Route path="/thinkstore" render={(props) => <div className="tc-thinkstore-page-route">
                       <ThinkStorePage {...props} InitData={initDataObj} />
+                    </div>} />
+                    <Route path="/community" render={(props) => <div className="tc-community-page-route">
+                      <TcCommunityHomePage {...props} InitData={initDataObj} />
+                    </div>} />
+                    <Route path="/communityinfo/:feedid" render={(props) => <div className="tc-communityinfo-page-route">
+                      <TcCommunityInfoDetailPage {...props} InitData={initDataObj} />
+                    </div>} />
+                    <Route path="/communitylikes/:type/:feedid" render={(props) => <div className="tc-communitylikes-page-route">
+                      <TcCommunityLikesPage {...props} InitData={initDataObj} />
+                    </div>} />
+                    <Route path="/addfeed/:type/:id" render={(props) => <div className="tc-communityaddfeed-page-route">
+                      <TcCommunityAddFeeds {...props} InitData={initDataObj} />
+                    </div>} />
+                    <Route path="/communitytopic/:topicid" render={(props) => <div className="tc-communitytopic-page-route">
+                      <TcCommunityTopicPage {...props} InitData={initDataObj} />
+                    </div>} />
+                    <Route path="/userinfo/:userid" render={(props) => <div className="tc-userinfo-page-route">
+                      <TcUserInfo {...props} InitData={initDataObj} />
+                    </div>} />
+                    <Route path="/userfollow/:userid/:type" render={(props) => <div className="tc-userfollow-page-route">
+                      <TcUserFollowPage {...props} InitData={initDataObj} />
+                    </div>} />
+                    <Route path="/usertags" render={(props) => <div className="tc-usertags-page-route">
+                      <TcUserTagsPage {...props} InitData={initDataObj} />
+                    </div>} />
+                    <Route path="/useredit" render={(props) => <div className="tc-useredit-page-route">
+                      <TcUserInfoEdit {...props} InitData={initDataObj} />
                     </div>} />
                     <Route path="/PMessagePage/:type" component={PMessagePage} />
                     <Redirect from="/index" to="/" />

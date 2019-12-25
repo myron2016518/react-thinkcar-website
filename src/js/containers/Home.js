@@ -5,7 +5,7 @@ import { injectIntl, FormattedMessage, FormattedDate, defineMessages } from 'rea
 import { Form, Icon, Input, Button, Checkbox, message, Select, Row, Col, List, Modal, Tabs, Carousel, Card } from 'antd';
 //import { StickyContainer, Sticky } from 'react-sticky';
 import config from '../../public/config'
-import request, { getSign, deepObjectMerge, getQueryStringArgs, getInitDataByLang, getProductByLang } from '../../public/common'
+import request, { _requestWebUrlOrBtnClick, getSign, browserRedirect, deepObjectMerge, getQueryStringArgs, getInitDataByLang, getProductByLang } from '../../public/common'
 import Loading from '../components/Loading'
 import ThinkcarTransportPage from './ThinkcarTransportPage'
 
@@ -31,6 +31,7 @@ class HomeForm extends React.Component {
     this.onClickStoreProduct = this.onClickStoreProduct.bind(this)
     this.onCickPoint = this.onCickPoint.bind(this)
     this.onCickGoVideo = this.onCickGoVideo.bind(this)
+    this.goToKickstarterGuidlinePath = this.goToKickstarterGuidlinePath.bind(this)
 
   }
   componentDidMount () {
@@ -45,29 +46,48 @@ class HomeForm extends React.Component {
     _list && this.setState({ productList: _list });
   }
 
-  onClickStoreProduct (_id) {
+  onClickStoreProduct (_id, _type) {
     if (_id == '3') {
-      window.location.href = 'https://ks.mythinkcar.com/';
+      let _tab = _type == 'banner' ? '/banner_kickstarter' : 'index_productlist_kickstarter';
+      _requestWebUrlOrBtnClick({ "body": { "tab": _tab, "button": `ProductPage3` } });
+      window.open('https://www.kickstarter.com/projects/ericwang/thinkdiag-your-professional-car-technician-diagnostic-tool?ref=4isoa7')
+      // window.location.href = 'https://www.kickstarter.com/projects/ericwang/thinkdiag-your-professional-car-technician-diagnostic-tool?ref=4isoa7';
     } else {
+      _requestWebUrlOrBtnClick({ "body": { "tab": `/ProductPage/${_id}/t1`, "button": `ProductPage${_id}` } });
       this.props.history.push(`/ProductPage/${_id}/t1`)
     }
   }
   onCickPoint () {
+    _requestWebUrlOrBtnClick({ "body": { "tab": "/pointdetail", "button": "pointdetail" } });
     this.props.history.push(`/pointdetail`)
   }
   onCickGoVideo (_ty) {
+    _requestWebUrlOrBtnClick({ "body": { "tab": `/video/${_ty}`, "button": `video${_ty}` } });
     this.props.history.push(`/video/${_ty}`)
+  }
+  goToKickstarterGuidlinePath () {
+    this.props.history.push(`/somethingpicture/kg`)
   }
   render () {
     let { isFetching, addDeviceModalVisible, deviceList, activeKey, productList } = this.state;
     let { InitData, intl } = this.props;
     var _dl = getProductByLang(intl.locale, InitData) || [];
+    let _isMo = browserRedirect();
+    let _bannerStyle1 = _isMo ? {} : { padding: '2% 21%' };
+    let _bannerStyle2 = _isMo ? { marginLeft: '0.5%' } : { marginLeft: '5%', padding: '2% 21%' };
     return <div className="main-content ">
 
-      <Carousel className="binnerList" autoplay>
-        <img key="tc-Carousel-1" onClick={() => { this.onClickStoreProduct('3') }} alt="example" className='think-car-home-price-img' src={`${InitData._homeImgPath}/Home/img${InitData._isPcOrMobile ? '' : '/mobile'}/binner1.jpg`} />
-        <img key="tc-Carousel-2" onClick={() => { this.onClickStoreProduct('1') }} alt="example" className='think-car-home-price-img' src={`${InitData._homeImgPath}/Home/img${InitData._isPcOrMobile ? '' : '/mobile'}/binner2.jpg`} />
-      </Carousel>
+      {/* <Carousel className="binnerList" >
+        <img key="tc-Carousel-1" onClick={() => { this.onClickStoreProduct('3', 'banner') }} alt="example" className='think-car-home-price-img' src={`${InitData._homeImgPath}/Home/img${_isMo ? '' : '/mobile'}/binner1.jpg`} />
+      </Carousel> */}
+
+      <Row>
+        <img alt="example" className='think-car-home-price-img' src={`${InitData._homeImgPath}/Home/img${_isMo ? '' : '/mobile'}/binner1.jpg`} />
+        <Row className="tc-home-banner-btn-row">
+          <span onClick={() => { this.onClickStoreProduct('3', 'banner') }} style={_bannerStyle1}></span>
+          <span onClick={this.goToKickstarterGuidlinePath} style={_bannerStyle2}></span>
+        </Row>
+      </Row>
       <Row className="thinkCar-price1 think-car-padding10 think-car-home-tip1-h1"><h1><FormattedMessage id="thinkCarHomeTip1" /></h1></Row>
       <Row className="thinkCar-price1 think-car-padding10 think-car-home-tip2" >
 
@@ -99,7 +119,7 @@ class HomeForm extends React.Component {
                 <Meta style={{ minHeight: '180px' }} title={_item.name} description={[
                   <span key="tc-card-meta-1" style={{ color: '#000' }}>{_item.description} </span>,
                   <p key="tc-card-meta-2" className="think-car-home-money-tip">
-                    {_item.id == '3' ? 'Pre-order coming soon' : "$" + _item.price}
+                    {_item.id == '3' ? <FormattedMessage id="tcDiagTip1" /> : "$" + _item.price}
                   </p>]}
                 />
               </Card>
@@ -111,7 +131,7 @@ class HomeForm extends React.Component {
 
       </Row>
       {
-        InitData._isPcOrMobile ?
+        _isMo ?
           <Row>
             <Row className=" think-car-home-price-img" onClick={this.onCickPoint} style={{ cursor: 'pointer' }}>
               <img alt="THINKCAR" className="think-car-home-price-img" src={InitData._homeImgPath + InitData._indexImgAll.img1} />

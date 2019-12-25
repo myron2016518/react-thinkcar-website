@@ -2,8 +2,8 @@ import React from 'react'
 //import {Link} from 'react-router-dom'
 import objectAssign from 'object-assign';//ie不支持Object.assign
 import { injectIntl, FormattedMessage, FormattedDate, defineMessages } from 'react-intl';
-import { Button, Row, Col } from 'antd';
-import request, { transformStatus, transformTime, getProductByLang } from '../../public/common'
+import { Row } from 'antd';
+import { browserRedirect } from '../../public/common'
 import Loading from '../components/Loading'
 
 
@@ -30,8 +30,9 @@ class PointDetail extends React.Component {
     let { isFetching } = this.state;
     let { InitData } = this.props;
     const gutter = 16;
+    let _isMob = browserRedirect();
     let _url = InitData._pointDetailPageImg;
-    !InitData._isPcOrMobile && (_url = _url.slice(0, 9) + '/mobile' + _url.slice(9))
+    !_isMob && (_url = _url.slice(0, 9) + '/mobile' + _url.slice(9))
     return (
       <div className="tc-about-page">
         <Row className=" think-car-home-price-img" style={{ padding: '1% 10%', background: '#fff' }}>

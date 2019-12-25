@@ -323,6 +323,7 @@ button.btn-get-captcha {
   text-align: -webkit-center;
   // height: 260px;
   // line-height: 260px;
+  cursor: pointer;
 
 }
 
@@ -824,6 +825,17 @@ button.btn-get-captcha {
     padding: 2% 10%;
     background-color: #fff;
   }
+
+  .tc-product-ti-id3-pb {
+    padding: 2%;
+    background-color: #1F2127;
+
+    .tc-product-ti-id3-pb-title {
+      color: #fff;
+      text-align: center;
+      padding-bottom: 1%;
+    }
+  }
 }
 
 //product buy
@@ -893,7 +905,6 @@ button.btn-get-captcha {
 
 
   .tc-product-buy-info {
-    padding-left: 10% !important;
     text-align: left;
     padding-bottom: 5%;
 
@@ -1105,7 +1116,20 @@ button.btn-get-captcha {
   }
 }
 
+.tc-home-page-main {
+  .tc-home-banner-btn-row {
+    position: absolute;
+    bottom: 10%;
+    color: #fff;
+    text-align: center;
+    width: 100%;
 
+    span {
+      padding: 1% 9%;
+      cursor: pointer;
+    }
+  }
+}
 
 
 // tc-order-page
@@ -1197,19 +1221,27 @@ button.btn-get-captcha {
       }
     }
 
-    .tc-buy-btn {
-      width: 100%;
-      height: 50px;
-      border-radius: 0px;
-      color: #fff;
-      font-size: 16px;
-    }
+  }
 
-    .tc-buy-btn-addBuy {
+  .tc-buy-btn {
+    width: 100%;
+    height: 50px;
+    border-radius: 0px;
+    color: #fff;
+    font-size: 16px;
+
+    &:hover,
+    &:focus,
+    &:active {
+      color: #fff;
       background-color: #1C1F86;
     }
-
   }
+
+  .tc-buy-btn-addBuy {
+    background-color: #1C1F86;
+  }
+
 }
 
 // about page
@@ -1262,6 +1294,10 @@ button.btn-get-captcha {
         padding-top: 2%;
         color: #7B7B7B;
         font-size: 15px;
+        display: -webkit-box;
+        -webkit-line-clamp: 4;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
       }
 
       .tc-news-btn-read {
@@ -1474,9 +1510,10 @@ button.btn-get-captcha {
         }
 
         .tc-coverage-support-functions3 {
-          border: 1px solid #eee;
+          // border: 1px solid #eee;
           text-align: center;
           padding: 1% 0;
+          overflow: auto;
         }
       }
     }
@@ -1597,14 +1634,132 @@ button.btn-get-captcha {
           color: #AF0005;
         }
 
+        .tc-order-txt3 {
+          color: #000;
+          font-size: 12px;
+          text-align: right;
+          font-weight: 400;
+          margin-bottom: 0;
+        }
+
         .tc-order-txt-amount {
           font-weight: bold;
           font-size: 18px;
         }
+
+        .tc_orderitem_cartlist_item {
+          margin: 1%;
+
+
+          .think-car-home-price-img {
+            border: 1px solid #eee;
+            padding: 15%;
+          }
+
+          .tc-none-border {
+            border: 0;
+            padding: 0;
+            width: 98%;
+          }
+
+          .tc-odInfo-name {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            font-size: 10px;
+            margin-bottom: 0;
+          }
+
+        }
+
+        .tc-orderlist-mobile-img {
+          padding: 10% !important;
+
+        }
+      }
+    }
+
+    .tc-orderlist-mobile {
+      .tc-order-title {
+        padding: 0 2%;
+      }
+
+      .tc-orderdetail-info {
+        padding: 0 2%;
       }
     }
   }
 }
+
+// tc-orderdetail-page
+.tc-orderlistdetail-page-route {
+  .tc-orderdetail-page-info {
+    font-size: 16px;
+    background-color: #fff;
+
+    .tc-orderdetail-title1 {
+      background-color: #1C1F86;
+      color: #fff;
+      padding: 3% 5%;
+
+    }
+
+    .tc-orderdetail-title2 {
+      background-color: #B90000;
+      color: #fff;
+      padding: 5% 0;
+      text-align: center;
+    }
+
+    .tc-orderdetail-title3 {
+      padding: 5%;
+      font-weight: 500;
+    }
+
+    .tc-order-cart-line {
+      border-bottom: 2px solid #fff;
+      padding-top: 6%;
+    }
+
+    .tc-order-item-boder-bottom {
+      border-bottom: 1px solid #ccc;
+    }
+
+    .tc-order-txt1 {
+      text-align: right;
+    }
+
+    .tc-order-txt2 {
+      color: #AF0005;
+      text-align: right;
+      font-size: 18px;
+    }
+
+    .tc-order-cartl-row {
+      padding: 2% 5%;
+      font-weight: 500;
+
+      .tc-order-item-img {
+        width: 70%;
+        border: 1px solid #e7e7e7;
+        padding: 10%;
+      }
+
+      .tc-bc-info-title {
+        margin-bottom: 0;
+      }
+
+      .tc-bc-info-title2 {
+        color: #AF0005;
+        font-size: 18px;
+        margin-bottom: 0;
+        padding-top: 20%;
+      }
+    }
+
+  }
+}
+
 
 // tc-forgotpassword-page-route
 .tc-forgotpassword-page-route {
@@ -1700,6 +1855,653 @@ button.btn-get-captcha {
 
 }
 
+// tc-communitylikes-page-route And tc-userfollow-page-route
+
+.tc-communitylikes-page-route,
+.tc-userfollow-page-route {
+  .tc-communitylikes-home-page {
+    overflow: hidden;
+    background: #fff;
+
+    .tc-communitylikes-home-content {
+      height: 100%;
+      overflow: auto;
+
+      .tc-comm-list-item {
+        padding: 10px 20px;
+
+        .tc-com-detail-title {
+          p {
+            margin-bottom: 0;
+            font-size: 12px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+          }
+
+          .tc-com-detail-author-name {
+            color: #000;
+          }
+        }
+
+        .tc-cd-hava-follow {
+          font-size: 12px;
+          background-color: #1C1F86;
+          border-radius: 3px;
+          padding: 2% 0%;
+          color: #fff;
+          display: block;
+        }
+
+        .tc-cd-hava-following {
+          font-size: 12px;
+          border-radius: 3px;
+          padding: 2% 0%;
+          border: 1px solid #1C1F86;
+          color: #1C1F86;
+          display: block;
+        }
+      }
+    }
+
+
+  }
+}
+
+.tc-community-loading-container {
+  position: absolute;
+  bottom: 40px;
+  width: 100%;
+  text-align: center;
+}
+
+// tc-community-page-route 社区
+.tc-community-page-route {
+  .tc-community-home-page {
+    overflow: hidden;
+
+    .tc-ch-header-info-row {
+      background-color: #19a0e4;
+      color: #fff;
+      padding-top: 5px;
+      padding-bottom: 5px;
+    }
+
+    .tc-community-home-content {
+      height: 500px;
+      overflow: auto;
+
+      .tc-comm-list-item {
+        border-bottom: 0px;
+        padding: 10px 20px;
+
+      }
+
+      .tc-home-following-carousel {
+        padding: 5px;
+        background-color: #fff;
+
+        .tc-home-following-username {
+          overflow: hidden;
+          font-size: 12px;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+        }
+      }
+
+    }
+
+    .tc-community-home-tabs-main {
+      .tc-community-tabs {
+        padding: 10px 0;
+        cursor: pointer;
+        font-size: 13px;
+      }
+
+      .tc-community-tab-select {
+        border-bottom: 2px solid #1C1F86;
+        color: #1C1F86;
+      }
+
+      .tc-community-topic-name {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+    }
+
+    .tc-ch-list {
+      height: 5rem;
+      background-color: #fff;
+      padding: 10%;
+      overflow: hidden;
+    }
+
+    .am-tab-bar-tab-title {
+      font-size: 0.5rem;
+    }
+
+    .am-tabs {
+      overflow: hidden;
+    }
+  }
+}
+
+// tc-communitytopic-page-route 每日话题
+.tc-communitytopic-page-route {
+  .tc-communitytopic-home-page {
+    overflow: hidden;
+
+    .tc-community-home-content {
+      height: 500px;
+      overflow: auto;
+
+      .tc-comm-list-item {
+        border-bottom: 0px;
+        padding: 10px 20px;
+
+      }
+    }
+
+    .tc-community-home-tabs-main {
+      background-color: #19a0e4;
+      color: #fff;
+      // padding-top: 1%;
+
+      .tc-community-tabs {
+        padding: 10px 0;
+        cursor: pointer;
+        font-size: 13px;
+      }
+
+      .tc-community-tab-select {
+        border-bottom: 2px solid #1C1F86;
+        color: #1C1F86;
+      }
+
+      .tc-community-topic-name {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        padding-top: 5px;
+      }
+    }
+
+    .tc-ch-list {
+      height: 5rem;
+      background-color: #fff;
+      padding: 10%;
+      overflow: hidden;
+    }
+
+    .am-tab-bar-tab-title {
+      font-size: 0.5rem;
+    }
+
+    .am-tabs {
+      overflow: hidden;
+    }
+  }
+}
+
+// tc-community-detail-page 社区详情
+.tc-community-detail-page {
+  background-color: #fff;
+  border-color: rgba(0, 0, 0, .09);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, .09);
+  width: 100%;
+  border-radius: 5px;
+  padding: 2% 0;
+
+  .tc-com-detail-title {
+    padding: 0 2%;
+
+    p {
+      margin-bottom: 0;
+      font-size: 12px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    .tc-com-detail-author-name {
+      font-size: 14px;
+      color: #000;
+      font-weight: 500;
+    }
+  }
+
+  .tc-cd-hava-pinned {
+    font-size: 12px;
+    background-color: #1C1F86;
+    border-radius: 3px;
+    padding: 2% 10%;
+    color: #fff;
+  }
+
+  .tc-com-detail-content {
+    display: -webkit-box;
+    -webkit-line-clamp: 6;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    white-space: pre-wrap;
+  }
+
+  .tc-com-detail-img-main {
+    img {
+      display: inline-block;
+      width: 100%;
+      max-height: 300px;
+      text-align: center;
+      text-align: -webkit-center;
+      object-fit: cover;
+    }
+  }
+
+  .tc-com-detail-topics-main {
+    padding: 2%;
+
+    span {
+      font-size: 10px;
+      background-color: #eee;
+      border-radius: 3px;
+      padding: 5px;
+      color: #286dad;
+    }
+  }
+
+  .tc-com-detail-feed-main {
+    font-size: 11px;
+    text-align: right;
+    padding-right: 2%;
+
+    span {
+      padding: 0 1%;
+    }
+  }
+
+  .tc-com-detail-action-main {
+    padding: 5px;
+    text-align: center;
+  }
+
+  .tc-com-detail-comments-list-main {
+    padding: 2%;
+    color: #707070;
+    font-size: 12px;
+
+    .tc-cdclm-name {
+      font-weight: 500;
+      color: #000000;
+      cursor: pointer;
+    }
+
+    .tc-cdclm-feed_comment_count {
+      cursor: pointer;
+      color: #308bdf;
+    }
+  }
+
+  .tc-com-detail-repostable-main {
+    padding: 0% 2% 2% 2%;
+
+    .tc-feed-repostable-row {
+      padding: 2%;
+      background-color: #eee;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+
+      .tc-repostable-txt {
+        font-size: 12px;
+        color: #308bdf;
+
+      }
+    }
+  }
+
+}
+
+//tc-community-detail-info-page
+.tc-community-detail-info-page {
+  .tc-com-detail-info-content {
+    white-space: pre-wrap;
+  }
+
+  .tc-cdi-fontsize12 {
+    font-size: 11px;
+    padding: 0 2%;
+    color: #000;
+  }
+
+  .tc-cdi-likes-main {
+    font-size: 11px;
+    padding: 0 2%;
+
+    .tc-cdi-likes-tip {
+      padding-left: 3%;
+    }
+  }
+
+  .tc-com-detail-comments-title {
+    padding: 0 2%;
+    font-size: 12px;
+  }
+
+  .tc-cdinfo-userlike-class {
+    float: right;
+    white-space: nowrap;
+  }
+
+  .tc-comm-list-item {
+    .ant-list-item-meta-description {
+      clear: both;
+      font-size: 12px;
+    }
+  }
+
+  .tc-cdinfo-comment-list-main {
+    height: 500px;
+    overflow: auto;
+  }
+
+}
+
+// tc-communityaddfeed-page-route
+.tc-communityaddfeed-page-route {
+  background-color: #fff;
+  padding: 2%;
+
+  .tc-community-add-feed-home-page {
+    .tc-community-add-feed-home-content {
+      h1 {
+        text-align: center;
+      }
+
+      .tc-feed-repostable-row {
+        padding: 2%;
+        background-color: #eee;
+        margin-top: 3%;
+
+        .tc-feed-repostable-content {
+          color: #bfbfbf;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+        }
+      }
+
+      .tc-feed-btn-row {
+        margin-bottom: 2%;
+
+        .tc-feed-btn-save {
+          width: 100%;
+          color: #286dad;
+        }
+      }
+    }
+  }
+}
+
+.tc-feed-friends-drawer {
+  .ant-drawer-wrapper-body {
+    height: 100%;
+
+    .tc-caffd-main {
+      height: 100%;
+      overflow: hidden;
+
+      .tc-caffd-search {
+        height: 15%;
+        padding: 10px 0;
+
+      }
+
+      .tc-community-feed-friend-content {
+        height: 85%;
+        overflow: auto;
+
+        .tc-comm-list-item {
+          padding: 10px 20px;
+
+          .tc-com-detail-title {
+            p {
+              margin-bottom: 0;
+              font-size: 12px;
+              overflow: hidden;
+              white-space: nowrap;
+              text-overflow: ellipsis;
+            }
+
+            .tc-com-detail-author-name {
+              color: #000;
+            }
+          }
+
+          .tc-cd-hava-follow {
+            font-size: 12px;
+            background-color: #1C1F86;
+            border-radius: 3px;
+            padding: 2% 0%;
+            color: #fff;
+            display: block;
+          }
+
+          .tc-cd-hava-following {
+            font-size: 12px;
+            border-radius: 3px;
+            padding: 2% 0%;
+            border: 1px solid #1C1F86;
+            color: #1C1F86;
+            display: block;
+          }
+        }
+      }
+    }
+  }
+
+
+}
+
+
+.tc-cdi-report-row {
+  padding: 2%;
+  background-color: #eee;
+  margin: 3% 0%;
+
+  .tc-com-detail-info-report-content {
+    overflow: hidden;
+    font-size: 12px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 85%;
+    float: left;
+    padding-left: 2%;
+    color: #bfbfbf;
+  }
+}
+
+// user info 
+.tc-userinfo-page-route {
+  .tc-user-home-page {
+    overflow: hidden;
+    background-color: #fff;
+
+    .tc-user-home-header {
+      height: 40%;
+
+      .tc-user-info-bg {
+        height: 50%;
+        color: #fff;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 12px;
+
+        .tc-user-info-row {
+          padding-bottom: 5%;
+        }
+
+        .tc-user-info-edit {
+          position: absolute;
+          right: 5%;
+          top: 5%;
+          font-size: 22px;
+        }
+
+      }
+
+      .tc-community-tabs {
+        cursor: pointer;
+      }
+
+      .tc-user-info-row2 {
+        padding: 0 2%;
+        font-size: 12px;
+        // height: 35%;
+      }
+
+      .tc-community-tab-select {
+        span {
+          border-bottom: 2px solid #1C1F86;
+          color: #1C1F86;
+          // padding-bottom: 10px;
+          display: inline-block;
+        }
+      }
+    }
+
+    .tc-user-home-content {
+      height: 55%;
+      overflow: auto;
+      background-color: #fff;
+      padding: 5px 2%;
+
+      .tc-comm-list-item {
+        border-bottom: 0px;
+        padding: 2% 0;
+      }
+
+      .tc-user-info-img-row {
+        padding-bottom: 2%;
+        height: 2.5rem;
+
+        img {
+          display: inline-block;
+          width: 100%;
+          height: 100%;
+          text-align: center;
+          text-align: -webkit-center;
+          object-fit: cover;
+        }
+      }
+    }
+
+    .tc-user-home-footer {
+      height: 5%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+  }
+
+
+}
+
+// user follow
+.tc-userfollow-page-route {
+  overflow: hidden;
+
+  .tc-community-tabs {
+    padding: 15px 0;
+    cursor: pointer;
+    font-size: 13px;
+  }
+
+  .tc-community-tab-select {
+    border-bottom: 2px solid #1C1F86;
+    color: #1C1F86;
+  }
+}
+
+// tc-usertags-page-route
+.tc-usertags-page-route {
+  .tc-userinfo-tags-page {
+    padding: 2%;
+    background-color: #fff;
+
+    .tc-user-tags-title {
+      color: #1C1F86;
+      padding: 2% 0;
+
+      .tc-tags-item-col {
+        text-align: center;
+        padding: 2%;
+
+        .tc-tags-item {
+          width: 100%;
+          cursor: pointer;
+        }
+
+        .tc-tags-item-nocheck {
+          color: #1C1F86;
+          background-color: #eee;
+        }
+      }
+
+    }
+  }
+}
+
+// tc-useredit-page-route
+.tc-useredit-page-route {
+  .tc-useredit-page {
+    background-color: #fff;
+
+    .tc-useredit-form {
+      padding: 2%;
+
+      .tc-useredit-form-title {
+        text-align: center;
+        font-size: 1.5em;
+        padding: 3% 0;
+      }
+
+      .tc-user-info-city {
+        border-bottom: 1px solid #d9d9d9;
+        overflow: hidden;
+        // white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+
+      .tc-user-info-tags {
+        border-bottom: 1px solid #d9d9d9;
+        // line-height: 1rem;
+        padding-bottom: 3%;
+      }
+
+      .tc-useredit-form-avatar {
+        .tc-user-avatar-uploader {
+          .ant-upload.ant-upload-select-picture-card {
+            width: 65px;
+            height: 65px;
+          }
+        }
+      }
+    }
+  }
+}
+
+
+// 社区页面弹出发布选择框样式
+.tc-community-feeds {
+  text-align: center;
+  font-size: 33px;
+  cursor: pointer;
+}
+
 // commom 
 .tc-float-right {
   float: right !important;
@@ -1715,6 +2517,10 @@ button.btn-get-captcha {
 
 #cnzz_stat_icon_1277968549 {
   // display: none;
+}
+
+.ant-back-top {
+  bottom: 100px;
 }
 
 // 主体颜色 修改
@@ -1855,7 +2661,7 @@ button.btn-get-captcha {
   display: block !important;
 }
 
-@media (max-width: 576px) {
+@media (max-width: 768px) {
   .tc-mobile-hide {
     display: block !important;
   }
@@ -1929,10 +2735,13 @@ button.btn-get-captcha {
       background-color: #000000;
       // height: 1.5rem;
       line-height: 0rem;
+      // position: absolute;
+      // top: 0;
 
       .ant-avatar {
-        width: 42px;
-        height: 42px;
+
+        width: 68px;
+        height: 68px;
       }
 
       .tc-mobile-header-buy-car {
@@ -2076,4 +2885,33 @@ button.btn-get-captcha {
     }
   }
 
+
+  //order list detail 
+  .tc-orderlist-page-route {
+    .tc-orderlist-page {
+      .tc-order-list-info {
+        .tc-orderdetail-info {
+          .tc-order-cartl-row {
+            height: auto;
+
+            .tx-orderdetail-cartlist {
+              height: auto;
+            }
+          }
+        }
+      }
+    }
+  }
+
+}
+
+@media (max-width: 576px) {
+  .header {
+    .tc-mobile-header-main {
+      .ant-avatar {
+        width: 42px;
+        height: 42px;
+      }
+    }
+  }
 }

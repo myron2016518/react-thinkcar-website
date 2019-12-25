@@ -18,7 +18,12 @@
   <div id="root"></div>
   <!-- <script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak=1XjLLEhZhQNUzd93EjU5nOGQ"></script> -->
 
-  <script src="https://pv.sohu.com/cityjson?ie=utf-8"></script>
+  <!-- <script src="https://pv.sohu.com/cityjson?ie=utf-8"></script> -->
+  <!-- <script type="text/javascript" src="http://test.mythinkcar.com/Home/browser.min.js"></script> -->
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=UA-153514415-1"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-153514415-2"></script> -->
+
   <div id="fb-root"></div>
   <script>
     window.fbAsyncInit = function () {
@@ -27,13 +32,35 @@
         version: 'v5.0'
       });
     };
-    (function (d, s, id) {
-      var js, fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) return;
-      js = d.createElement(s); js.id = id;
-      js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
-      fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));</script>
+    setTimeout(function () {
+      (function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
+        fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));
+    }, 5000)
+
+
+    // (function (d, s, id) {
+    //   var js, fjs = d.getElementsByTagName(s)[0];
+    //   if (d.getElementById(id)) return;
+    //   js = d.createElement(s); js.id = id;
+    //   js.setAttribute("data-ad-client", "ca-pub-7504025138331525");
+    //   js.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js';
+    //   fjs.parentNode.insertBefore(js, fjs);
+    // }(document, 'script', 'adsbygoogle'));
+
+    // window.dataLayer = window.dataLayer || [];
+    // function gtag() { dataLayer.push(arguments); };
+    // gtag('js', new Date());
+    // gtag('config', 'UA-153514415-1');
+    // gtag('js', new Date());
+    // gtag('config', 'UA-153514415-2');
+
+
+  </script>
   <div class="fb-customerchat" attribution="setup_tool" page_id="113879770027054"  theme_color="#2e3192"></div>
 </body>
 

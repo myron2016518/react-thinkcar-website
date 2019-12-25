@@ -23,7 +23,7 @@ export default class ThinkcarProblemPage extends React.Component {
       <Row><h1>THINKCAR Q&A</h1></Row>
       <Row>Here are some answers to the questions you might have when you use THINKCAR. If your question is not answered here, please use the feedback feature to send an email to the THINKCAR Support Team. Thank you.</Row>
 
-      <Collapse accordion>
+      <Collapse accordion expandIconPosition="right">
         <Panel header={<FormattedMessage id="tcFaqQ1Title" />} key="1">
           <h4>Q: Where can I purchase a THINKCAR device?</h4>
           <p>A: THINKCAR products are sold online on our official website. www.mythinkcar.com, and (Amazon coming soon.) You may also find THINKCAR products in some brick and mortar stores.</p>

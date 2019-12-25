@@ -3,9 +3,16 @@ const initData = {
   isLogin: false,
   userInfo: { id: '001', name: 'liuyu', token: '002' },
   md5Code: '99a2eb85f315d136f064cb7d4bcdc884',
-  _homeImgPath: 'https://www.mythinkcar.com',
+  _homeImgPath: 'https://mythinkcar.com/',
+  // _homeImgPath: 'https://test.mythinkcar.com/',
   _homeApiImgPath: 'https://api.mythinkcar.com/',
   _momentsPath: 'https://www.mythinkcar.com/home/explore/tmpv2',
+  _tcCommImgPath: 'https://ithinkcar.com/api/v2/files/',
+  _tcYoutubePath: 'https://www.youtube.com/embed/',
+  _uploadType: {
+    'img': '.bmp,.gif,.jpeg,.jpg,.png,.psd,.tga,.pcx,.tiff,.exif,.fpx,.svg,.cdr,.pcd,.dxf,.ufo,.eps,.ai,.hdri,.raw,.wmf,.lic,.fli,.flc,.emf,.dif',
+    'video': '.mpeg,.mpeg-1,.mpeg1,.mpeg-2,.mpeg2,.mpeg-4,.mpeg4,.mpg,.mpe,.dat,.mp4,.m4v,.3gp,.3g2,.avi,.navi,.mov,.asf,.asx,.wmv,.wmvhd,.mkv,.flv,.f4v,.rmvb,.webm,.qsv,.ogg,.vob,.swf,.xv,.rm,.vcd,.svcd,.divx,.xvid,.dvd,.dv .mts,.ra,.ram,.wma,.mpa,.mod,.wav,.au,.dif,.ape,.avs,.avc,.mux',
+  },
   _indexBinnerImgList: [],
   _indexImgAll: {
     "img1": "/Home/img/point.jpg",
@@ -25,6 +32,7 @@ const initData = {
   _pointDetailPageImg: '/Home/img/point_detial.jpg',
   _newsPageImg: '/Home/img/news_banner.jpg',
   _newsPageList: [
+    { "id": "news5", "title": "This Will Change the Car World Forever", "author": "Scotty", "url": "https://www.youtube.com/embed/tJo7EMsiDkc" },
     { "id": "news1", "title": "This Changes Everythingt", "author": "Scotty", "url": "https://www.youtube.com/embed/lFF9eQwb9Jk" },
     { "id": "news2", "title": "Another OBD11 device on the market (THINKCAR review)", "author": "Ryan Powell", "url": "https://www.youtube.com/embed/wIg-ERKQEzU" },
     { "id": "news3", "title": "THINKCAR 1S Professional OBD2 Scan Tool First Look", "author": "Awkward Hampster", "url": "https://www.youtube.com/embed/6GaLuJMi7KA" },
@@ -106,16 +114,7 @@ const initData = {
   productListZh_CN: [
     {
       name: 'THINKCAR1s', price: 89.95, id: '1', "status": "0",
-      serviceList: [
-        {
-          "id": "1", "goodsid": "1", "name": "1year one car", "smimg": "Application/Api/Public/images/1car.jpg",
-          "price": "8.9", "status": "1", "dateline": null, ischeck: false
-        },
-        {
-          "id": "2", "goodsid": "1", "name": "1year two car", "smimg": "Application/Api/Public/images/1car.jpg",
-          "price": "16.95", "status": "1", "dateline": null, ischeck: false
-        },
-      ],
+      serviceList: [],
       'smimg': '',
       'introduction': 'THINKCAR1 meets vehicle deection',
       'description': 'Full Vehicle Modules Scan | Real Time Remote Diagnostics | Black Box | I/M Readiness | Read/Clear Code | Mode 6 | SMOG Check | Data Stream | MIL',
@@ -149,16 +148,7 @@ const initData = {
     },
     {
       name: 'THINKCAR1', price: 54.95, id: '2', "status": "0",
-      serviceList: [
-        {
-          "id": "1", "goodsid": "1", "name": "1year one car", "smimg": "Application/Api/Public/images/1car.jpg",
-          "price": "8.9", "status": "1", "dateline": null, ischeck: false
-        },
-        {
-          "id": "2", "goodsid": "1", "name": "1year two car", "smimg": "Application/Api/Public/images/1car.jpg",
-          "price": "16.95", "status": "1", "dateline": null, ischeck: false
-        },
-      ],
+      serviceList: [],
       'smimg': '',
       'introduction': 'THINKCAR1S has more services',
       'description': 'Full Vehicle Modules Scan | Real Time Remote Diagnostics | I/M Readiness | Read/Clear Code | Mode 6 | SMOG Check | Data Stream | MIL',
@@ -192,16 +182,7 @@ const initData = {
     },
     {
       name: 'THINKDIAG', price: 189.95, id: '3', "status": "0",
-      serviceList: [
-        {
-          "id": "1", "goodsid": "1", "name": "1year one car", "smimg": "Application/Api/Public/images/1car.jpg",
-          "price": "8.9", "status": "1", "dateline": null, ischeck: false
-        },
-        {
-          "id": "2", "goodsid": "1", "name": "1year two car", "smimg": "Application/Api/Public/images/1car.jpg",
-          "price": "16.95", "status": "1", "dateline": null, ischeck: false
-        },
-      ],
+      serviceList: [],
       'smimg': '',
       'introduction': 'THINKDIAG has more services',
       'description': 'All Systems Full Function | Maintenance Functions | OBD Functions | Special Function | Actuation Test | Read/Clear Code | Read Data Stream | Read Freeze Frame',
@@ -212,6 +193,13 @@ const initData = {
         { 'url': '/Home/img/thinkdiag/3.jpg' },
         { 'url': '/Home/img/thinkdiag/4.jpg' },
         { 'url': '/Home/img/thinkdiag/5.jpg' },
+        { 'url': '/Home/img/thinkdiag/6.jpg' },
+        { 'url': '/Home/img/thinkdiag/7.jpg' },
+        { 'url': '/Home/img/thinkdiag/8.jpg' },
+        { 'url': '/Home/img/thinkdiag/9.jpg' },
+        { 'url': '/Home/img/thinkdiag/10.jpg' },
+        { 'url': '/Home/img/thinkdiag/11.jpg' },
+        { 'url': '/Home/img/thinkdiag/12.jpg' },
       ],
       'imgListP': [
         { 'url': '/Home/img/thinkdiag/cp1.jpg' },
@@ -236,16 +224,7 @@ const initData = {
   productListEn_US: [
     {
       name: 'THINKCAR1s', price: 89.95, id: '1', "status": "0",
-      serviceList: [
-        {
-          "id": "1", "goodsid": "1", "name": "1year one car", "smimg": "Application/Api/Public/images/1car.jpg",
-          "price": "8.9", "status": "1", "dateline": null, ischeck: false
-        },
-        {
-          "id": "2", "goodsid": "1", "name": "1year two car", "smimg": "Application/Api/Public/images/1car.jpg",
-          "price": "16.95", "status": "1", "dateline": null, ischeck: false
-        },
-      ],
+      serviceList: [],
       'smimg': '',
       'introduction': 'THINKCAR1 meets vehicle deection',
       'description': 'Full Vehicle Modules Scan | Real Time Remote Diagnostics | Black Box | I/M Readiness | Read/Clear Code | Mode 6 | SMOG Check | Data Stream | MIL',
@@ -279,16 +258,7 @@ const initData = {
     },
     {
       name: 'THINKCAR1', price: 54.95, id: '2', "status": "0",
-      serviceList: [
-        {
-          "id": "1", "goodsid": "1", "name": "1year one car", "smimg": "Application/Api/Public/images/1car.jpg",
-          "price": "8.9", "status": "1", "dateline": null, ischeck: false
-        },
-        {
-          "id": "2", "goodsid": "1", "name": "1year two car", "smimg": "Application/Api/Public/images/1car.jpg",
-          "price": "16.95", "status": "1", "dateline": null, ischeck: false
-        },
-      ],
+      serviceList: [],
       'smimg': '',
       'introduction': 'THINKCAR1S has more services',
       'description': 'Full Vehicle Modules Scan | Real Time Remote Diagnostics | I/M Readiness | Read/Clear Code | Mode 6 | SMOG Check | Data Stream | MIL',
@@ -322,16 +292,7 @@ const initData = {
     },
     {
       name: 'THINKDIAG', price: 189.95, id: '3', "status": "0",
-      serviceList: [
-        {
-          "id": "1", "goodsid": "1", "name": "1year one car", "smimg": "Application/Api/Public/images/1car.jpg",
-          "price": "8.9", "status": "1", "dateline": null, ischeck: false
-        },
-        {
-          "id": "2", "goodsid": "1", "name": "1year two car", "smimg": "Application/Api/Public/images/1car.jpg",
-          "price": "16.95", "status": "1", "dateline": null, ischeck: false
-        },
-      ],
+      serviceList: [],
       'smimg': '',
       'introduction': 'THINKDIAG has more services',
       'description': 'All Systems Full Function | Maintenance Functions | OBD Functions | Special Function | Actuation Test | Read/Clear Code | Read Data Stream | Read Freeze Frame',
@@ -342,6 +303,13 @@ const initData = {
         { 'url': '/Home/img/thinkdiag/3.jpg' },
         { 'url': '/Home/img/thinkdiag/4.jpg' },
         { 'url': '/Home/img/thinkdiag/5.jpg' },
+        { 'url': '/Home/img/thinkdiag/6.jpg' },
+        { 'url': '/Home/img/thinkdiag/7.jpg' },
+        { 'url': '/Home/img/thinkdiag/8.jpg' },
+        { 'url': '/Home/img/thinkdiag/9.jpg' },
+        { 'url': '/Home/img/thinkdiag/10.jpg' },
+        { 'url': '/Home/img/thinkdiag/11.jpg' },
+        { 'url': '/Home/img/thinkdiag/12.jpg' },
       ],
       'imgListP': [
         { 'url': '/Home/img/thinkdiag/cp1.jpg' },
