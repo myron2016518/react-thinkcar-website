@@ -6,4 +6,4 @@ https://www.mythinkcar.com/
 
  npm run dev
 
- npm ren deploy
+ npm run deploy
