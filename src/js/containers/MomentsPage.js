@@ -1,10 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-//import {Link} from 'react-router-dom'
-import objectAssign from 'object-assign';//ie不支持Object.assign
-import { injectIntl, FormattedMessage, FormattedDate, defineMessages } from 'react-intl';
-import { Button, Row, Col } from 'antd';
-import request, { transformStatus, transformTime, getProductByLang } from '../../public/common'
+import { injectIntl } from 'react-intl';
 import Loading from '../components/Loading'
 
 

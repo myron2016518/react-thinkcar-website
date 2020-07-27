@@ -1,7 +1,7 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
+// import ReactDOM from 'react-dom'
 import objectAssign from 'object-assign';//ie不支持Object.assign
-import PropTypes from 'prop-types'
+// import PropTypes from 'prop-types'
 import { Router, Switch, Route, Redirect } from 'react-router-dom'
 // import { connect } from "react-redux";
 // import { addTodo } from "../redux/actions";
@@ -9,18 +9,56 @@ import { Router, Switch, Route, Redirect } from 'react-router-dom'
 // import createBrowserHistory from 'history/createBrowserHistory';
 import history from "../../public/history";
 import Loadable from '../components/loadable'
-import { ConfigProvider, Layout, message, Select, Affix, BackTop, Drawer } from 'antd';
-import zhCN from 'antd/lib/locale-provider/zh_CN';
-import enUS from 'antd/lib/locale-provider/en_Us';
+import { ConfigProvider, Layout, message, Affix, BackTop } from 'antd';
 //如果浏览器没有自带intl，则需要在使用npm安装intl之后添加如下代码
-import { IntlProvider, addLocaleData, FormattedDate, FormattedMessage } from 'react-intl';
-import request, { isWeiXin, getSign, browserRedirect, deepObjectMerge, getProductByLang, get_session_cache, set_session_cache, remove_session_cache } from '../../public/common'
-import intl from 'intl';
+import { IntlProvider, addLocaleData } from 'react-intl';
+import request, {
+  isWeiXin, getSign, browserRedirect, deepObjectMerge, getQueryStringArgs, getProductByLang,
+  get_session_cache, set_session_cache, remove_session_cache, get_local_cache, set_local_cache,
+  _requestWebUrlOrBtnClick
+} from '../../public/common'
+
+import zhCN from 'antd/lib/locale-provider/zh_CN';  //简体中文
+import enUS from 'antd/lib/locale-provider/en_Us';  //英语（美式）
+import ruRU from 'antd/lib/locale-provider/ru_RU';  //俄罗斯语
+import deDE from 'antd/lib/locale-provider/de_DE';  //德语
+// import enGB from 'antd/lib/locale-provider/en_GB';  //英语
+import esES from 'antd/lib/locale-provider/es_ES';  //西班牙语
+import frFR from 'antd/lib/locale-provider/fr_FR';  //法语（法国）
+import itIT from 'antd/lib/locale-provider/it_IT';  //意大利语	
+import jaJP from 'antd/lib/locale-provider/ja_JP';  //日语	
+import ptPT from 'antd/lib/locale-provider/pt_PT';  //葡萄牙语	
+
+// import intl from 'intl';
 import zh from 'react-intl/locale-data/zh';
-import en from 'react-intl/locale-data/en'
+import en from 'react-intl/locale-data/en';
+import ru from 'react-intl/locale-data/ru';
+import de from 'react-intl/locale-data/de';
+import es from 'react-intl/locale-data/es';
+import fr from 'react-intl/locale-data/fr';
+import it from 'react-intl/locale-data/it';
+import ja from 'react-intl/locale-data/ja';
+import pt from 'react-intl/locale-data/pt';
+
+addLocaleData([...en, ...zh, ...ru, ...de, ...es, ...fr, ...it, ...ja, ...pt]);
+
 //引入locale配置文件，具体路径根据实际情况填写
 import zh_CN from '../../lang/zh_CN';
 import en_US from '../../lang/en_US';
+import ru_RU from '../../lang/ru_RU';
+import de_DE from '../../lang/de_DE';  //德语
+import es_ES from '../../lang/es_ES';  //西班牙语
+import fr_FR from '../../lang/fr_FR';  //法语（法国）
+import it_IT from '../../lang/it_IT';  //意大利语	
+import ja_JP from '../../lang/ja_JP';  //日语	
+import pt_PT from '../../lang/pt_PT';  //葡萄牙语	
+// const ru_RU = Loadable(() => import('../../lang/ru_RU'));
+// const de_DE = Loadable(() => import('../../lang/de_DE'));
+// const es_ES = Loadable(() => import('../../lang/es_ES'));
+// const fr_FR = Loadable(() => import('../../lang/fr_FR'));
+// const it_IT = Loadable(() => import('../../lang/it_IT'));
+// const ja_JP = Loadable(() => import('../../lang/ja_JP'));
+// const pt_PT = Loadable(() => import('../../lang/pt_PT'));
 
 import '../../css/style.scss'
 import config from '../../public/config'
@@ -48,64 +86,34 @@ const CoveragePage = Loadable(() => import('./CoveragePage'));
 const ThinkStorePage = Loadable(() => import('./ThinkStorePage'));
 const PointDetail = Loadable(() => import('./PointDetail'));
 const SomethingPicturePage = Loadable(() => import('./SomethingPicturePage'));
-const TcCommunityHomePage = Loadable(() => import('./community/TcCommunityHomePage'));
-const TcCommunityInfoDetailPage = Loadable(() => import('./community/TcCommunityInfoDetailPage'));
-const TcCommunityLikesPage = Loadable(() => import('./community/TcCommunityLikesPage'));
-const TcCommunityAddFeeds = Loadable(() => import('./community/TcCommunityAddFeeds'));
-const TcCommunityTopicPage = Loadable(() => import('./community/TcCommunityTopicPage'));
-const TcUserInfo = Loadable(() => import('./userinfo/TcUserInfo'));
-const TcUserFollowPage = Loadable(() => import('./userinfo/TcUserFollowPage'));
-const TcUserTagsPage = Loadable(() => import('./userinfo/TcUserTagsPage'));
-const TcUserInfoEdit = Loadable(() => import('./userinfo/TcUserInfoEdit'));
+const TcDocDownPage = Loadable(() => import('./TcDocDownPage'));
+const SoftwareBuy = Loadable(() => import('./thinkscanSeries/softwareBuy'));
+
+const Activity1 = Loadable(() => import('./activity/Activity1'));
+
+// const TcCommunityHomePage = Loadable(() => import('./community/TcCommunityHomePage'));
+// const TcCommunityInfoDetailPage = Loadable(() => import('./community/TcCommunityInfoDetailPage'));
+// const TcCommunityLikesPage = Loadable(() => import('./community/TcCommunityLikesPage'));
+// const TcCommunityAddFeeds = Loadable(() => import('./community/TcCommunityAddFeeds'));
+// const TcCommunityTopicPage = Loadable(() => import('./community/TcCommunityTopicPage'));
+// const TcCommunitySearchPage = Loadable(() => import('./community/TcCommunitySearchPage'));
+// const TcUserInfo = Loadable(() => import('./userinfo/TcUserInfo'));
+// const TcUserFollowPage = Loadable(() => import('./userinfo/TcUserFollowPage'));
+// const TcUserTagsPage = Loadable(() => import('./userinfo/TcUserTagsPage'));
+// const TcUserInfoEdit = Loadable(() => import('./userinfo/TcUserInfoEdit'));
+
 // const SelectLang = Loadable(() => import('./components/SelectLang'));
 const Home = Loadable(() => import('./Home'));
-
-
-
-// import NoMatch from './NoMatch'
-// import Login from './Login'
-// import ForgotPassword from './ForgotPassword'
-// import TcRegister from './TcRegister'
-// import OrderPage from './OrderPage'
-// import OrderListPage from './OrderListPage'
-// import OrederListDetailPage from './OrederListDetailPage'
-// import ProductPage from './ProductPage'
-// import ProductBuyPage from './ProductBuyPage'
-// import HistoryTask from './HistoryTask'
-// import AboutPage from './AboutPage'
-// import NewsPage from './NewsPage'
-// import NewsDetailPage from './NewsDetailPage'
-// import PMessagePage from './PMessagePage'
-// import FAQPage from './FAQPage'
-// import VideoPage from './VideoPage'
-// import RedemptionPage from './RedemptionPage'
-// import MomentsPage from './MomentsPage'
-// import CoveragePage from './CoveragePage'
-// import ThinkStorePage from './ThinkStorePage'
-// import PointDetail from './PointDetail'
-// import SomethingPicturePage from './SomethingPicturePage'
-// import TcCommunityHomePage from './community/TcCommunityHomePage'
-// import TcCommunityInfoDetailPage from './community/TcCommunityInfoDetailPage'
-// import TcCommunityLikesPage from './community/TcCommunityLikesPage'
-// import TcCommunityAddFeeds from './community/TcCommunityAddFeeds'
-// import TcCommunityTopicPage from './community/TcCommunityTopicPage'
-// import TcUserInfo from './userinfo/TcUserInfo'
-// import TcUserFollowPage from './userinfo/TcUserFollowPage'
-// import TcUserTagsPage from './userinfo/TcUserTagsPage'
-// import TcUserInfoEdit from './userinfo/TcUserInfoEdit'
-// import SelectLang from '../components/SelectLang'
-// // import Register from './Register'
-// import Home from './Home'
-import HeaderThinkCar from '../components/Header'
-import FooterThinkCar from '../components/Footer'
-import Loading from '../components/Loading'
-import ScrollToTop from '../components/ScrollToTop'
-addLocaleData([...en, ...zh]);
+const Home2 = Loadable(() => import('./Home2'));
+const HeaderThinkCar = Loadable(() => import('./Header'));
+const FooterThinkCar = Loadable(() => import('./Footer'));
+const Loading = Loadable(() => import('../components/Loading'));
+const ScrollToTop = Loadable(() => import('../components/ScrollToTop'));
 
 // const history = createBrowserHistory();
 const supportsHistory = 'pushState' in window.history;
 
-const { Header, Footer, Sider, Content } = Layout;
+const { Header, Footer, Content } = Layout;
 
 message.config({
   top: 100,
@@ -119,6 +127,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       lang: sessionStorage.lang || 'en-us',
+      // lang: sessionStorage.lang || 'zh-cn',
       isFetching: false,
       antdLocaleLang: enUS,
       userLocaleLang: en_US,
@@ -127,6 +136,8 @@ class App extends React.Component {
       headerNavIsMove: false,
       buyDrawerList: { buyDrawerVisible: false, list: [] },
       initDataObj: InitData,  // 初始化商品列表数据
+      _randomPage: 'origin',
+      isthinktpms: false,
     }
     this.handleLangChange = this.handleLangChange.bind(this)//切换语言 
     this.headerShowBuy = this.headerShowBuy.bind(this)  // 加入购物车
@@ -142,8 +153,66 @@ class App extends React.Component {
 
   }
   componentDidMount () {
+    // 页面加载效果隐藏
+    // let _inbg = document.getElementById("tc_pinitbg");
+    // _inbg.style.display = 'none';
+
+
+    let _type = get_local_cache('tc_community_type');
     let _isPC = browserRedirect();
-    let _initDa = this.state.initDataObj
+    //随机页面
+    var _arrRP = [true, false];
+    var _bol = _arrRP[Math.floor(Math.random() * _arrRP.length)];
+    let _pn = _bol ? "origin" : "gogo";
+    let _lf = location.href;
+    let _ty = _isPC ? 0 : 1;
+    if (_lf.indexOf("/product/3/") != -1) {
+      _lf = _lf + "?random=" + _pn;
+    }
+    this.setState({ "_randomPage": _pn });
+
+    console.log('===_lf===', _lf);
+
+    if (_lf.indexOf("/ProductBuyPage/3") != -1) {
+      history.replace("/productbuy/3")
+    }
+
+    if (_lf.indexOf("/thinktpms") != -1) {
+      this.setState({ isthinktpms: true })
+    } else {
+      this.setState({ isthinktpms: false })
+    }
+
+    // console.log("======加载页面==========", location.href);
+    history.listen((location, action) => {
+      // 执行内容, 第一个参数是当前的location, 第二个是此次执行的动作
+      // console.log('===location, action===', location, action);
+      let _shareUrl = InitData._homeImgPath + location.pathname;
+
+      if (_shareUrl.indexOf("/thinktpms") != -1) {
+        this.setState({ isthinktpms: true })
+      } else {
+        this.setState({ isthinktpms: false })
+      }
+
+      if (_shareUrl.indexOf("/product/3/") != -1) {
+        _shareUrl = _shareUrl + "?random=" + _pn;
+      }
+      if (_type && action == 'PUSH') {
+        if (_type == 'iosapp') {
+          // 保存浏览记录
+          window.webkit.messageHandlers.saveHistoryToAPP.postMessage({ body: _shareUrl });
+        } else if (_type == 'androidapp') {
+          // appJavaScriptObject.getJavaScriptParams(_shareUrl);
+        }
+      }
+
+      _requestWebUrlOrBtnClick({ "body": { "tab": _shareUrl, "button": "historyListen", "source": _ty } });
+    });
+
+
+    let _initDa = this.state.initDataObj;
+    let _lang = this.state.lang;
     _initDa._isPcOrMobile = _isPC;
     this.setState({
       initDataObj: _initDa
@@ -151,8 +220,18 @@ class App extends React.Component {
 
     sessionStorage.appVersion = isWeiXin();
 
-    this.getGoodsList();
-    this.handleLangChange(this.state.lang)
+    let _querydata = getQueryStringArgs(), _isapp1 = false;
+    if (_querydata) {
+      _querydata.logintype && (_isapp1 = true);
+      _querydata.lang && (_lang = _querydata.lang, sessionStorage.lang = _querydata.lang, this.setState({ lang: _querydata.lang }));
+    }
+    (_type == 'iosapp' || _type == 'androidapp') && (_isapp1 = true);
+
+    !_isapp1 && this.getGoodsList();
+    this.handleLangChange(_lang);
+
+
+    _requestWebUrlOrBtnClick({ "body": { "tab": _lf, "button": "refreshAndInit", "source": _ty } });
   }
 
   getGoodsList () {
@@ -175,7 +254,7 @@ class App extends React.Component {
               var _k = getProductByLang(this.state.lang, _l) || [];
               var _find = _k.find(_item => _item.id == ob.id);
               _find && (
-                _find.name = ob.name.toUpperCase(),
+                ob.id == '7' ? _find.name = ob.name : _find.name = ob.name.toUpperCase(),
                 _find.price = ob.price,
                 _find.status = ob.status,
                 _find.smimg = ob.smimg,
@@ -304,11 +383,40 @@ class App extends React.Component {
         antdLocaleLang = zhCN;
         userLocaleLang = zh_CN;
         break;
+      case 'ru':
+        antdLocaleLang = ruRU;
+        userLocaleLang = ru_RU;
+        break;
+      case 'de':
+        antdLocaleLang = deDE;
+        userLocaleLang = de_DE;
+        break;
+      case 'es':
+        antdLocaleLang = esES;
+        userLocaleLang = es_ES;
+        break;
+      case 'fr':
+        antdLocaleLang = frFR;
+        userLocaleLang = fr_FR;
+        break;
+      case 'it':
+        antdLocaleLang = itIT;
+        userLocaleLang = it_IT;
+        break;
+      case 'ja':
+        antdLocaleLang = jaJP;
+        userLocaleLang = ja_JP;
+        break;
+      case 'pt':
+        antdLocaleLang = ptPT;
+        userLocaleLang = pt_PT;
+        break;
       default:
         antdLocaleLang = enUS;
         userLocaleLang = en_US;
         break;
     }
+
     this.setState({
       lang,
       antdLocaleLang,
@@ -569,7 +677,16 @@ class App extends React.Component {
   }
 
   render () {
-    let { isFetching, initDataObj, lang, antdLocaleLang, userLocaleLang, buyDrawerVisible, headerNavIsMove, buyDrawerList } = this.state
+    let { isFetching, initDataObj, _randomPage, lang, antdLocaleLang, userLocaleLang, buyDrawerVisible, headerNavIsMove, buyDrawerList, isthinktpms } = this.state
+    let _querydata = getQueryStringArgs(), _isapp = false;
+    let _tc_c_type = get_local_cache('tc_community_type');
+    console.log('=========isthinktpms====', isthinktpms);
+    if (_querydata) {
+      _querydata.logintype && (set_local_cache('tc_community_type', _querydata.logintype), _isapp = true);
+    }
+    if (_tc_c_type) {
+      (_tc_c_type == 'iosapp' || _tc_c_type == 'androidapp') && (_isapp = true)
+    }
     return (
       <Layout>
         <IntlProvider
@@ -599,22 +716,24 @@ class App extends React.Component {
                 <Route component={NoMatch} />
               </Switch>
             </div> */}
+              {
+                (!_isapp && !isthinktpms) && <Header className="header" >
+                  <Affix key="affixeOne" style={{ zIndex: '999' }} offsetTop={this.state.top} onChange={affixed => this.headernNavAffixMove(affixed)} >
+                    <HeaderThinkCar
+                      key="HeaderThinkCarMainKey"
+                      InitData={initDataObj}
+                      history={history}
+                      headerNavIsMove={headerNavIsMove}
+                      lang={lang}
+                      headerShowBuy={this.headerShowBuy}
+                      clearBuyCartList={this.clearBuyCartList}
+                      tcUserSignOut={this.tcUserSignOut}
+                      handleLangChange={lang => this.handleLangChange(lang)}
+                    />
+                  </Affix>
+                </Header>
+              }
 
-              <Header className="header" >
-                <Affix key="affixeOne" style={{ zIndex: '999' }} offsetTop={this.state.top} onChange={affixed => this.headernNavAffixMove(affixed)} >
-                  <HeaderThinkCar
-                    key="HeaderThinkCarMainKey"
-                    InitData={initDataObj}
-                    history={history}
-                    headerNavIsMove={headerNavIsMove}
-                    lang={lang}
-                    headerShowBuy={this.headerShowBuy}
-                    clearBuyCartList={this.clearBuyCartList}
-                    tcUserSignOut={this.tcUserSignOut}
-                    handleLangChange={lang => this.handleLangChange(lang)}
-                  />
-                </Affix>
-              </Header>
               <ScrollToTop>
                 <Content style={{ minHeight: '300px' }}>
                   <Switch>
@@ -632,12 +751,15 @@ class App extends React.Component {
                     <Route exact path="/" render={(props) => <div className="tc-home-page-main">
                       <Home {...props} InitData={initDataObj} />
                     </div>} />
-                    {/* <Route exact path="/ProductPage/:id/:tabs" component={ProductPage} /> */}
-                    <Route path="/ProductPage/:id/:tabs" render={(props) => <div className="main-content-ProductPage">
-                      <ProductPage {...props} InitData={initDataObj} />
+                    <Route exact path="/hpage" render={(props) => <div className="tc-Home2">
+                      <Home2 {...props} InitData={initDataObj} />
                     </div>} />
-                    {/* <Route exact path="/ProductBuyPage/:id" component={ProductBuyPage} headerShowBuy={this.headerShowBuy} /> */}
-                    <Route path="/ProductBuyPage/:id" render={(props) => <div className="main-content-ProductBuyPage">
+                    {/* <Route exact path="/ProductPage/:id/:tabs" component={ProductPage} /> */}
+                    <Route path="/product/:id/:tabs" render={(props) => <div className="main-content-ProductPage">
+                      <ProductPage {...props} InitData={initDataObj} randompage={_randomPage} />
+                    </div>} />
+                    {/* <Route exact path="/product/:id" component={ProductBuyPage} headerShowBuy={this.headerShowBuy} /> */}
+                    <Route path="/productbuy/:id" render={(props) => <div className="main-content-ProductBuyPage">
                       <ProductBuyPage {...props} InitData={initDataObj} headerShowBuy={this.headerShowBuy} />
                     </div>} />
                     <Route path="/order/:type/:data" render={(props) => <div className="main-content">
@@ -682,7 +804,17 @@ class App extends React.Component {
                     <Route path="/thinkstore" render={(props) => <div className="tc-thinkstore-page-route">
                       <ThinkStorePage {...props} InitData={initDataObj} />
                     </div>} />
-                    <Route path="/community" render={(props) => <div className="tc-community-page-route">
+                    <Route path="/docdown" render={(props) => <div className="tc-news-page-route">
+                      <TcDocDownPage {...props} InitData={initDataObj} />
+                    </div>} />
+                    <Route path="/software/:sn/:data" render={(props) => <div className="tc-software-page-route">
+                      <SoftwareBuy {...props} InitData={initDataObj} />
+                    </div>} />
+
+                    <Route path="/thinktpms" render={(props) => <div className="tc_avy1_main">
+                      <Activity1 {...props} />
+                    </div>} />
+                    {/* <Route path="/community" render={(props) => <div className="tc-community-page-route">
                       <TcCommunityHomePage {...props} InitData={initDataObj} />
                     </div>} />
                     <Route path="/communityinfo/:feedid" render={(props) => <div className="tc-communityinfo-page-route">
@@ -697,6 +829,9 @@ class App extends React.Component {
                     <Route path="/communitytopic/:topicid" render={(props) => <div className="tc-communitytopic-page-route">
                       <TcCommunityTopicPage {...props} InitData={initDataObj} />
                     </div>} />
+                    <Route path="/tccsearch/:type" render={(props) => <div className="tc-tccsearch-page-route">
+                      <TcCommunitySearchPage {...props} InitData={initDataObj} />
+                    </div>} />
                     <Route path="/userinfo/:userid" render={(props) => <div className="tc-userinfo-page-route">
                       <TcUserInfo {...props} InitData={initDataObj} />
                     </div>} />
@@ -708,7 +843,7 @@ class App extends React.Component {
                     </div>} />
                     <Route path="/useredit" render={(props) => <div className="tc-useredit-page-route">
                       <TcUserInfoEdit {...props} InitData={initDataObj} />
-                    </div>} />
+                    </div>} /> */}
                     <Route path="/PMessagePage/:type" component={PMessagePage} />
                     <Redirect from="/index" to="/" />
                     <Route component={NoMatch} />
@@ -717,10 +852,11 @@ class App extends React.Component {
                   <BackTop />
                 </Content>
               </ScrollToTop>
-              <Footer className=" think-car-padding0 ">
-                <FooterThinkCar history={history} className=" think-car-padding10 " />
-              </Footer>
-
+              {
+                (!_isapp && !isthinktpms) && <Footer className=" think-car-padding0 ">
+                  <FooterThinkCar history={history} className=" think-car-padding10 " />
+                </Footer>
+              }
               <HistoryTask
                 key="HistoryTaskMainKey"
                 history={history}

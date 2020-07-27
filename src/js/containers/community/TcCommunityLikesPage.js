@@ -1,10 +1,8 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
-import objectAssign from 'object-assign';//ie不支持Object.assign
-import { injectIntl, FormattedMessage, FormattedDate, defineMessages } from 'react-intl';
-import { Button, Row, Col, Card, Empty, message, List, Avatar, Spin, BackTop } from 'antd';
+import { injectIntl, FormattedMessage } from 'react-intl';
+import { Row, Col, message, List, Avatar, Spin, BackTop } from 'antd';
 import config from '../../../public/config'
-import request, { transformParas, getProductByLang, browserRedirect, get_session_cache, remove_session_cache, deepObjectMerge, getSign } from '../../../public/common'
+import { transformParas, browserRedirect, get_session_cache, remove_session_cache, getSign } from '../../../public/common'
 import Loading from '../../components/Loading'
 import InfiniteScroll from 'react-infinite-scroller';
 
@@ -155,7 +153,7 @@ class TcCommunityLikesPage extends React.Component {
   onClickFollow (_item) {
     let { likesList } = this.state;
     if (!sessionStorage.tc_access_token_token) {
-      message.error(this.props.intl.formatMessage({ id: 'tcLoginAgain' }));
+      message.error(this.props.intl.formatMessage({ id: 'tc1_7' }));
       setTimeout(() => {
         this.props.history.push('/login')
       }, 2000)
@@ -185,7 +183,7 @@ class TcCommunityLikesPage extends React.Component {
           remove_session_cache('tc_temporary_buy_car_data');
           remove_session_cache('tc_access_token_token');
         }
-        message.error(this.props.intl.formatMessage({ id: 'tcLoginAgain' }));
+        message.error(this.props.intl.formatMessage({ id: 'tc1_7' }));
         setTimeout(() => {
           this.props.history.push('/login')
         }, 2000)
@@ -215,7 +213,7 @@ class TcCommunityLikesPage extends React.Component {
       }).catch(error => {
         this.setState({
           isFetching: false
-        }, () => message.error(this.props.intl.formatMessage({ id: 'tcOperationFailure' })))
+        }, () => message.error(this.props.intl.formatMessage({ id: 'tc1_6' })))
       });
   };
 
@@ -311,7 +309,7 @@ class TcCommunityLikesPage extends React.Component {
                       onClick={() => { this.clickUserAvatar(_item) }}
                       style={{ cursor: 'pointer' }}
                       // onClick={() => { this.clickUserAvatar(_item) }}
-                      src={_item.avatar ? _item.avatar.url : InitData._homeImgPath + 'Home/img/default_avatar.jpg'}
+                      src={_item.avatar ? _item.avatar.url : InitData._homeImgPath + '/Home/img/default_avatar.jpg'}
                       alt={_item.name}
                     />
                   </Col>

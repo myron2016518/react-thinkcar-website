@@ -23,7 +23,8 @@ var antdOptions = [
     "libraryName": "antd",
     "libraryDirectory": "es",   // default: lib
     "style": true,//true:引用less，css使用css文件
-  }
+  },
+  { libraryName: "antd-mobile", style: "css" }
 ];
 
 let OUTPUT_FOLDER = 'think_car'
@@ -62,7 +63,7 @@ var config = {
     inline: true,
     proxy: {//代理服务器，配合后端服务器调试时配置
       '/Api/Index': {
-        target: 'http://tapi.mythinkcar.com/',//国内测试
+        target: 'https://tapi.mythinkcar.com/',//国内测试
         //target:'https://www.mythinkcar.com',//海外测试
         // target: 'https://www.mythinkcar.com',//海外正式
         secure: false,//若地址为https，需要设置为false
@@ -72,14 +73,28 @@ var config = {
         }
       },
       '/Api/Other': {
-        target: 'http://tapi.mythinkcar.com/',//国内测试
+        target: 'https://tapi.mythinkcar.com/',//国内测试
+        changeOrigin: true,
+        pathRewrite: {
+          //'^/collectInfo':''
+        }
+      },
+      '/Api/ThinkScanS0': {
+        target: 'https://tapi.mythinkcar.com/',//国内测试
+        changeOrigin: true,
+        pathRewrite: {
+          //'^/collectInfo':''
+        }
+      },
+      '/Api/THINKTPMSG1': {
+        target: 'https://api.mythinkcar.com/',//国内测试
         changeOrigin: true,
         pathRewrite: {
           //'^/collectInfo':''
         }
       },
       '/Api/Statistics': {
-        target: 'http://tapi.mythinkcar.com/',//国内测试
+        target: 'https://tapi.mythinkcar.com/',//国内测试
         //target:'https://www.mythinkcar.com',//海外测试
         // target: 'https://www.mythinkcar.com',//海外正式
         secure: false,//若地址为https，需要设置为false
@@ -90,6 +105,7 @@ var config = {
       },
       '/api/v2': {
         target: 'http://ithinkcar.com/',//国内测试
+        // target: 'http://tc.dadaaa.com/',//国内测试
         //target:'https://www.mythinkcar.com',//海外测试
         // target: 'https://www.mythinkcar.com',//海外正式
         secure: false,//若地址为https，需要设置为false
@@ -100,12 +116,21 @@ var config = {
       },
       '/storage/public': {
         target: 'http://ithinkcar.com/',//国内测试
+        // target: 'http://tc.dadaaa.com/',//国内测试
         secure: false,//若地址为https，需要设置为false
         changeOrigin: true,
         pathRewrite: {
           //'^/collectInfo':''
         }
-      }
+      },
+      '/api/access': {
+        target: 'http://yunying.test.ithinkcar.com/',//国外测试
+        secure: false,//若地址为https，需要设置为false
+        changeOrigin: true,
+        pathRewrite: {
+          //'^/collectInfo':''
+        }
+      },
 
     }
   },
@@ -167,8 +192,8 @@ var config = {
       //url-loader:图片、字体图标加载器，是对file-loader的上层封装,支持base64编码。传入的size（也有的写limit) 参数是告诉它图片如果不大于 25KB 的话要自动在它从属的 css 文件中转成 BASE64 字符串。
       {
         test: /\.(gif|jpg|png|ico)\??.*$/,
-        //use:['url-loader?limit=25000&name=img/[name].[ext]']//指定打包后的文件路径和名称
-        use: ['file-loader?name=img/[name].[ext]']//指定打包后的文件路径和名称
+        use: ['url-loader?limit=25000&name=img/[name].[ext]']//指定打包后的文件路径和名称
+        // use: ['file-loader?name=img/[name].[ext]']//指定打包后的文件路径和名称
       },
 
     ],
@@ -187,7 +212,7 @@ var config = {
 
     /*插件：动态生成html，在webpack完成前端资源打包以后，自动将打包后的资源路径和版本号写入HTML中，达到自动化的效果。*/
     new HtmlWebpackPlugin({
-      //favicon: 'src/img/favicon.ico', //favicon路径,通过webpack引入同时可以生成hash值
+      favicon: 'src/img/favicon.ico', //favicon路径,通过webpack引入同时可以生成hash值
       filename: 'index.html',    //生成的html存放路径，相对于 path
       template: 'src/view/index.html',    //html模板路径
       inject: true,    //允许插件修改哪些内容，包括head与body

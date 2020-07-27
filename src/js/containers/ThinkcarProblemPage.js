@@ -21,10 +21,10 @@ export default class ThinkcarProblemPage extends React.Component {
 
     return <Row>
       <Row><h1>THINKCAR Q&A</h1></Row>
-      <Row>Here are some answers to the questions you might have when you use THINKCAR. If your question is not answered here, please use the feedback feature to send an email to the THINKCAR Support Team. Thank you.</Row>
+      <Row style={{ paddingBottom: '5px' }}>Here are some answers to the questions you might have when you use THINKCAR. If your question is not answered here, please use the feedback feature to send an email to the THINKCAR Support Team. Thank you.</Row>
 
       <Collapse accordion expandIconPosition="right">
-        <Panel header={<FormattedMessage id="tcFaqQ1Title" />} key="1">
+        <Panel header={'Things to consider before and after purchase.'} key="1">
           <h4>Q: Where can I purchase a THINKCAR device?</h4>
           <p>A: THINKCAR products are sold online on our official website. www.mythinkcar.com, and (Amazon coming soon.) You may also find THINKCAR products in some brick and mortar stores.</p>
           <h4>Q: What’s the different between the THINKCAR 1 and THINKCAR 1S?</h4>
@@ -39,15 +39,15 @@ export default class ThinkcarProblemPage extends React.Component {
           <p>A: If purchased from the official THINKCAR website you have 30 days to request a refund. Contact number: 833-692-2766. If purchased from another website, please return it using the same website.</p>
 
         </Panel>
-        <Panel header={<FormattedMessage id="tcFaqQ2Title" />} key="2">
+        <Panel header={'What can THINKCAR do'} key="2">
           <p>THINKCAR is a portable sensor product, developed based on OBD II function. It supports full OBD function, full system detection, one-button code clearing and diagnosis report, real-time remote diagnosis, OBD II data recording and playback, as well as providing all kinds of maintenance information. With a community of auto enthusiast friends and technicians.</p>
           <p><span className="tc-faq-right-think1-span">Full OBDⅡ Functions:</span> Support I/M Readiness, Live Data Stream, Freeze Frame, Read Fault Code, Clear Code, Monitor Test, and more!</p>
           <p><span className="tc-faq-right-think1-span">Full Vehicle Modules San Health Report:</span> Enhanced test for full electronic control system (ABS, SRS, etc.). Full system scan works with 23 major car brands(Check the compatibility list for more information on models supported: Think Car Compatibility List). The whole vehicle diagnosis will issue a THINKCAR based report in the system. The report contains the working status of the whole vehicle all systems. If there is something irregular, the report will have a detailed fault description. The user can be more clearly understand the issue and get quicker maintenance saving time and money.</p>
           <p><span className="tc-faq-right-think1-span">Real Time Remote Diagnostics:</span> This THINKCAR exclusive feature allows technicians to diagnose vehicles and identify suspicious problems remotely.</p>
-          <p><span className="tc-faq-right-think1-span">Black Box:</span>This powerful diagnostic complement can be used in cases where you cannot duplicate the issue, Black Box can allow technicians to look at the history of your vehicle.</p>
-          <p><span className="tc-faq-right-think1-span">THINKCAR User Community: </span>The ability to help and interact with other THINKCAR users. THINKCAR users can share their experiences, diagnosis, test reports, send messages to each other and get advice or tips.</p>
+          <p><span className="tc-faq-right-think1-span">Black Box:</span> This powerful diagnostic complement can be used in cases where you cannot duplicate the issue, Black Box can allow technicians to look at the history of your vehicle.</p>
+          <p><span className="tc-faq-right-think1-span">THINKCAR User Community:</span> The ability to help and interact with other THINKCAR users. THINKCAR users can share their experiences, diagnosis, test reports, send messages to each other and get advice or tips.</p>
         </Panel>
-        <Panel header={<FormattedMessage id="tcFaqQ3Title" />} key="3">
+        <Panel header={'Setting up your THINKCAR device for the First-time'} key="3">
           <p>1) Make sure your vehicle is compatible. Vehicles which support OBD II standards after 2005. (Check the compatibility list for more information on models supported: Think Car Compatibility List).</p>
           <p>2) Install the THINKCAR APP on your smartphone and sign up for a new account. You can also sign in via Facebook or Twitter.</p>
           <p>3) Make sure your smartphone is connected to a stable network.</p>
@@ -61,7 +61,7 @@ export default class ThinkcarProblemPage extends React.Component {
           <p>10) The first time you use "Full OBD II Functions", "Full Vehicle Modules Scan Health Report" or "Real Time Remote Diagnostics", the APP will automatically download the diagnosis and detection software suitable for your vehicle. Software size is generally around 50M. Please make sure your smartphone is connected to a stable network.</p>
           <p>11) Please note the engine must be turning on, to use THINKCAR device.</p>
         </Panel>
-        <Panel header={<FormattedMessage id="tcFaqQ4Title" />} key="4">
+        <Panel header={'THINKCAR tips and tricks'} key="4">
           <h3>Vehicle-supporting Questions</h3>
           <h4>Q: Unable to use THINKCAR diagnostic function</h4>
           <p>A: Please make sure that Bluetooth is connected, if it is not, use this link to check the guide for pairing the phone in the APP: https://mythinkcar.com/home/AppPush/thinkcar</p>
@@ -146,7 +146,7 @@ The main function of the black box is to record live data while driving. The dat
           <p>A: Once you create an account on the THINKCAR app you can send out an invitation code. Each person that uses your code will receive $10 off the purchase of a THINKCAR product on the office website. Each time your code is use you will receive 2 points in your account.</p>
 
         </Panel>
-        <Panel header={<FormattedMessage id="tcFaqQ5Title" />} key="5">
+        <Panel header={'Questions about the THINKCAR Hardware'} key="5">
           <h4>Q: What size is the THINKCAR 1 and 1S? (inch)</h4>
           <p>A: Size: 1.59 inches x 1.79 inches x .88 inches.(39mm x 45.5mm x 22.4mm)</p>
           <h4>Q: Does my THINKCAR device need to be charged? How about the power consumption, is it safe?</h4>
@@ -168,7 +168,7 @@ The main function of the black box is to record live data while driving. The dat
           <h4>Q: Does my THINKCAR device use my car's Bluetooth?</h4>
           <p>A: No, it does not.</p>
         </Panel>
-        <Panel header={<FormattedMessage id="tcFaqQ6Title" />} key="6">
+        <Panel header={'FAQ about THINKCAR APP'} key="6">
           <h4>Q: Where can I download the THINKCAR APP?</h4>
           <p>A: You can search for "THINKCAR" in Google Play, App Store or log in to <a>www.mythinkcar.com</a>.</p>
           <h4>Q: Can I download THINKCAR APP with my phone?</h4>
@@ -191,7 +191,7 @@ The main function of the black box is to record live data while driving. The dat
           <h4>Q: How can I update my app?</h4>
           <p>A: When there is a new version of the app, you will be able to update them the same way as your other apps. From the Google play or Apple app store. </p>
         </Panel>
-        <Panel header={<FormattedMessage id="tcFaqQ7Title" />} key="7">
+        <Panel header={'Professional perspective diagnostics tips'} key="7">
           <h4>Q: What is the fault code?</h4>
           <p>A: Vehicle fault code is the code reflected by the vehicle computer ECU analysis if there is anything wrong. THINKCAR can scan, clear and explain the system fault codes defined by both standard OBD II and manufactory code.</p>
           <h4>Q: What is OBD?</h4>
@@ -200,7 +200,7 @@ The main function of the black box is to record live data while driving. The dat
           <h4>Q: Where is my OBDII port?</h4>
           <p>A: The OBDII ports are typically below the driver's side of the dashboard, and vary from car to car, either above the accelerator pedal or in front of the lever. Some models have caps on their OBDII ports, while the usual OBDII ports are black, white, or blue. If you can't find it, you can contact the seller, the service provider, or look up the car manual.</p>
         </Panel>
-        <Panel header={<FormattedMessage id="tcFaqQ8Title" />} key="8">
+        <Panel header={'Things you should consider when using THINKCAR '} key="8">
           <h4>Q: How do I protect my privacy?</h4>
           <p>A: We have a strict privacy policy, which is protected by comprehensive technology.</p>
           <h4>Q: Will my vehicle data be known by others?</h4>

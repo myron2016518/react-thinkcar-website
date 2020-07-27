@@ -1,14 +1,13 @@
 import React from 'react'
-//import {Link} from 'react-router-dom'
-import objectAssign from 'object-assign';//ie不支持Object.assign
-import { injectIntl, FormattedMessage, FormattedDate, defineMessages } from 'react-intl';
-import { Button, Row, Col, Icon, Collapse, Radio, Empty } from 'antd';
-import request, { transformStatus, transformTime, getProductByLang } from '../../public/common'
+import { injectIntl, FormattedMessage } from 'react-intl';
+import { Row, Col, Empty } from 'antd';
 import Loading from '../components/Loading'
-import ThinkcarProblemPage from './ThinkcarProblemPage'
-import ThinkDiagProblemPage from './ThinkDiagProblemPage'
+import Loadable from '../components/loadable'
+// import ThinkcarProblemPage from './ThinkcarProblemPage'
+// import ThinkDiagProblemPage from './ThinkDiagProblemPage'
 
-const { Panel } = Collapse;
+const ThinkcarProblemPage = Loadable(() => import('./ThinkcarProblemPage'));
+const ThinkDiagProblemPage = Loadable(() => import('./ThinkDiagProblemPage'));
 
 class FAQPage extends React.Component {
   constructor(props, context) {
@@ -48,13 +47,7 @@ class FAQPage extends React.Component {
         </Row>
         <Row className="tc-faq-info">
           <Col span={6} className="tc-mobile-col-widthmax">
-            {/* <Row className="tc-faq-info-left-title">MODEL</Row> */}
-            {/* <Radio.Group defaultValue="a" buttonStyle="solid">
-              <Row> <Radio.Button value="a">Hangzhou</Radio.Button></Row>
-              <Row> <Radio.Button value="b">Shanghai</Radio.Button></Row>
-              <Row> <Radio.Button value="c">Beijing</Radio.Button></Row>
-              <Row> <Radio.Button value="d">Chengdu</Radio.Button></Row>
-            </Radio.Group> */}
+
             <ul className="tc-faq-info-left tc-mobile-clear-paddingbottom">
               <li className="tc-faq-info-left-title"><FormattedMessage id="tcFaqTitleModel" /></li>
               <li onClick={() => this.onClickModel('one')} className={chooseModel === 'one' ? "tc-faq-info-left-list tc-fqa-model-choose" : "tc-faq-info-left-list"}><FormattedMessage id="tcThinkcar1and1s" /></li>

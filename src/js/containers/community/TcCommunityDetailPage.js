@@ -1,13 +1,16 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
-import objectAssign from 'object-assign';//ie不支持Object.assign
-import { injectIntl, FormattedMessage, FormattedDate, defineMessages } from 'react-intl';
-import { Button, Row, Col, Comment, Icon, Tooltip, Avatar, Divider, message, Drawer, Input, Modal } from 'antd';
-import Zmage from 'react-zmage'
-import { Player } from 'video-react';
+import { injectIntl, FormattedMessage } from 'react-intl';
+import { Button, Row, Col, Icon, Avatar, Divider, message, Drawer, Input, Modal } from 'antd';
+import Loadable from '../../components/loadable'
 import config from '../../../public/config'
-import { dateFormat, isURL, browserRedirect, scrollIntoTop, transformParas, get_session_cache, remove_session_cache, tcReplaceUrl } from '../../../public/common'
+import { dateFormat, isURL, tcShareUrl, browserRedirect, scrollIntoTop, transformParas, get_local_cache, get_session_cache, remove_session_cache, tcReplaceUrl } from '../../../public/common'
 import Loading from '../../components/Loading'
+// import TcPopUpLayer from '../../components/TcPopUpLayer'
+// import TcModalImageRIG from '../../components/TcModalImageRIG'
+import { Player } from 'video-react';
+
+const TcPopUpLayer = Loadable(() => import('../../components/TcPopUpLayer'));
+const TcModalImageRIG = Loadable(() => import('../../components/TcModalImageRIG'));
 
 import "video-react/dist/video-react.css";
 const { confirm } = Modal;
@@ -20,6 +23,7 @@ class TcCommunityDetailPage extends React.Component {
       isFetching: false,
       isCurrentUser: false,
       has_like: false,
+      like_count: 0,
       visibleCommunityDrawer: false,
       commentTxt: '',
       commentInfo: {
@@ -51,6 +55,8 @@ class TcCommunityDetailPage extends React.Component {
     this.deleteFeeds = this.deleteFeeds.bind(this)
     this.getFeedByRepostableid = this.getFeedByRepostableid.bind(this)  // 获取转发的动态信息
     this._getPictureList = this._getPictureList.bind(this)
+    this.showShareReportImg = this.showShareReportImg.bind(this)
+    this.showModalImg = this.showModalImg.bind(this)
 
   }
   componentDidMount () {
@@ -68,11 +74,15 @@ class TcCommunityDetailPage extends React.Component {
       _isCurr = false;
     } else {
       let _userInfo = JSON.parse(_getSeuserInfo);
-      _userInfo.id == props.itemdata.user.id && (_isCurr = true)
+      if (_userInfo) {
+        _userInfo.id == props.itemdata.user.id && (_isCurr = true)
+      }
+
     }
     this.setState({
       isCurrentUser: _isCurr,
       has_like: props.itemdata.has_like,
+      like_count: parseInt(props.itemdata.like_count) || 0,
       commentAddList: props.itemdata.comments || [],
     }, () => {
       props.itemdata.repostable_id != 0 && this.getFeedByRepostableid(props.itemdata.repostable_id);
@@ -80,9 +90,9 @@ class TcCommunityDetailPage extends React.Component {
   }
 
   getFeedByRepostableid (_id) {
-    this.setState({
-      isFetching: true
-    })
+    // this.setState({
+    //   isFetching: true
+    // })
     let _headers = {
       'Accept': 'application/json, text/plain, */*',
       'Content-type': 'application/x-www-form-urlencoded;charset=UTF-8'
@@ -117,9 +127,10 @@ class TcCommunityDetailPage extends React.Component {
     console.log('===clickUserAvatar===', _item);
     this.props.history.push('/userinfo/' + _item.id)
   }
-  clickDetail (_item) {
+  clickDetail (_item, _anchor) {
     console.log('===clickDetail===', _item);
-    this.props.history.push('/communityinfo/' + _item)
+    let _path = _anchor ? `/communityinfo/${_item}${_anchor}` : `/communityinfo/${_item}`;
+    this.props.history.push(_path)
   }
   clickTopics (_item) {
     console.log('===clickTopics===', _item);
@@ -134,7 +145,7 @@ class TcCommunityDetailPage extends React.Component {
   clickComment (_id, _name, _type, _item) {
     console.log('===clickComment===', _id, _name, _type);
     if (!sessionStorage.tc_access_token_token) {
-      message.error(this.props.intl.formatMessage({ id: 'tcLoginAgain' }));
+      message.error(this.props.intl.formatMessage({ id: 'tc1_7' }));
       setTimeout(() => {
         this.props.history.push('/login')
       }, 2000)
@@ -160,7 +171,7 @@ class TcCommunityDetailPage extends React.Component {
 
   clickLike () {
     if (!sessionStorage.tc_access_token_token) {
-      message.error(this.props.intl.formatMessage({ id: 'tcLoginAgain' }));
+      message.error(this.props.intl.formatMessage({ id: 'tc1_7' }));
       setTimeout(() => {
         this.props.history.push('/login')
       }, 2000)
@@ -191,7 +202,7 @@ class TcCommunityDetailPage extends React.Component {
           remove_session_cache('tc_temporary_buy_car_data');
           remove_session_cache('tc_access_token_token');
         }
-        message.error(this.props.intl.formatMessage({ id: 'tcLoginAgain' }));
+        message.error(this.props.intl.formatMessage({ id: 'tc1_7' }));
         setTimeout(() => {
           this.props.history.push('/login')
         }, 2000)
@@ -204,18 +215,19 @@ class TcCommunityDetailPage extends React.Component {
         this.setState({
           isFetching: false,
           has_like: !this.state.has_like,
+          like_count: this.state.has_like ? this.state.like_count - 1 : this.state.like_count + 1,
         });
       }).catch(error => {
         this.setState({
           isFetching: false
-        }, () => message.error(this.props.intl.formatMessage({ id: 'tcOperationFailure' })))
+        }, () => message.error(this.props.intl.formatMessage({ id: 'tc1_6' })))
       });
 
 
   };
   deleteFeeds () {
     if (!sessionStorage.tc_access_token_token) {
-      message.error(this.props.intl.formatMessage({ id: 'tcLoginAgain' }));
+      message.error(this.props.intl.formatMessage({ id: 'tc1_7' }));
       setTimeout(() => {
         this.props.history.push('/login')
       }, 2000)
@@ -247,7 +259,7 @@ class TcCommunityDetailPage extends React.Component {
           remove_session_cache('tc_temporary_buy_car_data');
           remove_session_cache('tc_access_token_token');
         }
-        message.error(this.props.intl.formatMessage({ id: 'tcLoginAgain' }));
+        message.error(this.props.intl.formatMessage({ id: 'tc1_7' }));
         setTimeout(() => {
           this.props.history.push('/login')
         }, 2000)
@@ -265,7 +277,7 @@ class TcCommunityDetailPage extends React.Component {
       }).catch(error => {
         this.setState({
           isFetching: false
-        }, () => message.error(this.props.intl.formatMessage({ id: 'tcOperationFailure' })))
+        }, () => message.error(this.props.intl.formatMessage({ id: 'tc1_6' })))
       });
 
 
@@ -288,7 +300,19 @@ class TcCommunityDetailPage extends React.Component {
         },
       });
     } else {
-
+      let _type = get_local_cache('tc_community_type');
+      // let _shareUrl = this.props.InitData._homeImgPath + '/communityinfo/' + this.props.itemdata.id;
+      let _shareUrl = this.props.InitData._appSharePath + tcShareUrl(this.props.itemdata.id);
+      if (_type) {
+        if (_type == 'iosapp') {
+          window.webkit.messageHandlers.sendParamsToAPP.postMessage({ body: _shareUrl });
+        } else if (_type == 'androidapp') {
+          appJavaScriptObject.getJavaScriptParams(_shareUrl);
+        }
+      } else {
+        // message.destroy()
+        message.warning(this.props.intl.formatMessage({ id: 'tc12' }))
+      }
     }
   }
 
@@ -316,7 +340,7 @@ class TcCommunityDetailPage extends React.Component {
         scrollIntoTop();
       }, 0)
     if (!sessionStorage.tc_access_token_token) {
-      message.error(this.props.intl.formatMessage({ id: 'tcLoginAgain' }));
+      message.error(this.props.intl.formatMessage({ id: 'tc1_7' }));
       setTimeout(() => {
         this.props.history.push('/login')
       }, 2000)
@@ -355,7 +379,7 @@ class TcCommunityDetailPage extends React.Component {
           remove_session_cache('tc_temporary_buy_car_data');
           remove_session_cache('tc_access_token_token');
         }
-        message.error(this.props.intl.formatMessage({ id: 'tcLoginAgain' }));
+        message.error(this.props.intl.formatMessage({ id: 'tc1_7' }));
         setTimeout(() => {
           this.props.history.push('/login')
         }, 2000)
@@ -379,7 +403,7 @@ class TcCommunityDetailPage extends React.Component {
         console.log();
         this.setState({
           isFetching: false
-        }, () => message.error(this.props.intl.formatMessage({ id: 'tcOperationFailure' })))
+        }, () => message.error(this.props.intl.formatMessage({ id: 'tc1_6' })))
       });
 
   };
@@ -411,18 +435,18 @@ class TcCommunityDetailPage extends React.Component {
       _html = <Row className="tc-com-detail-img-main" gutter={2} >
         {
           itemdata.images.map((_item, _idx) => {
-            let _ig = InitData._tcCommImgPath + _item.file;
-            return <Col span={6} key={'tc-com-detail-img' + _item.file + _idx} style={{ paddingBottom: '3px' }}><Zmage
-              src={_ig}
-              alt={_item.mime}
-              set={_imgList}
-              preset={'mobile'}
-              defaultPage={this.state.imgListIndx}
-              onClick={(thi) => {
-                this.setState({ imgListIndx: _idx })
-              }}
-
-            />
+            // let _ig = InitData._tcCommImgPath + _item.file + "?r=" + new Date().getTime();
+            return <Col span={6} key={'tc-com-detail-img' + _item.file + _idx} style={{ paddingBottom: '3px' }}>
+              <img
+                alt={"img"}
+                className='think-car-home-price-img'
+                src={_item.filename}
+                onClick={() => {
+                  this.setState({ imgListIndx: _idx }, () => {
+                    this.showModalImg();
+                  })
+                }}
+              />
             </Col>
           })}
       </Row>
@@ -430,20 +454,19 @@ class TcCommunityDetailPage extends React.Component {
       _html = <Row className="tc-com-detail-img-main">
         {
           itemdata.images.map((_item, _idx) => {
-            let _ig = InitData._tcCommImgPath + _item.file;
-            return <Zmage
+            // let _ig = InitData._tcCommImgPath + _item.file + "?r=" + new Date().getTime();
+
+            return <img
               key={'tc-com-detail-img' + _item.file + _idx}
-              style={{ paddingBottom: '3px' }}
-              src={_ig}
-              alt={_item.mime}
-              set={_imgList}
-              preset={'mobile'}
-              defaultPage={this.state.imgListIndx}
-              onClick={(thi) => {
-                this.setState({ imgListIndx: _idx })
+              alt={"img"}
+              className='think-car-home-price-img'
+              src={_item.filename}
+              onClick={() => {
+                this.setState({ imgListIndx: _idx }, () => {
+                  this.showModalImg();
+                })
               }}
             />
-
           })}
       </Row>
     }
@@ -452,13 +475,24 @@ class TcCommunityDetailPage extends React.Component {
 
   }
 
+  showShareReportImg () {
+    console.log('===showShareReportImg==');
+    this.refs.tcPopUpLayer.showModal()
+  }
+  showModalImg () {
+    console.log('===showModalImg==');
+    this.refs.tcModalImageRIG.showModal();
+    this.refs.tcModalImageRIG.carouselGoto(this.state.imgListIndx);
+    this.props.swipeablechange(false);
+
+  }
   render () {
-    let { isFetching, has_like, visibleCommunityDrawer, commentInputPr, commentAddList, commentType, isCurrentUser, repostableInfo } = this.state;
+    let { isFetching, has_like, visibleCommunityDrawer, commentInputPr, commentAddList, commentType, isCurrentUser, repostableInfo, like_count } = this.state;
     let { InitData, intl, itemdata } = this.props;
     const gutter = 16;
     let _isMob = browserRedirect();
-    let _avatarUrl = itemdata.user.avatar ? itemdata.user.avatar.url : InitData._homeImgPath + 'Home/img/default_avatar.jpg';
-    let _isUrl = isURL(itemdata.feed_content);
+    let _avatarUrl = itemdata.user.avatar ? itemdata.user.avatar.url : InitData._homeImgPath + '/Home/img/default_avatar.jpg';
+    // let _isUrl = isURL(itemdata.feed_content);
 
 
     let _repostableHtml = '';
@@ -466,6 +500,23 @@ class TcCommunityDetailPage extends React.Component {
       _repostableHtml = <span className="tc-repostable-txt" >{repostableInfo.feed_content}</span>;
       repostableInfo.images.length > 0 && (_repostableHtml = <span ><Icon theme="twoTone" type="picture" style={{ padding: '0 2%', verticalAlign: 'middle' }} /><span className="tc-repostable-txt"><FormattedMessage id="tcAddFeedViewPicture" /></span></span>)
       repostableInfo.video && (_repostableHtml = <span ><Icon theme="twoTone" type="play-square" style={{ paddin: '0 2%', verticalAlign: 'middle' }} /><span className="tc-repostable-txt"><FormattedMessage id="tcAddFeedViewVideo" /></span></span>)
+    }
+    let _imgListRIG = [];
+    itemdata.images.map((_im) => {
+      // let _ig = InitData._tcCommImgPath + _im.file;
+      _imgListRIG.push({ "id": _im.file, "url": _im.filename })
+    })
+
+    // 处理 是否 http://aws.ithinkcar.com/Home/Index/shareReport 加入iframe 显示
+    let _isShareReport = '';
+    if (itemdata.feed_content) {
+      if (itemdata.feed_content.indexOf('http://aws.ithinkcar.com') != -1 ||
+        itemdata.feed_content.indexOf('https://aws.ithinkcar.com') != -1) {
+        var re = /(https?:\/\/|ftps?:\/\/)?((\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(:[0-9]+)?|(localhost)(:[0-9]+)?|([\w]+\.)(\S+)(\w{2,4})(:[0-9]+)?)(\/?([\w#!:.?+=&%@!\-\/]+))?/ig;
+        itemdata.feed_content.replace(re, function (a) {
+          _isShareReport = a;
+        });
+      }
     }
 
     return (
@@ -514,7 +565,22 @@ class TcCommunityDetailPage extends React.Component {
             {/* <p onClick={() => { this.clickDetail(itemdata.id) }} className="tc-com-detail-content"> {tcReplaceUrl(itemdata.feed_content)}</p> */}
             <p dangerouslySetInnerHTML={{ __html: tcReplaceUrl(itemdata.feed_content) }} className="tc-com-detail-content"></p>
           </Row>
-
+          {
+            _isShareReport != '' && <Row>
+              <iframe
+                className="tc-mobile-ShareReport-iframe"
+                src={_isShareReport}
+                width="100%"
+                style={{ height: '300px' }}
+                frameBorder="0"
+                scrolling="auto"
+              ></iframe>
+              <Row onClick={this.showShareReportImg} style={{
+                height: '300px', width: '100%', position: 'absolute',
+                top: '0'
+              }}></Row>
+            </Row>
+          }
           {/* 图片显示 */}
           {itemdata.images.length > 0 && this._getPictureList()
           }
@@ -555,7 +621,7 @@ class TcCommunityDetailPage extends React.Component {
 
           {/* 点赞数、评论数量、转发数量、浏览数量 */}
           <Row className="tc-com-detail-feed-main">
-            {itemdata.like_count}<FormattedMessage id="tcLikes" /> ·
+            {like_count}<FormattedMessage id="tcLikes" /> ·
             {' ' + itemdata.feed_comment_count}<FormattedMessage id="tcComments" /> ·
             {' ' + itemdata.feed_repost_count}<FormattedMessage id="tcForwards" /> ·
             {' ' + itemdata.feed_view_count}<FormattedMessage id="tcViews" />
@@ -613,7 +679,7 @@ class TcCommunityDetailPage extends React.Component {
             } */}
             {
               itemdata.feed_comment_count > 5 &&
-              <Row onClick={() => { this.clickDetail(itemdata.id) }} className="tc-cdclm-feed_comment_count">
+              <Row onClick={() => { this.clickDetail(itemdata.id, "#tc_cdcl_DocID") }} className="tc-cdclm-feed_comment_count">
                 <FormattedMessage id="tcCommunityDeatilTipe2" />
                 {itemdata.feed_comment_count}
                 <FormattedMessage id="tcCommunityDeatilTipe3" />
@@ -644,7 +710,7 @@ class TcCommunityDetailPage extends React.Component {
             </Row> :
               <Row>
                 <Button style={{ width: '100%', color: '#286dad', marginBottom: '2%' }} onClick={this.onSubmitComment} ><FormattedMessage id="tcCommentDeleteComment" /></Button>
-                <Button style={{ width: '100%' }} onClick={this.onCloseCommunityDrawer} ><FormattedMessage id="tcMessageTitlePaycancel" /></Button>
+                <Button style={{ width: '100%' }} onClick={this.onCloseCommunityDrawer} ><FormattedMessage id="tc5" /></Button>
               </Row>
           }
 
@@ -654,6 +720,15 @@ class TcCommunityDetailPage extends React.Component {
           </p> */}
         </Drawer>
 
+        <TcModalImageRIG
+          ref="tcModalImageRIG"
+          tcimglist={_imgListRIG}
+          tctitle={''}
+          tcstyle={{ height: '500px', width: "100%" }}
+          swipeablechange={this.props.swipeablechange}
+        // tcmheight={'70%'}
+        />
+        <TcPopUpLayer ref="tcPopUpLayer" tcpath={_isShareReport} tctitle={''} tcstyle={{ height: '500px' }} />
         <Loading loading={isFetching} />
       </div >
     )

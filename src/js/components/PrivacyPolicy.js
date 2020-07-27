@@ -32,7 +32,7 @@ export default class PrivacyPolicy extends React.Component {
     }
     return <div>
       <Modal
-        title={<FormattedMessage id="tcPrivacyPolicy" />}
+        title={<FormattedMessage id="tc1_1" />}
         visible={this.state.visible}
         onOk={this.closeModal}
         onCancel={this.closeModal}

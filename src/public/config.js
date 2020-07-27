@@ -45,6 +45,12 @@ const config = {
   tcGetRefereeList: '/Api/Other/getRefereeList',  // 系统推荐人接口
 
 
+  getSoftWareList: '/Api/ThinkScanS0/getSoftWareList',  // 获取可以购买的软件信息列表
+  getSoftWareCreateOrder: '/Api/ThinkScanS0/createOrder',  // 创建订单接口-软件
+
+
+  getTHINKTPMSG1: '/Api/THINKTPMSG1/index',  // 提交众筹预热邮箱（海外）
+
 }
 
 

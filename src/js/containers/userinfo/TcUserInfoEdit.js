@@ -1,6 +1,4 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
-import objectAssign from 'object-assign';//ie不支持Object.assign
 import 'es6-promise';//fetch是基于Promise来实现的，所以还需要Promise的polyfillpromise的polyfill
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { Form, Icon, Input, Button, Drawer, message, Select, Row, Avatar, Radio, Tag, Upload, Divider, Col } from 'antd';
@@ -67,7 +65,7 @@ class TcUserInfoEditForm extends React.Component {
   initFun (props) {
     var _getSeuserInfo = get_session_cache('tc_temporary_user_info');
     if (!sessionStorage.tc_access_token_token || !_getSeuserInfo) {
-      message.error(this.props.intl.formatMessage({ id: 'tcLoginAgain' }));
+      message.error(this.props.intl.formatMessage({ id: 'tc1_7' }));
       setTimeout(() => {
         this.props.history.push('/login')
       }, 2000)
@@ -95,7 +93,7 @@ class TcUserInfoEditForm extends React.Component {
   editUserInfo () {
     const { getFieldValue } = this.props.form;
     if (!sessionStorage.tc_access_token_token) {
-      message.error(this.props.intl.formatMessage({ id: 'tcLoginAgain' }));
+      message.error(this.props.intl.formatMessage({ id: 'tc1_7' }));
       setTimeout(() => {
         this.props.history.push('/login')
       }, 2000)
@@ -133,7 +131,7 @@ class TcUserInfoEditForm extends React.Component {
           remove_session_cache('tc_temporary_buy_car_data');
           remove_session_cache('tc_access_token_token');
         }
-        message.error(this.props.intl.formatMessage({ id: 'tcLoginAgain' }));
+        message.error(this.props.intl.formatMessage({ id: 'tc1_7' }));
         setTimeout(() => {
           this.props.history.push('/login')
         }, 2000)
@@ -146,13 +144,13 @@ class TcUserInfoEditForm extends React.Component {
         this.setState({
           isFetching: false,
         }, () => {
-          message.success(this.props.intl.formatMessage({ id: 'tcForgotPasswordSuccess' }))
+          message.success(this.props.intl.formatMessage({ id: 'tc2_17' }))
         });
 
       }).catch(error => {
         this.setState({
           isFetching: false
-        }, () => message.error(this.props.intl.formatMessage({ id: 'tcOperationFailure' })))
+        }, () => message.error(this.props.intl.formatMessage({ id: 'tc1_6' })))
       });
 
   }
@@ -160,7 +158,7 @@ class TcUserInfoEditForm extends React.Component {
   onGetUserInfo () {
     const { form, InitData } = this.props;
     if (!sessionStorage.tc_access_token_token) {
-      message.error(this.props.intl.formatMessage({ id: 'tcLoginAgain' }));
+      message.error(this.props.intl.formatMessage({ id: 'tc1_7' }));
       setTimeout(() => {
         this.props.history.push('/login')
       }, 2000)
@@ -186,7 +184,7 @@ class TcUserInfoEditForm extends React.Component {
           remove_session_cache('tc_temporary_buy_car_data');
           remove_session_cache('tc_access_token_token');
         }
-        message.error(this.props.intl.formatMessage({ id: 'tcLoginAgain' }));
+        message.error(this.props.intl.formatMessage({ id: 'tc1_7' }));
         setTimeout(() => {
           this.props.history.push('/login')
         }, 2000)
@@ -201,7 +199,7 @@ class TcUserInfoEditForm extends React.Component {
         this.setState({
           isFetching: false,
           userInfo: _data,
-          imageUrl: _data.avatar != null ? _data.avatar.url : InitData._homeImgPath + 'Home/img/default_avatar.jpg',
+          imageUrl: _data.avatar != null ? _data.avatar.url : InitData._homeImgPath + '/Home/img/default_avatar.jpg',
         }, () => {
           form.setFieldsValue({
             'username': _data.name,
@@ -215,13 +213,13 @@ class TcUserInfoEditForm extends React.Component {
         console.log('eeeee');
         this.setState({
           isFetching: false
-        }, () => message.error(this.props.intl.formatMessage({ id: 'tcOperationFailure' })))
+        }, () => message.error(this.props.intl.formatMessage({ id: 'tc1_6' })))
       });
   };
 
   getCurrentUserTags () {
     if (!sessionStorage.tc_access_token_token) {
-      message.error(this.props.intl.formatMessage({ id: 'tcLoginAgain' }));
+      message.error(this.props.intl.formatMessage({ id: 'tc1_7' }));
       setTimeout(() => {
         this.props.history.push('/login')
       }, 2000)
@@ -247,7 +245,7 @@ class TcUserInfoEditForm extends React.Component {
           remove_session_cache('tc_temporary_buy_car_data');
           remove_session_cache('tc_access_token_token');
         }
-        message.error(this.props.intl.formatMessage({ id: 'tcLoginAgain' }));
+        message.error(this.props.intl.formatMessage({ id: 'tc1_7' }));
         setTimeout(() => {
           this.props.history.push('/login')
         }, 2000)
@@ -266,7 +264,7 @@ class TcUserInfoEditForm extends React.Component {
       }).catch(error => {
         this.setState({
           isFetching: false
-        }, () => message.error(this.props.intl.formatMessage({ id: 'tcOperationFailure' })))
+        }, () => message.error(this.props.intl.formatMessage({ id: 'tc1_6' })))
       });
   };
 
@@ -401,10 +399,10 @@ class TcUserInfoEditForm extends React.Component {
     if (!isJpgOrPng) {
       message.error('You can only upload JPG/PNG file!');
     }
-    const isLt2M = file.size / 1024 / 1024 < 2;
-    if (!isLt2M) {
-      message.error('Image must smaller than 2MB!');
-    }
+    // const isLt2M = file.size / 1024 / 1024 < 2;
+    // if (!isLt2M) {
+    //   message.error('Image must smaller than 2MB!');
+    // }
     // return isJpgOrPng && isLt2M;
     return isJpgOrPng;
   }
@@ -419,7 +417,7 @@ class TcUserInfoEditForm extends React.Component {
       // Get this url from response in real world.
 
       if (!sessionStorage.tc_access_token_token) {
-        message.error(this.props.intl.formatMessage({ id: 'tcLoginAgain' }));
+        message.error(this.props.intl.formatMessage({ id: 'tc1_7' }));
         setTimeout(() => {
           this.props.history.push('/login')
         }, 2000)
@@ -433,6 +431,7 @@ class TcUserInfoEditForm extends React.Component {
       let _urlindex = _urlTxt.lastIndexOf(_sub)
       _urlTxt = _urlTxt.substring(_urlindex + _sub.length, _urlTxt.length);
       let url = config.tcFilesStorage + _urlTxt;
+      // url = info.file.response.uri + '&Hash=' + info.file.response.headers['x-plus-storage-hash'] + '&size=' + info.file.response.headers['x-plus-storage-size'] + '&mime_type=' + info.file.response.headers['x-plus-storage-mime-type'] + '&storage[channel]=local';
 
       let _d = new FormData();
       _d.append('file', info.file.originFileObj);
@@ -440,16 +439,16 @@ class TcUserInfoEditForm extends React.Component {
       _d.append('Hash', info.file.response.headers['x-plus-storage-hash']);
       _d.append('size', info.file.response.headers['x-plus-storage-size']);
       _d.append('mime_type', info.file.response.headers['x-plus-storage-mime-type']);
-      _d.append('storage[channel]', 'public');
+      _d.append('storage[channel]', 'local');
       // _headers['Content-type'] = 'multipart/form-data;'
       // _headers.Accept = '*/*'
-      _headers['Content-Disposition'] = "attachment;filename=" + info.file.name;
-      _headers['Content-Md5'] = info.file.response.headers['x-plus-storage-hash'];
-      _headers['Content-Length'] = info.file.response.headers['x-plus-storage-size'];
+      // _headers['Content-Disposition'] = "attachment;filename=" + info.file.name;
+      // _headers['Content-Md5'] = info.file.response.headers['x-plus-storage-hash'];
+      // _headers['Content-Length'] = info.file.response.headers['x-plus-storage-size'];
       // _headers['Content-Type'] = info.file.response.headers['x-plus-storage-mime-type'];
       let _options = {
         method: info.file.response.method || 'POST',
-        credentials: 'include',
+        // credentials: 'include',
         headers: _headers,
         body: _d,
       }
@@ -463,7 +462,7 @@ class TcUserInfoEditForm extends React.Component {
             remove_session_cache('tc_temporary_buy_car_data');
             remove_session_cache('tc_access_token_token');
           }
-          message.error(this.props.intl.formatMessage({ id: 'tcLoginAgain' }));
+          message.error(this.props.intl.formatMessage({ id: 'tc1_7' }));
           setTimeout(() => {
             this.props.history.push('/login')
           }, 2000)
@@ -486,7 +485,7 @@ class TcUserInfoEditForm extends React.Component {
         }).catch(error => {
           this.setState({
             isFetching: false
-          }, () => message.error(this.props.intl.formatMessage({ id: 'tcOperationFailure' })))
+          }, () => message.error(this.props.intl.formatMessage({ id: 'tc1_6' })))
         });
 
     }
@@ -526,7 +525,8 @@ class TcUserInfoEditForm extends React.Component {
 
         <div className="tc-useredit-form">
           <Row className="tc-useredit-form-title"><FormattedMessage id="tcUserInfoEditTitle" /></Row>
-          <Row className="tc-useredit-form-avatar">
+          {/* 上传头像图片接口返回后还需要再调一次接口，需要参数不详 尝试很多次，先隐藏此功能 */}
+          {/* <Row className="tc-useredit-form-avatar">
             <Col span={8} style={{ padding: '0 6%' }}>
               <Upload
                 name="avatar"
@@ -548,7 +548,7 @@ class TcUserInfoEditForm extends React.Component {
             </Col>
             <Col span={16} style={{ lineHeight: '65px', color: '#ccc' }}><FormattedMessage id="tcUserChangeprofilephoto" /></Col>
           </Row>
-          <Divider style={{ margin: '0% 0% 4% 0%' }} />
+          <Divider style={{ margin: '0% 0% 4% 0%' }} /> */}
           <Form onSubmit={this.handleSubmit} className="login-form" labelCol={{ span: 6 }} wrapperCol={{ span: 18 }}>
             <Form.Item label={this.props.intl.formatMessage({ id: 'tcUserName' })}>
               {getFieldDecorator('username', {
@@ -571,7 +571,7 @@ class TcUserInfoEditForm extends React.Component {
               )}
             </Form.Item>
 
-            <Form.Item label={this.props.intl.formatMessage({ id: 'tcOrderCity' })}>
+            <Form.Item label={this.props.intl.formatMessage({ id: 'tc5_12' })}>
               <Row className="tc-user-info-city" onClick={this.showCityDrawer}>{userInfo.location || <span style={{ color: '#d9d9d9' }}>{this.props.intl.formatMessage({ id: 'tcUserCityPr' })}</span>}</Row>
             </Form.Item>
             <Form.Item label={this.props.intl.formatMessage({ id: 'tcUserTags' })}>
@@ -613,7 +613,7 @@ class TcUserInfoEditForm extends React.Component {
               <Select
                 style={{ width: '100%' }}
                 showSearch
-                placeholder={formatMessage({ id: "tcOrderCountryOrRegion" })}
+                placeholder={formatMessage({ id: "tc5_7" })}
                 onChange={this.handleProvinceChange}
                 filterOption={(input, option) =>
                   option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
@@ -628,7 +628,7 @@ class TcUserInfoEditForm extends React.Component {
               <Select
                 style={{ width: '100%' }}
                 value={selectRegion}
-                placeholder={formatMessage({ id: "tcOrderStateRegion" })}
+                placeholder={formatMessage({ id: "tc5_13" })}
                 onChange={this.selectStateRegionChange}
               >
                 {stateRegionList.map(_item => (
@@ -637,7 +637,7 @@ class TcUserInfoEditForm extends React.Component {
               </Select>
             </Row>
             <Row style={{ width: '100%', paddingBottom: '20px' }}>
-              <Input placeholder={formatMessage({ id: "tcOrderCity" })} onChange={this.onChangeInputCity} />
+              <Input placeholder={formatMessage({ id: "tc5_12" })} onChange={this.onChangeInputCity} />
             </Row>
             <Row style={{ width: '100%', paddingBottom: '20px' }}>
               <Button style={{ width: '100%', color: '#286dad', marginBottom: '2%' }} type="primary" onClick={this.saveChooseCity} ><FormattedMessage id="tcDone" /></Button>

@@ -4,8 +4,8 @@
 var webpack = require('webpack');
 var path = require('path');
 var node_modules = path.resolve(__dirname, 'node_modules');
-var pathToReact = path.resolve(node_modules, 'react/dist/react.min.js');
-var pathToReactDOM = path.resolve(node_modules, 'react-dom/dist/react-dom.min.js');
+// var pathToReact = path.resolve(node_modules, 'react/dist/react.min.js');
+// var pathToReactDOM = path.resolve(node_modules, 'react-dom/dist/react-dom.min.js');
 //var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var CleanWebpackPlugin = require('clean-webpack-plugin'); // 删除文件
@@ -17,7 +17,7 @@ var ROOT_PATH = path.resolve(__dirname);
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
-
+const WebpackSpritesmithPlugin = require('webpack-spritesmith')
 var devMode = process.env.NODE_ENV == "production"
 
 var deps = [
@@ -29,7 +29,8 @@ var antdOptions = [
     "libraryName": "antd",
     "libraryDirectory": "es",   // default: lib
     "style": true
-  }
+  },
+  { libraryName: "antd-mobile", style: "css" }
 ];
 
 let OUTPUT_FOLDER = ''
@@ -116,7 +117,8 @@ var config = {
       //url-loader:图片、字体图标加载器，是对file-loader的上层封装,支持base64编码。传入的size（也有的写limit) 参数是告诉它图片如果不大于 25KB 的话要自动在它从属的 css 文件中转成 BASE64 字符串。
       {
         test: /\.(gif|jpg|png|jpeg)\??.*$/,
-        use: ['file-loader?name=img/[name].[ext]']//指定打包后的文件路径和名称
+        use: ['url-loader?limit=25000&name=img/[name].[ext]']//指定打包后的文件路径和名称
+        // use: ['file-loader?name=img/[name].[ext]']//指定打包后的文件路径和名称
       },
 
     ],
@@ -140,11 +142,12 @@ var config = {
 
     /*插件：动态生成html，在webpack完成前端资源打包以后，自动将打包后的资源路径和版本号写入HTML中，达到自动化的效果。*/
     new HtmlWebpackPlugin({
-      //favicon: 'src/img/favicon.ico', //favicon路径,通过webpack引入同时可以生成hash值
+      favicon: 'src/img/favicon.ico', //favicon路径,通过webpack引入同时可以生成hash值
       filename: 'index.html',    //生成的html存放路径，相对于 path
       template: 'src/view/index.html',    //html模板路径
       inject: true,    //允许插件修改哪些内容，包括head与body
-      chunks: ['vendor', 'index'],//加载指定模块中的文件，否则页面会加载所有文件
+      chunks: ['vendor', 'index', 'react', 'antd', 'moment', 'common'],//加载指定模块中的文件，否则页面会加载所有文件
+      // chunks: ['vendor', 'index'],//加载指定模块中的文件，否则页面会加载所有文件
       hash: false,    //为静态资源生成hash值
       minify: {    //压缩HTML文件
         removeComments: false,    //移除HTML中的注释
@@ -162,22 +165,74 @@ var config = {
       dry: false,
       //exclude: ["dist/1.chunk.js"]
     }),
+    // 雪碧图插件
+    new WebpackSpritesmithPlugin({
+      // 目标小图标
+      src: {
+        // 小图标路径
+        cwd: path.join(__dirname, 'src/img'),
+        // 匹配小图标文件后缀名
+        glob: '*.png'
+      },
+      target: {
+        // 生成雪碧图(大图)文件存放路径
+        image: path.join(__dirname, 'dist/sprites/sprite.png'),
+        // 对应的样式文件存放路径
+        css: path.join(__dirname, 'dist/sprites/sprites.css')
+      },
+      // 样式文件中,调用雪碧图的写法????
+      apiOptions: {
+        cssImageRef: '../sprites/sprite.png'
+      },
+      // 雪碧图生成算法
+      spritesmithOptions: {
+        algorithm: 'top-down', // 从上到下生成方向.
+        padding: 2// 每个小图标之间的间隙
+      }
+    }),
   ],
   optimization: {
     splitChunks: {
-      chunks: 'initial',
-      minSize: 30000,
+      chunks: 'initial',// initial、async和all
+      minSize: 30000, // 形成一个新代码块最小的体积
       // maxSize: 0,
       minChunks: 1,
-      maxAsyncRequests: 5,
-      maxInitialRequests: 3,
-      automaticNameDelimiter: '~',
+      maxAsyncRequests: 20,// 按需加载时候最大的并行请求数
+      maxInitialRequests: 3, // 最大初始化请求数
+      automaticNameDelimiter: '~',// 打包分割符
       name: true,
       cacheGroups: {
         vendors: {//split `node_modules`目录下被打包的代码到 `page/vendor.js
           test: /[\\/]node_modules[\\/]/,
+          name: 'vendor',
+          chunks: 'initial',
           priority: -10,
-          name: 'vendor'
+          enforce: true,
+        },
+        react: {
+          name: 'react',
+          test: module => /react|redux|react-dom|react-router-dom|react-responsive/.test(module.context),
+          chunks: 'initial',
+          priority: 11,
+          enforce: true,
+        },
+        antd: {
+          name: 'antd',
+          test: (module) => {
+            return /ant/.test(module.context);
+          },
+          chunks: 'initial',
+          priority: 11,
+          enforce: true,
+        },
+        moment: {
+          name: 'moment',
+          test: (module) => {
+            return /moment/.test(module.context);
+          },
+          chunks: 'initial',
+          priority: 13,
+          enforce: true,
         },
         default: {
           minChunks: 2,
@@ -185,7 +240,7 @@ var config = {
           reuseExistingChunk: true
         },
         common: {// ‘src/js’ 下的js文件
-          chunks: "all",
+          chunks: "initial",
           test: /[\\/]src[\\/]js[\\/]components[\\/]/,//也可以值文件/[\\/]src[\\/]js[\\/].*\.js/,  
           name: "common", //生成文件名，依据output规则
           minChunks: 2,
@@ -201,6 +256,45 @@ var config = {
         }*/
       }
     },
+
+    // splitChunks: {
+    //   chunks: 'initial',
+    //   minSize: 30000,
+    //   maxSize: 0,
+    //   minChunks: 1,
+    //   maxAsyncRequests: 5,
+    //   maxInitialRequests: 3,
+    //   automaticNameDelimiter: '~',
+    //   name: true,
+    //   cacheGroups: {
+    //     vendors: {//split `node_modules`目录下被打包的代码到 `page/vendor.js
+    //       test: /[\\/]node_modules[\\/]/,
+    //       priority: -10,
+    //       name: 'vendor'
+    //     },
+    //     default: {
+    //       minChunks: 2,
+    //       priority: -20,
+    //       reuseExistingChunk: true
+    //     },
+    //     common: {// ‘src/js’ 下的js文件
+    //       chunks: "all",
+    //       test: /[\\/]src[\\/]js[\\/]components[\\/]/,//也可以值文件/[\\/]src[\\/]js[\\/].*\.js/,  
+    //       name: "common", //生成文件名，依据output规则
+    //       minChunks: 2,
+    //       maxInitialRequests: 5,
+    //       minSize: 0,
+    //       priority: 1
+    //     },
+    //     /*styles: {
+    //         name: 'styles',
+    //         test: /\.css$/,
+    //         chunks: 'all',
+    //         enforce: true
+    //     }*/
+    //   }
+    // },
+
     minimizer: [
       new UglifyJsPlugin({
         test: /\.js(\?.*)?$/i,

@@ -3,7 +3,7 @@ import 'whatwg-fetch';//fetch的polyfill实现
 import objectAssign from 'object-assign';//ie不支持Object.assign
 import forge from 'node-forge'//各种加密算法插件，本项目用MD5
 import config from './config'
-import { message } from 'antd';
+// import { message } from 'antd';
 
 function checkStatus (response) {
   if (response.status >= 200 && response.status < 300) {
@@ -92,7 +92,12 @@ function requestToken (url, options = {}) {
 
 function _requestWebUrlOrBtnClick (options = {}) {
   let data = options.body || {};
+  let _urlTxt = options.txt || "";
   let _url = config.webUrlOrBtnClick;
+  let _ty = browserRedirect() ? 0 : 1;
+  data.source = _ty;
+  _urlTxt = "source=" + _ty;
+  _url = _url + (_urlTxt ? "?" + _urlTxt : "");
   let _headers = {
     'Accept': 'application/json, text/plain, */*',
     'Content-type': 'application/x-www-form-urlencoded;charset=UTF-8'
@@ -107,6 +112,24 @@ function _requestWebUrlOrBtnClick (options = {}) {
     .catch((err) => (err));
 }
 
+function _assessClick (_url) {
+  let _isPC = browserRedirect();
+  let _ty = _isPC ? 0 : 1;
+  let _uu = "/api/access/" + _url + "?source=" + _ty;
+  let _headers = {
+    'Accept': 'application/json, text/plain, */*',
+    'Content-type': 'application/x-www-form-urlencoded;charset=UTF-8'
+  }
+  // options.body = transformParas(data);
+  return fetch(_uu, objectAssign({}, {
+    method: 'get',
+    // credentials: 'include',
+    // headers: _headers
+  }, {}))
+    .then((data) => (data))
+    .catch((err) => (err));
+}
+
 /**
  * 解析查询字符串，返回包含所有参数的对象
  */
@@ -117,11 +140,16 @@ function getQueryStringArgs () {
     item = null,
     name = null,
     value = null;
-
   items.map((arg, index) => {
+
+    let _sub = '=', _v = '';
+    let _urlindex = arg.indexOf(_sub)
+    _v = arg.substring(_urlindex + _sub.length, arg.length);
+    _v && (value = decodeURIComponent(_v));
+
     item = arg.split("=");
     name = decodeURIComponent(item[0]);
-    value = item[1] && decodeURIComponent(item[1]);
+    // value = item[1] && decodeURIComponent(item[1]);
     if (name.length) {
       args[name] = value;
     }
@@ -843,18 +871,18 @@ function transformTime (createdTime, period = 7) {//未开始订单周期为7天
 }
 
 function getProductByLang (type, data, name) {
-  var _item = null;
-  switch (type) {
-    case 'en':
-      _item = data['productListEn_US'];
-      break;
-    case 'zh':
-      _item = data['productListZh_CN'];
-      break;
-    default:
-      _item = data['productListEn_US'];
-  }
-  return _item;
+  // var _item = null;
+  // switch (type) {
+  //   case 'en':
+  //     _item = data['productListEn_US'];
+  //     break;
+  //   case 'zh':
+  //     _item = data['productListZh_CN'];
+  //     break;
+  //   default:
+  //     _item = data['productListEn_US'];
+  // }
+  return data['productListEn_US'];
 }
 
 function getInitDataByLang (type, data, name) {
@@ -1071,12 +1099,23 @@ function getHeadersAuthorization () {
 //转换url
 function tcReplaceUrl (text) {
   if (!text) return;
+  let _type = get_local_cache('tc_community_type'), _txt = '';
+  (_type == 'iosapp' || _type == 'androidapp') ? _txt = ' target="_self" ' : _txt = ' target="_blank"';
   // var re = /(http[s]?:\/\/([\w-]+.)+([:\d+])?(\/[\w-\.\/\?%&=]*)?)/gi;
   var re = /(https?:\/\/|ftps?:\/\/)?((\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(:[0-9]+)?|(localhost)(:[0-9]+)?|([\w]+\.)(\S+)(\w{2,4})(:[0-9]+)?)(\/?([\w#!:.?+=&%@!\-\/]+))?/ig;
   var s = text.replace(re, function (a) {
-    return '<a href="' + a + '" target="_blank" >View links</a>';
+    // 处理 是否 http://aws.ithinkcar.com/Home/Index/shareReport 加入iframe 显示
+    return '<a href="' + a + ' ' + _txt + '  onclick="(function(event) { event.stopPropagation(); })" >View links</a>';
   });
   return s;
+}
+//移动端分享链接加密
+function tcShareUrl (_id) {
+  let _url = md5("Thinkcar123" + _id);
+  _url = _url.substring(8, 24);
+  let _16ID = parseInt(_id).toString(16);
+  _url = _url.slice(0, _16ID.length) + _16ID + _url.slice(_16ID.length);
+  return _url;
 }
 
 
@@ -1125,6 +1164,8 @@ export {
   getIsLogin,
   getHeadersAuthorization,
   _requestWebUrlOrBtnClick,
-  tcReplaceUrl
+  _assessClick,
+  tcReplaceUrl,
+  tcShareUrl
 }
 

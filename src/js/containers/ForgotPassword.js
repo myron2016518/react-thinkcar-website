@@ -1,8 +1,6 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
-import objectAssign from 'object-assign';//ie不支持Object.assign
 import { injectIntl, FormattedMessage } from 'react-intl';
-import { Form, Icon, Input, Button, Row, Col, message, } from 'antd';
+import { Form, Input, Button, Row, Col, message, } from 'antd';
 //import { StickyContainer, Sticky } from 'react-sticky';
 import config from '../../public/config'
 import request, { getSign, transformParas, getQueryStringArgs } from '../../public/common'
@@ -61,13 +59,13 @@ class ForgotPasswordForm extends React.Component {
       },
     })
       .then(data => {
-        message.success(this.props.intl.formatMessage({ id: 'tcForgotPasswordSuccess' }), 1.5);
+        message.success(this.props.intl.formatMessage({ id: 'tc2_17' }), 1.5);
         return true
       })
       .catch(err => {
         this.setState({
           isFetching: false
-        }, () => message.error(this.props.intl.formatMessage({ id: 'tcOperationFailure' })))
+        }, () => message.error(this.props.intl.formatMessage({ id: 'tc1_6' })))
         return false
       })
   }
@@ -93,7 +91,7 @@ class ForgotPasswordForm extends React.Component {
               remainingTime: 60
 
             }, () => {
-              message.success(this.props.intl.formatMessage({ id: 'tcForgotPasswordFormSendVCSuccess' }), 1.5);
+              message.success(this.props.intl.formatMessage({ id: 'tc2_16' }), 1.5);
               this.timer = setInterval(() => {
                 if (this.state.remainingTime == 0) {
                   clearInterval(this.timer)
@@ -108,7 +106,7 @@ class ForgotPasswordForm extends React.Component {
           .catch(err => {
             this.setState({
               isFetching: false
-            }, () => message.error(this.props.intl.formatMessage({ id: 'tcForgotPasswordFormSendVCError' })))
+            }, () => message.error(this.props.intl.formatMessage({ id: 'tc2_15' })))
             return false
           })
       }
@@ -139,9 +137,9 @@ class ForgotPasswordForm extends React.Component {
             <Row gutter={8}>
               <Col span={14}>
                 {getFieldDecorator('forgotemail', {
-                  rules: [{ required: true, message: <FormattedMessage id="tcLoginEmailInputTip" /> }],
+                  rules: [{ required: true, message: <FormattedMessage id="tc2_2" /> }],
                 })(<Input
-                  placeholder={this.props.intl.formatMessage({ id: 'tcForgotPasswordFormEmailPh' })}
+                  placeholder={this.props.intl.formatMessage({ id: 'tc2_11' })}
                   prefix={<img style={_imgStyle} className="think-car-home-price-img" src={`${_path}/Home/img/login/1.png`} />}
                 />)}
               </Col>
@@ -152,7 +150,7 @@ class ForgotPasswordForm extends React.Component {
                     ? <Button className="btn-block disabled" htmlType="button">
                       {remainingTime} S
 											</Button>
-                    : <Button className="btn-block tc-register-vc-btn" htmlType="button" onClick={this.sendVerificationCode}><FormattedMessage id="tcForgotPasswordFormBtnVC" /></Button>
+                    : <Button className="btn-block tc-register-vc-btn" htmlType="button" onClick={this.sendVerificationCode}><FormattedMessage id="tc2_14" /></Button>
                 }
 
               </Col>
@@ -161,20 +159,20 @@ class ForgotPasswordForm extends React.Component {
           <Form.Item >
             {getFieldDecorator('forgotverificationcode', {
               rules: [
-                { required: true, message: <FormattedMessage id="tcForgotPasswordFormVCTip" /> },
-                { min: 4, message: <FormattedMessage id="tcForgotPasswordFormVCTip" /> },
-                { max: 6, message: <FormattedMessage id="tcForgotPasswordFormVCTip" /> },
+                { required: true, message: <FormattedMessage id="tc2_10" /> },
+                { min: 4, message: <FormattedMessage id="tc2_10" /> },
+                { max: 6, message: <FormattedMessage id="tc2_10" /> },
               ],
             })(<Input
-              placeholder={this.props.intl.formatMessage({ id: 'tcForgotPasswordFormVCPh' })}
+              placeholder={this.props.intl.formatMessage({ id: 'tc2_12' })}
               prefix={<img style={_imgStyle} className="think-car-home-price-img" src={`${_path}/Home/img/login/7.png`} />}
             />)}
           </Form.Item>
           <Form.Item hasFeedback>
             {getFieldDecorator('forgotpasswordpw', {
               rules: [
-                { required: true, message: <FormattedMessage id="tcInputPasswordTip" /> },
-                { min: 6, message: <FormattedMessage id="tcInputPasswordTip2" /> },
+                { required: true, message: <FormattedMessage id="tc2_3" /> },
+                { min: 6, message: <FormattedMessage id="tc2_4" /> },
 
               ],
             })(<Input.Password
@@ -185,7 +183,7 @@ class ForgotPasswordForm extends React.Component {
 
           <Form.Item style={{ marginBottom: 0 }}>
             <Button type="primary" htmlType="submit" className="btn-block">
-              <FormattedMessage id="tcForgotPasswordFormBtnOK" />
+              <FormattedMessage id="tc2_13" />
             </Button>
 
           </Form.Item>

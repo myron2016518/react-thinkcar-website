@@ -1,15 +1,12 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
-import objectAssign from 'object-assign';//ie不支持Object.assign
-import { injectIntl, FormattedMessage, FormattedDate, defineMessages } from 'react-intl';
-import { Button, Row, Col, Card, Empty, message, List, Avatar, Spin, BackTop, Divider, Icon, Drawer } from 'antd';
+import { injectIntl, FormattedMessage } from 'react-intl';
+import { Row, Col, message, List, Avatar, Spin, BackTop, Divider, Icon, Drawer } from 'antd';
 import config from '../../../public/config'
-import request, { getIsLogin, transformParas, browserRedirect, getProductByLang, get_session_cache, deepObjectMerge, getSign, remove_session_cache } from '../../../public/common'
+import { transformParas, browserRedirect, getProductByLang, get_session_cache, deepObjectMerge, getSign, remove_session_cache } from '../../../public/common'
 import Loading from '../../components/Loading'
 import InfiniteScroll from 'react-infinite-scroller';
 import TcCommunityDetailPage from './TcCommunityDetailPage';
 
-const { Meta } = Card;
 let _pageSize = 20;
 
 class TcCommunityTopicPage extends React.Component {
@@ -281,7 +278,7 @@ class TcCommunityTopicPage extends React.Component {
   clickAddFeeds (_type) {
     var _getSeuserInfo = get_session_cache('tc_temporary_user_info');
     if (!sessionStorage.tc_access_token_token || !_getSeuserInfo) {
-      message.error(this.props.intl.formatMessage({ id: 'tcLoginAgain' }));
+      message.error(this.props.intl.formatMessage({ id: 'tc1_7' }));
       setTimeout(() => {
         this.props.history.push('/login')
       }, 2000)
@@ -299,7 +296,7 @@ class TcCommunityTopicPage extends React.Component {
   onClickFollow () {
     let { has_follow } = this.state;
     if (!sessionStorage.tc_access_token_token) {
-      message.error(this.props.intl.formatMessage({ id: 'tcLoginAgain' }));
+      message.error(this.props.intl.formatMessage({ id: 'tc1_7' }));
       setTimeout(() => {
         this.props.history.push('/login')
       }, 2000)
@@ -329,7 +326,7 @@ class TcCommunityTopicPage extends React.Component {
           remove_session_cache('tc_temporary_buy_car_data');
           remove_session_cache('tc_access_token_token');
         }
-        message.error(this.props.intl.formatMessage({ id: 'tcLoginAgain' }));
+        message.error(this.props.intl.formatMessage({ id: 'tc1_7' }));
         setTimeout(() => {
           this.props.history.push('/login')
         }, 2000)
@@ -348,7 +345,7 @@ class TcCommunityTopicPage extends React.Component {
       }).catch(error => {
         this.setState({
           isFetching: false
-        }, () => message.error(this.props.intl.formatMessage({ id: 'tcOperationFailure' })))
+        }, () => message.error(this.props.intl.formatMessage({ id: 'tc1_6' })))
       });
   };
 
@@ -429,7 +426,7 @@ class TcCommunityTopicPage extends React.Component {
                   <Row className="tc-cdi-likes-main" onClick={this.onGoToLikesPage} style={{ cursor: 'pointer' }} >
                     {
                       tcDailyTopicParticipants.map((_item, _idx) => {
-                        let _likesListavatarUrl = _item.avatar ? _item.avatar.url : InitData._homeImgPath + 'Home/img/default_avatar.jpg';
+                        let _likesListavatarUrl = _item.avatar ? _item.avatar.url : InitData._homeImgPath + '/Home/img/default_avatar.jpg';
                         return <Avatar
                           key={'tc-cdi-likes-' + _item.id}
                           src={_likesListavatarUrl}

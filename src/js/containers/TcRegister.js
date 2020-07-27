@@ -1,6 +1,4 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
-import objectAssign from 'object-assign';//ie不支持Object.assign
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { Form, Icon, Input, Button, Row, Checkbox, Col, message, } from 'antd';
 //import { StickyContainer, Sticky } from 'react-sticky';
@@ -48,7 +46,7 @@ class TcRegisterForm extends React.Component {
             }
           })
         } else {
-          message.warning(this.props.intl.formatMessage({ id: 'tcRegisterCheckedAgreement' }))
+          message.warning(this.props.intl.formatMessage({ id: 'tc2_24' }))
         }
 
       }
@@ -71,14 +69,14 @@ class TcRegisterForm extends React.Component {
       },
     })
       .then(data => {
-        message.success(this.props.intl.formatMessage({ id: 'tcRegisterSucess' }), 3);
+        message.success(this.props.intl.formatMessage({ id: 'tc2_25' }), 3);
         sessionStorage.tc_access_token_token = data.token;
         return true
       })
       .catch(err => {
         this.setState({
           isFetching: false
-        }, () => message.error(this.props.intl.formatMessage({ id: 'tcRegisterFailed' }), 10))
+        }, () => message.error(this.props.intl.formatMessage({ id: 'tc2_26' }), 10))
         return false
       })
   }
@@ -104,7 +102,7 @@ class TcRegisterForm extends React.Component {
               remainingTime: 60
 
             }, () => {
-              message.success(this.props.intl.formatMessage({ id: 'tcForgotPasswordFormSendVCSuccess' }), 1.5);
+              message.success(this.props.intl.formatMessage({ id: 'tc2_16' }), 1.5);
               this.timer = setInterval(() => {
                 if (this.state.remainingTime == 0) {
                   clearInterval(this.timer)
@@ -119,7 +117,7 @@ class TcRegisterForm extends React.Component {
           .catch(err => {
             this.setState({
               isFetching: false
-            }, () => message.error(this.props.intl.formatMessage({ id: 'tcRegisterSendVCError' })))
+            }, () => message.error(this.props.intl.formatMessage({ id: 'tc2_23' })))
             return false
           })
       }
@@ -159,23 +157,23 @@ class TcRegisterForm extends React.Component {
       <div className="tc-tcregister-page">
         <Row className="tc-register-title-left"><FormattedMessage id="tcThinckcar" /> </Row>
         <Row className="tc-register-title-right">
-          <span><FormattedMessage id="tcRegisterTitleRight1" />  </span>
-          <span className="tc-rtr-btn" onClick={() => { this.goToPageMethod('/login') }} ><FormattedMessage id="tcRegisterTitleRight2" /></span>
+          <span><FormattedMessage id="tc2_28" />  </span>
+          <span className="tc-rtr-btn" onClick={() => { this.goToPageMethod('/login') }} ><FormattedMessage id="tc2_29" /></span>
           <span >  |  </span>
-          <span className="tc-rtr-btn" onClick={() => { this.goToPageMethod('/') }}><FormattedMessage id="tcRegisterTitleRight3" /></span>
+          <span className="tc-rtr-btn" onClick={() => { this.goToPageMethod('/') }}><FormattedMessage id="tc2_30" /></span>
         </Row>
-        <Row className="tc-register-title2"><FormattedMessage id="tcRegisterTitle1" /> </Row>
+        <Row className="tc-register-title2"><FormattedMessage id="tc2_27" /> </Row>
         <Form onSubmit={this.handleSubmit} className="tc-register-form" >
           <Form.Item >
             {getFieldDecorator('tcregisterusername', {
               rules: [
-                { required: true, message: <FormattedMessage id="tcregisterusernameTip" /> },
-                { min: 4, message: <FormattedMessage id="tcregisterusernameTip" /> },
-                { max: 20, message: <FormattedMessage id="tcregisterusernameTip" /> },
+                { required: true, message: <FormattedMessage id="tc2_22" /> },
+                { min: 4, message: <FormattedMessage id="tc2_22" /> },
+                { max: 20, message: <FormattedMessage id="tc2_22" /> },
               ],
 
             })(<Input
-              placeholder={this.props.intl.formatMessage({ id: 'tcregisterusernamePh' })}
+              placeholder={this.props.intl.formatMessage({ id: 'tc2_21' })}
               prefix={<img style={_imgStyle} className="think-car-home-price-img" src={`${_path}/Home/img/login/6.png`} />}
             />)}
           </Form.Item>
@@ -183,9 +181,9 @@ class TcRegisterForm extends React.Component {
             <Row gutter={8}>
               <Col span={14}>
                 {getFieldDecorator('tcregisteremail', {
-                  rules: [{ required: true, message: <FormattedMessage id="tcLoginEmailInputTip" /> }],
+                  rules: [{ required: true, message: <FormattedMessage id="tc2_2" /> }],
                 })(<Input
-                  placeholder={this.props.intl.formatMessage({ id: 'tcForgotPasswordFormEmailPh' })}
+                  placeholder={this.props.intl.formatMessage({ id: 'tc2_11' })}
                   prefix={<img style={_imgStyle} className="think-car-home-price-img" src={`${_path}/Home/img/login/1.png`} />}
                 />)}
               </Col>
@@ -196,7 +194,7 @@ class TcRegisterForm extends React.Component {
                     ? <Button className="btn-block disabled " htmlType="button">
                       {remainingTime} S
 											</Button>
-                    : <Button className="btn-block tc-register-vc-btn" htmlType="button" onClick={this.sendVerificationCode}><FormattedMessage id="tcForgotPasswordFormBtnVC" /></Button>
+                    : <Button className="btn-block tc-register-vc-btn" htmlType="button" onClick={this.sendVerificationCode}><FormattedMessage id="tc2_14" /></Button>
                 }
 
               </Col>
@@ -205,20 +203,20 @@ class TcRegisterForm extends React.Component {
           <Form.Item >
             {getFieldDecorator('tcregisterverificationcode', {
               rules: [
-                { required: true, message: <FormattedMessage id="tcForgotPasswordFormVCTip" /> },
-                { min: 4, message: <FormattedMessage id="tcForgotPasswordFormVCTip" /> },
-                { min: 6, message: <FormattedMessage id="tcForgotPasswordFormVCTip" /> },
+                { required: true, message: <FormattedMessage id="tc2_10" /> },
+                { min: 4, message: <FormattedMessage id="tc2_10" /> },
+                { min: 6, message: <FormattedMessage id="tc2_10" /> },
               ],
             })(<Input
-              placeholder={this.props.intl.formatMessage({ id: 'tcForgotPasswordFormVCPh' })}
+              placeholder={this.props.intl.formatMessage({ id: 'tc2_12' })}
               prefix={<img style={_imgStyle} className="think-car-home-price-img" src={`${_path}/Home/img/login/7.png`} />}
             />)}
           </Form.Item>
           <Form.Item hasFeedback>
             {getFieldDecorator('tcregisterpasswordpw', {
               rules: [
-                { required: true, message: <FormattedMessage id="tcInputPasswordTip" /> },
-                { min: 6, message: <FormattedMessage id="tcInputPasswordTip2" /> },
+                { required: true, message: <FormattedMessage id="tc2_3" /> },
+                { min: 6, message: <FormattedMessage id="tc2_4" /> },
 
               ],
             })(<Input.Password
@@ -230,13 +228,13 @@ class TcRegisterForm extends React.Component {
             {getFieldDecorator('tcregisteragreement', {
               valuePropName: 'checked',
               rules: [
-                { required: true, message: <FormattedMessage id="tcInputregisteragreementTip" /> },
+                { required: true, message: <FormattedMessage id="tc2_20" /> },
               ],
             })(
               <Checkbox>
-                <FormattedMessage id="tcregagreementTip" />{` `}
+                <FormattedMessage id="tc2_18" />{` `}
                 <span style={{ color: '#1C1F86' }} onClick={this.openPrivacyPolicy}>
-                  <FormattedMessage id="tcregagreement" />
+                  <FormattedMessage id="tc2_19" />
                 </span>
               </Checkbox>
             )}
@@ -249,7 +247,7 @@ class TcRegisterForm extends React.Component {
           </Form.Item>
         </Form>
         <Row className="tc-register-footer">
-          <FormattedMessage id="footerLastTip1" />
+          <FormattedMessage id="tc3_18" />
         </Row>
         <Loading loading={isFetching} />
         <PrivacyPolicy ref="privacyPolicy" lang={this.props.intl.locale} />

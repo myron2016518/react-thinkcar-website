@@ -48,7 +48,7 @@ export default class ThinkDiagProblemPage extends React.Component {
           <h4>3. Activate a ThinkDiag Device: </h4>
           <p>After the registration, there will be a notification of “Activation Code”. Click on “OK” to open the activation page, you need to input the serial number and a 8-digit activation code of your ThinkDiag device. </p>
           <h4>4. Download Diagnostics Software:</h4>
-          <p>After the activation, go to “ThinkStore” to download diagnostics software. Each ThinkDiag de-vice comes with 2 FREE diagnostics software for one year. Please select the software based on your vehicles, and download the corresponding software.</p>
+          <p>After the activation, go to “ThinkStore” to download diagnostics software. Each ThinkDiag de-vice comes with 1 FREE diagnostics software for one year. Please select the software based on your vehicles, and download the corresponding software.</p>
           <h4>5. Insert the ThinkDiag Device into OBDII port in Your Vehicle:</h4>
           <p>Usually, the OBDII port is located under the dashboard, above the pedal on the driver’s side. Here are the 5 common positions of OBDII port (as shown in the figure below). Insert the ThinkDiag device, there will be a green light which indicates the device is powered on.</p>
           <h4>6. Bluetooth Connection:</h4>
@@ -76,10 +76,10 @@ export default class ThinkDiagProblemPage extends React.Component {
           <h4>Q: Why do I need to download the diagnostics software after download the App?</h4>
           <p>A: Due to a variety of vehicle manufacturers on the market, different vehicle manufacturers re-quire corresponding diagnostics software. Therefore, ThinkDiag will recognize the vehicle manufacturer first while diagnosing, then download the corresponding diagnostics software to work. </p>
           <h4>Q: What is Thinkdiag's vehicle diagnostic software policy and the ThinkStore?</h4>
-          <p>A: Along with the Thinkdiag hardware, two vehicle diagnostic softwares are free. The first time you use this tool, it will ask you to select the vehicle diagnostic software you want to download. (Notice: once a diagnostic software is chosen, it cannot be changed. )</p>
+          <p>A: The first time you use this tool, it will ask you to select the vehicle diagnostic software you want to download. Each manufacturer software is $39.95 per year. </p>
           <p>ThinkStore has all the all the vehicle diagnostic softwares that Thinkdiag can use, covering more than 95% of car models in the market.</p>
           <p>The diagnostic software is valid for one year and require renewal after expiration.</p>
-          <p>After you download the two free vehicle diagnostic softwares, you need to purchase if you want to download more softwares. </p>
+          {/* <p>After you download the two free vehicle diagnostic softwares, you need to purchase if you want to download more softwares. </p> */}
           <p>The procedure for purchasing additional diagnostic software is as followed:</p>
           <p>Activate device → Open ThinkStore in the Thinkdiag App → Select the software → Select buy now/add to shopping cart → Complete payment → Download diagnostic software → Start the diagnosis.</p>
           <h4>Q: Which vehicle can ThinkDiag diagnose?</h4>

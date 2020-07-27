@@ -1,10 +1,8 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
-import objectAssign from 'object-assign';//ie不支持Object.assign
-import { injectIntl, FormattedMessage, FormattedDate, defineMessages } from 'react-intl';
-import { Button, Row, Col, message, Tag } from 'antd';
+import { injectIntl } from 'react-intl';
+import { Row, Col, message, Tag } from 'antd';
 import config from '../../../public/config'
-import request, { transformParas, getProductByLang, browserRedirect, get_session_cache, remove_session_cache, deepObjectMerge, getSign } from '../../../public/common'
+import { browserRedirect, get_session_cache, remove_session_cache, deepObjectMerge, getSign } from '../../../public/common'
 import Loading from '../../components/Loading'
 
 const { CheckableTag } = Tag;
@@ -37,7 +35,7 @@ class TcUserTagsPage extends React.Component {
     // tcGetUserInfo , tcTags
     var _getSeuserInfo = get_session_cache('tc_temporary_user_info');
     if (!sessionStorage.tc_access_token_token || !_getSeuserInfo) {
-      message.error(this.props.intl.formatMessage({ id: 'tcLoginAgain' }));
+      message.error(this.props.intl.formatMessage({ id: 'tc1_7' }));
       setTimeout(() => {
         this.props.history.push('/login')
       }, 2000)
@@ -50,7 +48,7 @@ class TcUserTagsPage extends React.Component {
 
   getCurrentUserTags () {
     if (!sessionStorage.tc_access_token_token) {
-      message.error(this.props.intl.formatMessage({ id: 'tcLoginAgain' }));
+      message.error(this.props.intl.formatMessage({ id: 'tc1_7' }));
       setTimeout(() => {
         this.props.history.push('/login')
       }, 2000)
@@ -80,7 +78,7 @@ class TcUserTagsPage extends React.Component {
           remove_session_cache('tc_temporary_buy_car_data');
           remove_session_cache('tc_access_token_token');
         }
-        message.error(this.props.intl.formatMessage({ id: 'tcLoginAgain' }));
+        message.error(this.props.intl.formatMessage({ id: 'tc1_7' }));
         setTimeout(() => {
           this.props.history.push('/login')
         }, 2000)
@@ -99,12 +97,12 @@ class TcUserTagsPage extends React.Component {
       }).catch(error => {
         this.setState({
           isFetching: false
-        }, () => message.error(this.props.intl.formatMessage({ id: 'tcOperationFailure' })))
+        }, () => message.error(this.props.intl.formatMessage({ id: 'tc1_6' })))
       });
   };
   getAllTags () {
     if (!sessionStorage.tc_access_token_token) {
-      message.error(this.props.intl.formatMessage({ id: 'tcLoginAgain' }));
+      message.error(this.props.intl.formatMessage({ id: 'tc1_7' }));
       setTimeout(() => {
         this.props.history.push('/login')
       }, 2000)
@@ -134,7 +132,7 @@ class TcUserTagsPage extends React.Component {
           remove_session_cache('tc_temporary_buy_car_data');
           remove_session_cache('tc_access_token_token');
         }
-        message.error(this.props.intl.formatMessage({ id: 'tcLoginAgain' }));
+        message.error(this.props.intl.formatMessage({ id: 'tc1_7' }));
         setTimeout(() => {
           this.props.history.push('/login')
         }, 2000)
@@ -153,13 +151,13 @@ class TcUserTagsPage extends React.Component {
       }).catch(error => {
         this.setState({
           isFetching: false
-        }, () => message.error(this.props.intl.formatMessage({ id: 'tcOperationFailure' })))
+        }, () => message.error(this.props.intl.formatMessage({ id: 'tc1_6' })))
       });
   };
   saveChooseTags (_tag, _checked) {
     let { selectedTags } = this.state;
     if (!sessionStorage.tc_access_token_token) {
-      message.error(this.props.intl.formatMessage({ id: 'tcLoginAgain' }));
+      message.error(this.props.intl.formatMessage({ id: 'tc1_7' }));
       setTimeout(() => {
         this.props.history.push('/login')
       }, 2000)
@@ -189,7 +187,7 @@ class TcUserTagsPage extends React.Component {
           remove_session_cache('tc_temporary_buy_car_data');
           remove_session_cache('tc_access_token_token');
         }
-        message.error(this.props.intl.formatMessage({ id: 'tcLoginAgain' }));
+        message.error(this.props.intl.formatMessage({ id: 'tc1_7' }));
         setTimeout(() => {
           this.props.history.push('/login')
         }, 2000)
@@ -208,7 +206,7 @@ class TcUserTagsPage extends React.Component {
       }).catch(error => {
         this.setState({
           isFetching: false
-        }, () => message.error(this.props.intl.formatMessage({ id: 'tcOperationFailure' })))
+        }, () => message.error(this.props.intl.formatMessage({ id: 'tc1_6' })))
       });
   };
 

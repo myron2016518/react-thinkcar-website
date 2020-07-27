@@ -1,11 +1,11 @@
 import React from 'react'
 //import {Link} from 'react-router-dom'
-import objectAssign from 'object-assign';//ie不支持Object.assign
-import { injectIntl, FormattedMessage, FormattedDate, defineMessages } from 'react-intl';
-import { Modal, Button, Row, Col, Form, Input, message, Select, Empty } from 'antd';
-import request, { deepObjectMerge, getSign, browserRedirect, transformStatus, transformTime, getProductByLang } from '../../public/common'
+import { injectIntl, FormattedMessage } from 'react-intl';
+import { Row, Col, Form, message, Select, Empty } from 'antd';
+import request, { deepObjectMerge, getSign, browserRedirect } from '../../public/common'
 import Loading from '../components/Loading'
 import config from '../../public/config'
+// import { Flex } from 'antd-mobile';
 
 const { Option } = Select;
 
@@ -30,6 +30,7 @@ class CoveragePage extends React.Component {
     this.coverageSelect2Change = this.coverageSelect2Change.bind(this)
     this.coverageSelect3Change = this.coverageSelect3Change.bind(this)
     this.coverageSelect4Change = this.coverageSelect4Change.bind(this)
+    this._getlang = this._getlang.bind(this)
 
   }
   componentDidMount () {
@@ -37,9 +38,10 @@ class CoveragePage extends React.Component {
   }
 
   initFun (_props) {
+    console.log(_props.match.params.type);
     let _url = config.goodsFunctions;
     var _pr = { // 接口参数
-      "lang": _props.intl.locale || "",
+      "lang": this._getlang(_props.intl.locale) || "",
     };
     this.setState({
       isFetching: true
@@ -55,6 +57,8 @@ class CoveragePage extends React.Component {
           this.setState({
             isFetching: false,
             coverageSelect1Data: data.data || []
+          }, () => {
+            _props.match.params.type == 'tool_diag' && this.coverageSelect1Change('3')
           })
 
           return true
@@ -81,7 +85,7 @@ class CoveragePage extends React.Component {
 
     let _url = config.getMakeList;
     var _pr = { // 接口参数
-      "lang": this.props.intl.locale || "",
+      "lang": this._getlang(this.props.intl.locale) || "",
       "product_type": _find.product_type || "0",
     };
     this.setState({
@@ -129,13 +133,14 @@ class CoveragePage extends React.Component {
   };
   coverageSelect2Change (value) {
     const { getFieldValue } = this.props.form;
+    let _sel1data = this.props.match.params.type == 'tool_diag' ? '3' : getFieldValue('tcCoverageSelect1');
     let _id = value.split('|&|');
     _id = _id[0];
     var _find = this.state.coverageSelect2Data.find(_item => _item.id == _id) || null;
-    var _findPt = this.state.coverageSelect1Data.find(_item => _item.goods_id == getFieldValue('tcCoverageSelect1')) || null;
+    var _findPt = this.state.coverageSelect1Data.find(_item => _item.goods_id == _sel1data) || null;
     let _url = config.getModelByMake;
     var _pr = { // 接口参数
-      "lang": this.props.intl.locale || "",
+      "lang": this._getlang(this.props.intl.locale) || "",
       "car_make_id": _id || "",
       "product_type": _findPt.product_type || "0",
     };
@@ -179,11 +184,12 @@ class CoveragePage extends React.Component {
   };
   coverageSelect3Change (value) {
     const { getFieldValue } = this.props.form;
-    var _findPt = this.state.coverageSelect1Data.find(_item => _item.goods_id == getFieldValue('tcCoverageSelect1')) || null;
+    let _sel1data = this.props.match.params.type == 'tool_diag' ? '3' : getFieldValue('tcCoverageSelect1');
+    var _findPt = this.state.coverageSelect1Data.find(_item => _item.goods_id == _sel1data) || null;
     var _find = this.state.coverageSelect3Data.find(_item => _item.id == value) || null;
     let _url = config.getYearByMakeAndModel;
     var _pr = { // 接口参数
-      "lang": this.props.intl.locale || "",
+      "lang": this._getlang(this.props.intl.locale) || "",
       "car_make_id": _find.make_id || "",
       "car_model_id": value || "",
       "car_model": _find.model || "",
@@ -228,14 +234,15 @@ class CoveragePage extends React.Component {
   };
   coverageSelect4Change (value) {
     const { getFieldValue } = this.props.form;
+    let _sel1data = this.props.match.params.type == 'tool_diag' ? '3' : getFieldValue('tcCoverageSelect1');
     var _find = this.state.coverageSelect4Data.find(_item => _item.id == value) || null;
-    var _find2 = this.state.coverageSelect1Data.find(_item => _item.goods_id == getFieldValue('tcCoverageSelect1')) || null;
+    var _find2 = this.state.coverageSelect1Data.find(_item => _item.goods_id == _sel1data) || null;
     let _l = _find2.goods_functions || [];
     if (_find2.product_type == '1') {
       var _find3 = this.state.coverageSelect3Data.find(_item => _item.id == _find.model_id) || null;
       let _url = config.getThinkDiagSupportSysByCar;
       var _pr = { // 接口参数
-        "lang": this.props.intl.locale || "",
+        "lang": this._getlang(this.props.intl.locale) || "",
         "car_make_id": _find.make_id || "",
         "car_model_id": _find.model_id || "",
         "car_model": _find3.model || "",
@@ -271,6 +278,9 @@ class CoveragePage extends React.Component {
               isFetching: false,
               selectAllChooseData: _allList,
               select1ChooseData: _l || [],
+            }, () => {
+              // var widget = document.getElementById('toolDiag_anchor');
+              // widget.scrollIntoView();
             });
 
             return true
@@ -326,7 +336,10 @@ class CoveragePage extends React.Component {
     // });
   }
 
-
+  _getlang (_l) {
+    return _l == 'zh-cn' ? _l : 'en-us'
+    // return 'en-us';
+  }
 
   render () {
     let { isFetching, isShowAllChooseData, coverageSelect1Data, coverageSelect2Data, coverageSelect3Data, coverageSelect4Data, select1ChooseData, selectAllChooseData } = this.state;
@@ -335,35 +348,41 @@ class CoveragePage extends React.Component {
     const gutter = 24;
     let _isMob = browserRedirect();
     let _bannerImg = _isMob ? InitData._homeImgPath + '/Home/img/coverage_bg.jpg' : InitData._homeImgPath + '/Home/img/mobile/coverage_bg.jpg'
-    let _style2 = _isMob ? { padding: '2% 20%' } : { padding: '2%' }
+    let _style2 = _isMob ? { padding: '2% 20%' } : { padding: '2%' };
+    let _isToolDiag = this.props.match.params.type == 'tool_diag' ? 8 : 6;
+    let _toolDiagBannerStyle = this.props.match.params.type == 'tool_diag' ? { height: '300px' } : {};
     return (
       <div className="tc-coverage-page">
 
         <Row className="tc-coverage-info">
           <Row className="tc-redemption-img1 ">
-            <img alt="THINKCAR" className="think-car-home-price-img" src={_bannerImg} />
+            <img alt="THINKCAR" className="think-car-home-price-img" src={_bannerImg} style={_toolDiagBannerStyle} />
 
             <Row className="tc-coverage-form-info">
               <Row><h2 className="tc-coverage-form-title"><FormattedMessage id="tccoverageTitle1" /></h2></Row>
               <Row className="tc-coverage-btn-list" gutter={gutter}>
                 <Form onSubmit={this.handleSubmit} className="login-form">
-                  <Col className="tc-mobile-col-widthmax" span={6}>
-                    <Form.Item>
-                      {getFieldDecorator('tcCoverageSelect1', {
-                        rules: [{ required: false }],
-                      })(
-                        <Select
-                          placeholder={formatMessage({ id: "tcCoverageSelect1" }) + " *"}
-                          onChange={this.coverageSelect1Change}
-                        >
-                          {coverageSelect1Data.map(_item => (
-                            <Option key={"coverageSelect1" + _item.goods_id} value={_item.goods_id}>{_item.name.toUpperCase()}</Option>
-                          ))}
-                        </Select>
-                      )}
-                    </Form.Item>
-                  </Col>
-                  <Col className="tc-mobile-col-widthmax" span={6}>
+                  {
+                    _isToolDiag == 6 && <Col className="tc-mobile-col-widthmax" span={_isToolDiag}>
+                      <Form.Item>
+                        {getFieldDecorator('tcCoverageSelect1', {
+                          rules: [{ required: false }],
+                        })(
+                          <Select
+                            placeholder={formatMessage({ id: "tcCoverageSelect1" }) + " *"}
+                            onChange={this.coverageSelect1Change}
+                          >
+                            {coverageSelect1Data.map((_item) => {
+                              // if (_item.product_type == '2') return; //下架thinkcar 1
+                              return <Option key={"coverageSelect1" + _item.goods_id} value={_item.goods_id}>{_item.name.toUpperCase()}</Option>
+                            })}
+                          </Select>
+                        )}
+                      </Form.Item>
+                    </Col>
+                  }
+
+                  <Col className="tc-mobile-col-widthmax" span={_isToolDiag}>
                     <Form.Item>
                       {getFieldDecorator('tcCoverageSelect2', {
                         rules: [{ required: false }],
@@ -379,7 +398,7 @@ class CoveragePage extends React.Component {
                       )}
                     </Form.Item>
                   </Col>
-                  <Col className="tc-mobile-col-widthmax" span={6}>
+                  <Col className="tc-mobile-col-widthmax" span={_isToolDiag}>
                     <Form.Item>
                       {getFieldDecorator('tcCoverageSelect3', {
                         rules: [{ required: false }],
@@ -395,7 +414,7 @@ class CoveragePage extends React.Component {
                       )}
                     </Form.Item>
                   </Col>
-                  <Col className="tc-mobile-col-widthmax" span={6}>
+                  <Col className="tc-mobile-col-widthmax" span={_isToolDiag}>
                     <Form.Item>
                       {getFieldDecorator('tcCoverageSelect4', {
                         rules: [{ required: false }],
@@ -416,7 +435,7 @@ class CoveragePage extends React.Component {
               </Row>
             </Row>
           </Row>
-          <Row className="tc-coverage-title1">
+          <Row className="tc-coverage-title1" id="toolDiag_anchor">
             <Row><FormattedMessage id="tccoverageTitle2" /></Row>
             <Row style={{ padding: '2% 0' }}>
               {
@@ -430,8 +449,8 @@ class CoveragePage extends React.Component {
             </Row>
             {isShowAllChooseData && <Row><FormattedMessage id="tccoverageTitle3" /></Row>}
             {isShowAllChooseData && <Row style={_style2}>
-              <Row>
-                <Col span={12} className="tc-coverage-support-functions2"><FormattedMessage id="tccoverageTitle3_1" /></Col>
+              <Row className="tc_ctb">
+                <Col span={12} className="tc-coverage-support-functions2 tc_ctb1"><FormattedMessage id="tccoverageTitle3_1" /></Col>
                 <Col span={12} className="tc-coverage-support-functions2"><FormattedMessage id="tccoverageTitle3_2" /></Col>
               </Row>
 

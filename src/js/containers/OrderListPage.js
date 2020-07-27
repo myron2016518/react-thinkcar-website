@@ -1,12 +1,15 @@
 import React from 'react'
-import objectAssign from 'object-assign';//ie不支持Object.assign
-import { injectIntl, FormattedMessage, FormattedDate, defineMessages } from 'react-intl';
-import { Button, Row, Col, Empty, message, Pagination } from 'antd';
+import { injectIntl, FormattedMessage } from 'react-intl';
+import { Row, Empty, message, Pagination } from 'antd';
 import config from '../../public/config'
-import request, { transformStatus, transformTime, browserRedirect, getProductByLang, getSign, deepObjectMerge, get_session_cache } from '../../public/common'
+import Loadable from '../components/loadable'
+import request, { browserRedirect, getSign, deepObjectMerge, get_session_cache } from '../../public/common'
 import Loading from '../components/Loading'
-import ThinkcarTransportPage from './ThinkcarTransportPage'
-import OrederListDetail from './OrederListDetail'
+// import ThinkcarTransportPage from './ThinkcarTransportPage'
+// import OrederListDetail from './OrederListDetail'
+
+const ThinkcarTransportPage = Loadable(() => import('./ThinkcarTransportPage'));
+const OrederListDetail = Loadable(() => import('./OrederListDetail'));
 
 
 const PAGE_SIZE = 5
@@ -117,7 +120,7 @@ class OrderListPage extends React.Component {
         </Row>
         <Row className={_isMob ? "thinkCar-price1 think-car-padding10 think-car-home-tip2 tc-order-list-info" : "thinkCar-price1 think-car-home-tip2 tc-order-list-info tc-orderlist-mobile"}  >
           <Row>
-            <h2 className="tc-order-title"><FormattedMessage id="tcOrderListTitle" /></h2>
+            <h2 className="tc-order-title"><FormattedMessage id="tc4_9" /></h2>
           </Row>
           <Row >
             {

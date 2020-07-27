@@ -1,17 +1,15 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import objectAssign from 'object-assign';//ie不支持Object.assign
 import 'es6-promise';//fetch是基于Promise来实现的，所以还需要Promise的polyfillpromise的polyfill
 import { injectIntl, FormattedMessage } from 'react-intl';
-import { Form, Icon, Input, Button, Checkbox, message, Select, Row, Avatar } from 'antd';
+import { Form, Input, Button, message, Row, Avatar } from 'antd';
 //import { StickyContainer, Sticky } from 'react-sticky';
 import config from '../../public/config'
-import request, { requestToken, set_session_cache, getSign, transformParas, getQueryStringArgs } from '../../public/common'
+import { requestToken, set_session_cache } from '../../public/common'
 import Loading from '../components/Loading'
 
 import mobilelogoImg from '../../img/logo.png'
 
-const Option = Select.Option;
 class LoginForm extends React.Component {
   constructor(props, context) {
     super(props);
@@ -73,7 +71,7 @@ class LoginForm extends React.Component {
 
         } else {
           _d.then(function (result) {
-            message.error(result.message || this.props.intl.formatMessage({ id: 'tcLoginError2' }))
+            message.error(result.message || this.props.intl.formatMessage({ id: 'tc2_8' }))
           })
 
           return false;
@@ -83,7 +81,7 @@ class LoginForm extends React.Component {
       .catch(err => {
         this.setState({
           isFetching: false
-        }, () => message.error(this.props.intl.formatMessage({ id: 'tcLoginError' })))
+        }, () => message.error(this.props.intl.formatMessage({ id: 'tc2_7' })))
         return false
       })
   }
@@ -108,13 +106,21 @@ class LoginForm extends React.Component {
           isFetching: false
         }, () => {
           set_session_cache('tc_temporary_user_info', data);
-          this.props.history.push('/');
+          // this.props.history.push('/');
           this.props.getLoginInfo();
+          // console.log(this.props.history);
+          this.props.history.goBack();
+          // if (this.props.history.length > 0) {
+          //   // this.props.history.push('/')
+          // } else {
+          //   // this.props.history.goBack();
+          // }
+
         })
 
 
       }).catch(error => {
-        message.error(this.props.intl.formatMessage({ id: 'tcLoginError' }))
+        message.error(this.props.intl.formatMessage({ id: 'tc2_7' }))
       });
 
     // return requestToken(url, {
@@ -137,7 +143,7 @@ class LoginForm extends React.Component {
     //   .catch(err => {
     //     this.setState({
     //       isFetching: false
-    //     }, () => message.error(this.props.intl.formatMessage({ id: 'tcLoginError' })))
+    //     }, () => message.error(this.props.intl.formatMessage({ id: 'tc2_7' })))
     //     return false
     //   })
   }
@@ -162,20 +168,20 @@ class LoginForm extends React.Component {
           <img alt="THINKCAR" className="think-car-home-price-img" src={mobilelogoImg} />
         </Row>
         <div className="tc-login-form">
-          <Row className="tc-login-form-title"><FormattedMessage id="tcLoginWelcome" /></Row>
+          <Row className="tc-login-form-title"><FormattedMessage id="tc2_9" /></Row>
           <Form onSubmit={this.handleSubmit} className="login-form">
             <Form.Item>
               {getFieldDecorator('account', {
-                rules: [{ required: true, message: <FormattedMessage id="tcLoginEmailInputTip" /> }],
+                rules: [{ required: true, message: <FormattedMessage id="tc2_2" /> }],
               })(
-                <Input prefix={<img style={{ width: '42%' }} className="think-car-home-price-img" src={`${_path}/Home/img/login/1.png`} />} placeholder={this.props.intl.formatMessage({ id: 'tcLoginEmail' })} />
+                <Input prefix={<img style={{ width: '42%' }} className="think-car-home-price-img" src={`${_path}/Home/img/login/1.png`} />} placeholder={this.props.intl.formatMessage({ id: 'tc2_1' })} />
               )}
             </Form.Item>
             <Form.Item>
               {getFieldDecorator('password', {
                 rules: [
-                  { required: true, message: <FormattedMessage id="tcInputPasswordTip" /> },
-                  { min: 6, message: <FormattedMessage id="tcInputPasswordTip2" /> },
+                  { required: true, message: <FormattedMessage id="tc2_3" /> },
+                  { min: 6, message: <FormattedMessage id="tc2_4" /> },
                   // { max: 20, message: <FormattedMessage id="maxPasswordTip"/>},
                 ],
               })(
@@ -189,7 +195,7 @@ class LoginForm extends React.Component {
                 />
               </Button>
 
-              <Link to="/tcregister" style={{ float: 'left' }} > <FormattedMessage id="tcRegisterNow" />  </Link>
+              <Link to="/tcregister" style={{ float: 'left' }} > <FormattedMessage id="tc2_6" />  </Link>
               <a className="login-form-forgot pull-right" onClick={this.goToRegister}>
                 <FormattedMessage id="tcForgotPassword" />
               </a>
@@ -205,7 +211,7 @@ class LoginForm extends React.Component {
           </Row>
         </div>
         <Row className="tc-login-footer">
-          <FormattedMessage id="footerLastTip1" />
+          <FormattedMessage id="tc3_18" />
         </Row>
         <Loading loading={isFetching} />
       </div>

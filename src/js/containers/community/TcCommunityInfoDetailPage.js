@@ -1,14 +1,17 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
-import objectAssign from 'object-assign';//ie不支持Object.assign
-import { injectIntl, FormattedMessage, FormattedDate, defineMessages } from 'react-intl';
-import { Button, Row, Col, Icon, Tooltip, List, Avatar, Divider, message, Drawer, Input, BackTop, Spin, Modal } from 'antd';
-import request, { dateFormat, scrollIntoTop, browserRedirect, isURL, transformParas, remove_session_cache, getProductByLang, get_session_cache, deepObjectMerge, getSign, tcReplaceUrl } from '../../../public/common'
-import Zmage from 'react-zmage'
+import { injectIntl, FormattedMessage } from 'react-intl';
+import { Button, Row, Col, Icon, List, Avatar, Divider, message, Drawer, Input, Spin, Modal } from 'antd';
+import { scrollIntoTop, browserRedirect, isURL, transformParas, get_local_cache, remove_session_cache, getProductByLang, get_session_cache, deepObjectMerge, getSign, tcReplaceUrl } from '../../../public/common'
+// import Zmage from 'react-zmage'
+
 import { Player } from 'video-react';
 import InfiniteScroll from 'react-infinite-scroller';
 import config from '../../../public/config'
 import Loading from '../../components/Loading'
+
+import Loadable from '../../components/loadable'
+// import TcModalImageRIG from '../../components/TcModalImageRIG'
+const TcModalImageRIG = Loadable(() => import('../../components/TcModalImageRIG'));
 
 import "video-react/dist/video-react.css";
 const { TextArea } = Input;
@@ -109,6 +112,7 @@ class TcCommunityInfoDetailPage extends React.Component {
         "topics": []
       },
       likesList: [],
+      imgListIndx: 0,
     }
 
     this.initFun = this.initFun.bind(this)
@@ -141,11 +145,25 @@ class TcCommunityInfoDetailPage extends React.Component {
     this.clickShareOrDelete = this.clickShareOrDelete.bind(this)
     this.getFeedByRepostableid = this.getFeedByRepostableid.bind(this)
     this.deleteFeeds = this.deleteFeeds.bind(this)
+    this.showModalImg = this.showModalImg.bind(this)
 
   }
   componentDidMount () {
     this.initFun(this.props)
     // this.props.itemdata.has_like && this.setState({ has_like: true });
+
+    const scrollToAnchor = () => {
+      let anchorName = this.props.location.hash;
+      if (anchorName) {
+        anchorName = anchorName.replace("#", "");
+        let anchorElement = document.getElementById(anchorName);
+        if (anchorElement) { anchorElement.scrollIntoView(); }
+      }
+    };
+    setTimeout(() => {
+      scrollToAnchor();
+      window.onhashchange = scrollToAnchor;
+    }, 2000)
 
   }
   componentWillReceiveProps (newProps) {
@@ -343,7 +361,7 @@ class TcCommunityInfoDetailPage extends React.Component {
   clickComment (_id, _name, _type, _item) {
     console.log('===clickComment===', _id, _name, _type);
     if (!sessionStorage.tc_access_token_token) {
-      message.error(this.props.intl.formatMessage({ id: 'tcLoginAgain' }));
+      message.error(this.props.intl.formatMessage({ id: 'tc1_7' }));
       setTimeout(() => {
         this.props.history.push('/login')
       }, 2000)
@@ -372,7 +390,7 @@ class TcCommunityInfoDetailPage extends React.Component {
     console.log(_item);
     let { commentAddList } = this.state;
     if (!sessionStorage.tc_access_token_token) {
-      message.error(this.props.intl.formatMessage({ id: 'tcLoginAgain' }));
+      message.error(this.props.intl.formatMessage({ id: 'tc1_7' }));
       setTimeout(() => {
         this.props.history.push('/login')
       }, 2000)
@@ -407,7 +425,7 @@ class TcCommunityInfoDetailPage extends React.Component {
           remove_session_cache('tc_temporary_buy_car_data');
           remove_session_cache('tc_access_token_token');
         }
-        message.error(this.props.intl.formatMessage({ id: 'tcLoginAgain' }));
+        message.error(this.props.intl.formatMessage({ id: 'tc1_7' }));
         setTimeout(() => {
           this.props.history.push('/login')
         }, 2000)
@@ -439,7 +457,7 @@ class TcCommunityInfoDetailPage extends React.Component {
       }).catch(error => {
         this.setState({
           isFetching: false
-        }, () => message.error(this.props.intl.formatMessage({ id: 'tcOperationFailure' })))
+        }, () => message.error(this.props.intl.formatMessage({ id: 'tc1_6' })))
       });
 
 
@@ -447,7 +465,7 @@ class TcCommunityInfoDetailPage extends React.Component {
   // 点赞
   clickLike () {
     if (!sessionStorage.tc_access_token_token) {
-      message.error(this.props.intl.formatMessage({ id: 'tcLoginAgain' }));
+      message.error(this.props.intl.formatMessage({ id: 'tc1_7' }));
       setTimeout(() => {
         this.props.history.push('/login')
       }, 2000)
@@ -478,7 +496,7 @@ class TcCommunityInfoDetailPage extends React.Component {
           remove_session_cache('tc_temporary_buy_car_data');
           remove_session_cache('tc_access_token_token');
         }
-        message.error(this.props.intl.formatMessage({ id: 'tcLoginAgain' }));
+        message.error(this.props.intl.formatMessage({ id: 'tc1_7' }));
         setTimeout(() => {
           this.props.history.push('/login')
         }, 2000)
@@ -488,14 +506,17 @@ class TcCommunityInfoDetailPage extends React.Component {
       }
     })
       .then(data => {
-        this.setState({
-          isFetching: false,
-          has_like: !this.state.has_like,
-        });
+        let _item = this.state.itemdata;
+        _item.like_count = this.state.has_like ? _item.like_count - 1 : _item.like_count + 1,
+          this.setState({
+            isFetching: false,
+            has_like: !this.state.has_like,
+            itemdata: _item,
+          });
       }).catch(error => {
         this.setState({
           isFetching: false
-        }, () => message.error(this.props.intl.formatMessage({ id: 'tcOperationFailure' })))
+        }, () => message.error(this.props.intl.formatMessage({ id: 'tc1_6' })))
       });
 
 
@@ -539,7 +560,7 @@ class TcCommunityInfoDetailPage extends React.Component {
       }, 0)
     // console.log(commentTxt);
     if (!sessionStorage.tc_access_token_token) {
-      message.error(this.props.intl.formatMessage({ id: 'tcLoginAgain' }));
+      message.error(this.props.intl.formatMessage({ id: 'tc1_7' }));
       setTimeout(() => {
         this.props.history.push('/login')
       }, 2000)
@@ -578,7 +599,7 @@ class TcCommunityInfoDetailPage extends React.Component {
           remove_session_cache('tc_temporary_buy_car_data');
           remove_session_cache('tc_access_token_token');
         }
-        message.error(this.props.intl.formatMessage({ id: 'tcLoginAgain' }));
+        message.error(this.props.intl.formatMessage({ id: 'tc1_7' }));
         setTimeout(() => {
           this.props.history.push('/login')
         }, 2000)
@@ -602,7 +623,7 @@ class TcCommunityInfoDetailPage extends React.Component {
       }).catch(error => {
         this.setState({
           isFetching: false
-        }, () => message.error(this.props.intl.formatMessage({ id: 'tcOperationFailure' })))
+        }, () => message.error(this.props.intl.formatMessage({ id: 'tc1_6' })))
       });
 
   };
@@ -642,7 +663,7 @@ class TcCommunityInfoDetailPage extends React.Component {
   onClickFollow () {
     let { itemdata, has_follow } = this.state;
     if (!sessionStorage.tc_access_token_token) {
-      message.error(this.props.intl.formatMessage({ id: 'tcLoginAgain' }));
+      message.error(this.props.intl.formatMessage({ id: 'tc1_7' }));
       setTimeout(() => {
         this.props.history.push('/login')
       }, 2000)
@@ -672,7 +693,7 @@ class TcCommunityInfoDetailPage extends React.Component {
           remove_session_cache('tc_temporary_buy_car_data');
           remove_session_cache('tc_access_token_token');
         }
-        message.error(this.props.intl.formatMessage({ id: 'tcLoginAgain' }));
+        message.error(this.props.intl.formatMessage({ id: 'tc1_7' }));
         setTimeout(() => {
           this.props.history.push('/login')
         }, 2000)
@@ -692,13 +713,13 @@ class TcCommunityInfoDetailPage extends React.Component {
       }).catch(error => {
         this.setState({
           isFetching: false
-        }, () => message.error(this.props.intl.formatMessage({ id: 'tcOperationFailure' })))
+        }, () => message.error(this.props.intl.formatMessage({ id: 'tc1_6' })))
       });
   };
   onClickCollections () {
     let { itemdata } = this.state;
     if (!sessionStorage.tc_access_token_token) {
-      message.error(this.props.intl.formatMessage({ id: 'tcLoginAgain' }));
+      message.error(this.props.intl.formatMessage({ id: 'tc1_7' }));
       setTimeout(() => {
         this.props.history.push('/login')
       }, 2000)
@@ -734,7 +755,7 @@ class TcCommunityInfoDetailPage extends React.Component {
           remove_session_cache('tc_temporary_buy_car_data');
           remove_session_cache('tc_access_token_token');
         }
-        message.error(this.props.intl.formatMessage({ id: 'tcLoginAgain' }));
+        message.error(this.props.intl.formatMessage({ id: 'tc1_7' }));
         setTimeout(() => {
           this.props.history.push('/login')
         }, 2000)
@@ -754,14 +775,14 @@ class TcCommunityInfoDetailPage extends React.Component {
       }).catch(error => {
         this.setState({
           isFetching: false
-        }, () => message.error(this.props.intl.formatMessage({ id: 'tcOperationFailure' })))
+        }, () => message.error(this.props.intl.formatMessage({ id: 'tc1_6' })))
       });
   };
   onClickReport () {
     let { itemdata } = this.state;
     var _getSeuserInfo = get_session_cache('tc_temporary_user_info');
     if (!sessionStorage.tc_access_token_token && !_getSeuserInfo) {
-      message.error(this.props.intl.formatMessage({ id: 'tcLoginAgain' }));
+      message.error(this.props.intl.formatMessage({ id: 'tc1_7' }));
       setTimeout(() => {
         this.props.history.push('/login')
       }, 2000)
@@ -784,7 +805,7 @@ class TcCommunityInfoDetailPage extends React.Component {
       }, 0)
     var _getSeuserInfo = get_session_cache('tc_temporary_user_info');
     if (!sessionStorage.tc_access_token_token && !_getSeuserInfo) {
-      message.error(this.props.intl.formatMessage({ id: 'tcLoginAgain' }));
+      message.error(this.props.intl.formatMessage({ id: 'tc1_7' }));
       setTimeout(() => {
         this.props.history.push('/login')
       }, 2000)
@@ -822,7 +843,7 @@ class TcCommunityInfoDetailPage extends React.Component {
               remove_session_cache('tc_temporary_buy_car_data');
               remove_session_cache('tc_access_token_token');
             }
-            message.error(this.props.intl.formatMessage({ id: 'tcLoginAgain' }));
+            message.error(this.props.intl.formatMessage({ id: 'tc1_7' }));
             setTimeout(() => {
               this.props.history.push('/login')
             }, 2000)
@@ -842,7 +863,7 @@ class TcCommunityInfoDetailPage extends React.Component {
           }).catch(error => {
             this.setState({
               isFetching: false
-            }, () => message.error(this.props.intl.formatMessage({ id: 'tcOperationFailure' })))
+            }, () => message.error(this.props.intl.formatMessage({ id: 'tc1_6' })))
           });
       }
     }
@@ -856,7 +877,7 @@ class TcCommunityInfoDetailPage extends React.Component {
   onClickBlock () {
     let { itemdata } = this.state;
     if (!sessionStorage.tc_access_token_token) {
-      message.error(this.props.intl.formatMessage({ id: 'tcLoginAgain' }));
+      message.error(this.props.intl.formatMessage({ id: 'tc1_7' }));
       setTimeout(() => {
         this.props.history.push('/login')
       }, 2000)
@@ -882,7 +903,18 @@ class TcCommunityInfoDetailPage extends React.Component {
         },
       });
     } else {
-
+      let _type = get_local_cache('tc_community_type');
+      let _shareUrl = this.props.InitData._homeImgPath + '/communityinfo/' + this.props.match.params.feedid
+      if (_type) {
+        if (_type == 'iosapp') {
+          window.webkit.messageHandlers.sendParamsToAPP.postMessage({ body: _shareUrl });
+        } else if (_type == 'androidapp') {
+          appJavaScriptObject.getJavaScriptParams(_shareUrl);
+        }
+      } else {
+        // message.destroy()
+        message.warning(this.props.intl.formatMessage({ id: 'tc12' }))
+      }
     }
   }
 
@@ -923,7 +955,7 @@ class TcCommunityInfoDetailPage extends React.Component {
 
   deleteFeeds () {
     if (!sessionStorage.tc_access_token_token) {
-      message.error(this.props.intl.formatMessage({ id: 'tcLoginAgain' }));
+      message.error(this.props.intl.formatMessage({ id: 'tc1_7' }));
       setTimeout(() => {
         this.props.history.push('/login')
       }, 2000)
@@ -955,7 +987,7 @@ class TcCommunityInfoDetailPage extends React.Component {
           remove_session_cache('tc_temporary_buy_car_data');
           remove_session_cache('tc_access_token_token');
         }
-        message.error(this.props.intl.formatMessage({ id: 'tcLoginAgain' }));
+        message.error(this.props.intl.formatMessage({ id: 'tc1_7' }));
         setTimeout(() => {
           this.props.history.push('/login')
         }, 2000)
@@ -973,30 +1005,42 @@ class TcCommunityInfoDetailPage extends React.Component {
       }).catch(error => {
         this.setState({
           isFetching: false
-        }, () => message.error(this.props.intl.formatMessage({ id: 'tcOperationFailure' })))
+        }, () => message.error(this.props.intl.formatMessage({ id: 'tc1_6' })))
       });
 
 
   };
 
+  showModalImg () {
+    console.log('===showModalImg==');
+    this.refs.tcModalImageRIG.showModal();
+    this.refs.tcModalImageRIG.carouselGoto(this.state.imgListIndx);
+
+  }
   render () {
-    let { isFetching, has_like, has_follow, _height, itemdata, likesList, commentAddList, commentType, actionTypeDrawer, visibleCommunityDrawer, commentInputPr, visibleActionDrawer, isCurrentUser, repostableInfo } = this.state;
+    let { isFetching, has_like, has_follow, _height, imgListIndx, itemdata, likesList, commentAddList, commentType, actionTypeDrawer, visibleCommunityDrawer, commentInputPr, visibleActionDrawer, isCurrentUser, repostableInfo } = this.state;
     let { InitData, intl } = this.props;
     // console.log('=id===', this.props.match.params.feedid);
     const gutter = 16;
     let _isMob = browserRedirect();
-    let _avatarUrl = itemdata.user.avatar ? itemdata.user.avatar.url : InitData._homeImgPath + 'Home/img/default_avatar.jpg';
+    let _avatarUrl = itemdata.user.avatar ? itemdata.user.avatar.url : InitData._homeImgPath + '/Home/img/default_avatar.jpg';
     let _isUrl = isURL(itemdata.feed_content);
-    let _imgList = [];
-    if (itemdata.images.length > 0) {
-      itemdata.images.map((_item, _idx) => {
-        let _ig = InitData._tcCommImgPath + _item.file;
-        _imgList.push({
-          src: _ig,
-          alt: _item.mime
-        });
-      })
-    }
+    // let _imgList = [];
+    // if (itemdata.images.length > 0) {
+    //   itemdata.images.map((_item, _idx) => {
+    //     let _ig = InitData._tcCommImgPath + _item.file;
+    //     _imgList.push({
+    //       src: _ig,
+    //       alt: _item.mime
+    //     });
+    //   })
+    // }
+
+    let _imgListRIG = [];
+    itemdata.images.map((_im) => {
+      let _ig = InitData._tcCommImgPath + _im.file;
+      _imgListRIG.push({ "id": _im.file, "url": _ig })
+    })
 
     // 屏蔽、举报 
     let _actionDrawerHtml = null;
@@ -1005,7 +1049,7 @@ class TcCommunityInfoDetailPage extends React.Component {
         _actionDrawerHtml = <Row>
           <Button style={{ width: '100%', marginBottom: '10px' }} type="primary" onClick={this.onClickReport} ><FormattedMessage id="tcReport" /></Button>
           {/* <Button style={{ width: '100%', color: '#286dad', marginBottom: '10px' }} onClick={this.onClickBlock} ><FormattedMessage id="tcBlock" /></Button> */}
-          <Button style={{ width: '100%' }} onClick={this.onCloseActionDrawer} ><FormattedMessage id="tcMessageTitlePaycancel" /></Button>
+          <Button style={{ width: '100%' }} onClick={this.onCloseActionDrawer} ><FormattedMessage id="tc5" /></Button>
         </Row>
         break;
       case 'report':
@@ -1034,7 +1078,7 @@ class TcCommunityInfoDetailPage extends React.Component {
         _actionDrawerHtml = <Row>
           <Button style={{ width: '100%', marginBottom: '10px' }} type="primary" onClick={this.onClickReport} ><FormattedMessage id="tcReport" /></Button>
           {/* <Button style={{ width: '100%', color: '#286dad', marginBottom: '10px' }} onClick={this.onClickBlock} ><FormattedMessage id="tcBlock" /></Button> */}
-          <Button style={{ width: '100%' }} onClick={this.onCloseActionDrawer} ><FormattedMessage id="tcMessageTitlePaycancel" /></Button>
+          <Button style={{ width: '100%' }} onClick={this.onCloseActionDrawer} ><FormattedMessage id="tc5" /></Button>
         </Row>
     }
 
@@ -1044,6 +1088,18 @@ class TcCommunityInfoDetailPage extends React.Component {
       _repostableHtml = <span className="tc-repostable-txt" >{repostableInfo.feed_content}</span>;
       repostableInfo.images.length > 0 && (_repostableHtml = <span ><Icon theme="twoTone" type="picture" style={{ padding: '0 2%', verticalAlign: 'middle' }} /><span className="tc-repostable-txt"><FormattedMessage id="tcAddFeedViewPicture" /></span></span>)
       repostableInfo.video && (_repostableHtml = <span ><Icon theme="twoTone" type="play-square" style={{ paddin: '0 2%', verticalAlign: 'middle' }} /><span className="tc-repostable-txt"><FormattedMessage id="tcAddFeedViewVideo" /></span></span>)
+    }
+
+    // 处理 是否 http://aws.ithinkcar.com/Home/Index/shareReport 加入iframe 显示
+    let _isShareReport = '';
+    if (itemdata.feed_content) {
+      if (itemdata.feed_content.indexOf('http://aws.ithinkcar.com') != -1 ||
+        itemdata.feed_content.indexOf('https://aws.ithinkcar.com') != -1) {
+        var re = /(https?:\/\/|ftps?:\/\/)?((\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(:[0-9]+)?|(localhost)(:[0-9]+)?|([\w]+\.)(\S+)(\w{2,4})(:[0-9]+)?)(\/?([\w#!:.?+=&%@!\-\/]+))?/ig;
+        itemdata.feed_content.replace(re, function (a) {
+          _isShareReport = a;
+        });
+      }
     }
     return (
       <div className="tc-community-detail-page tc-community-detail-info-page">
@@ -1092,17 +1148,40 @@ class TcCommunityInfoDetailPage extends React.Component {
             </p>
           </Row>
 
+          {
+            _isShareReport != '' && <Row><iframe
+              className="tc-mobile-ShareReport-iframe"
+              src={_isShareReport}
+              width="100%"
+              style={{ height: '400px' }}
+              frameBorder="0"
+              scrolling="auto"
+            ></iframe>
+            </Row>
+          }
+
           {/* 图片显示 */}
           {itemdata.images.length > 0 &&
             <Row className="tc-com-detail-img-main">
               {
                 itemdata.images.map((_item, _idx) => {
                   let _ig = InitData._tcCommImgPath + _item.file;
-                  return <Zmage
+                  // return <Zmage
+                  //   key={'tc-com-detail-img' + _item.file + _idx}
+                  //   src={_ig}
+                  //   alt={_item.mime}
+                  //   set={_imgList}
+                  // />
+                  return <img
+                    alt="THINKCAR"
                     key={'tc-com-detail-img' + _item.file + _idx}
+                    style={{ maxHeight: "100%" }}
                     src={_ig}
-                    alt={_item.mime}
-                    set={_imgList}
+                    onClick={() => {
+                      this.setState({ imgListIndx: _idx }, () => {
+                        this.showModalImg();
+                      })
+                    }}
                   />
 
                 })}
@@ -1155,7 +1234,7 @@ class TcCommunityInfoDetailPage extends React.Component {
           >
             {
               likesList.map((_item, _idx) => {
-                let _likesListavatarUrl = _item.user.avatar ? _item.user.avatar.url : InitData._homeImgPath + 'Home/img/default_avatar.jpg';
+                let _likesListavatarUrl = _item.user.avatar ? _item.user.avatar.url : InitData._homeImgPath + '/Home/img/default_avatar.jpg';
                 return <Avatar
                   key={'tc-cdi-likes-' + _item.id}
                   src={_likesListavatarUrl}
@@ -1227,7 +1306,7 @@ class TcCommunityInfoDetailPage extends React.Component {
                         <Avatar
                           style={{ cursor: 'pointer' }}
                           onClick={() => { this.clickUserAvatar(_item.user) }}
-                          src={_item.user.avatar ? _item.user.avatar.url : InitData._homeImgPath + 'Home/img/default_avatar.jpg'}
+                          src={_item.user.avatar ? _item.user.avatar.url : InitData._homeImgPath + '/Home/img/default_avatar.jpg'}
                         />
                       }
                       title={[
@@ -1286,7 +1365,7 @@ class TcCommunityInfoDetailPage extends React.Component {
             </Row> :
               <Row>
                 <Button style={{ width: '100%', color: '#286dad', marginBottom: '2%' }} onClick={this.onSubmitComment} ><FormattedMessage id="tcCommentDeleteComment" /></Button>
-                <Button style={{ width: '100%' }} onClick={this.onCloseCommunityDrawer} ><FormattedMessage id="tcMessageTitlePaycancel" /></Button>
+                <Button style={{ width: '100%' }} onClick={this.onCloseCommunityDrawer} ><FormattedMessage id="tc5" /></Button>
               </Row>
           }
 
@@ -1307,7 +1386,14 @@ class TcCommunityInfoDetailPage extends React.Component {
         >
           {_actionDrawerHtml}
         </Drawer>
-
+        {/* 图片浏览模式 */}
+        <TcModalImageRIG
+          ref="tcModalImageRIG"
+          tcimglist={_imgListRIG}
+          tctitle={''}
+          tcstyle={{ height: '500px', width: "100%" }}
+        // tcmheight={'70%'}
+        />
         <Loading loading={isFetching} />
       </div >
     )

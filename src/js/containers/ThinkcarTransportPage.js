@@ -30,7 +30,7 @@ export default class ThinkcarTransportPage extends React.Component {
           bordered={false}
           cover={<img alt="THINKCAR" src={thinkCarQuestionImg} />}
         >
-          <Meta description={<FormattedMessage id="tcOnlineService" />} />
+          <Meta description={<FormattedMessage id="tc1_2" />} />
         </Card>
       </Col>
       <Col span={3}><div className="think-car-home-line1"></div></Col>
@@ -39,7 +39,7 @@ export default class ThinkcarTransportPage extends React.Component {
           bordered={false}
           cover={<img alt="THINKCAR" src={thinkCarQuestion2Img} />}
         >
-          <Meta description={<FormattedMessage id="tcSpecificArea" />} />
+          <Meta description={<FormattedMessage id="tc1_3" />} />
         </Card>
       </Col>
       <Col span={3} className="tc-mobile-line-hide"><div className="think-car-home-line1"></div></Col>
@@ -48,7 +48,7 @@ export default class ThinkcarTransportPage extends React.Component {
           bordered={false}
           cover={<img alt="THINKCAR" src={thinkCarQuestion3Img} />}
         >
-          <Meta description={<FormattedMessage id="tcOnlyChange" />} />
+          <Meta description={<FormattedMessage id="tc1_4" />} />
         </Card>
       </Col>
       <Col span={3}><div className="think-car-home-line1"></div></Col>
@@ -57,7 +57,7 @@ export default class ThinkcarTransportPage extends React.Component {
           bordered={false}
           cover={<img alt="THINKCAR" src={thinkCarQuestion4Img} />}
         >
-          <Meta description={<FormattedMessage id="tcEasyToPay" />} />
+          <Meta description={<FormattedMessage id="tc1_5" />} />
         </Card>
       </Col>
     </Row>

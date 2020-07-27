@@ -1,10 +1,9 @@
 import React from 'react'
-import { Button, message, Table, Drawer, Empty, Row, Col, Icon, Modal, InputNumber } from 'antd';
+import { Button, message, Drawer, Empty, Row, Col, Icon, Modal, InputNumber } from 'antd';
 import { FormattedMessage } from 'react-intl';
 import config from '../../public/config'
-import request, { transformStatus, transformTime, getProductByLang } from '../../public/common'
+import request, { getProductByLang } from '../../public/common'
 import Loading from '../components/Loading'
-import Task from '../components/Task'
 import InitData from '../components/InitData'
 
 const { confirm } = Modal;
@@ -22,7 +21,6 @@ export default class HistoryTask extends React.Component {
     // this.getHistoryTaskList = this.getHistoryTaskList.bind(this)//获取历史任务
     this.initList = this.initList.bind(this)
     this.onClose = this.onClose.bind(this)
-    this.openTask = this.openTask.bind(this)
     this.onPageChange = this.onPageChange.bind(this)
     this.deleteChooseProduct = this.deleteChooseProduct.bind(this)// 删除选择商品
     this.buyCarShowNow = this.buyCarShowNow.bind(this)// 去选商品
@@ -94,10 +92,7 @@ export default class HistoryTask extends React.Component {
       visible: false,
     });
   };
-  openTask (taskId) {
-    this.taskDrawer.showDrawer(taskId)
 
-  }
   onPageChange (pageNumber) {
     this.setState({
       page: pageNumber

@@ -1,11 +1,10 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
-import objectAssign from 'object-assign';//ie不支持Object.assign
-import { injectIntl, FormattedMessage, FormattedDate, defineMessages } from 'react-intl';
+import { injectIntl, FormattedMessage } from 'react-intl';
 import { Button, Row, Col, message, Divider, Drawer, Input, Icon, List, BackTop, Avatar, Upload, Modal } from 'antd';
-import config from '../../../public/config'
-import request, { transformParas, get_session_cache, browserRedirect, remove_session_cache, deepObjectMerge, getSign } from '../../../public/common'
-import Loading from '../../components/Loading'
+// import { ImagePicker } from 'antd-mobile';
+import config from '../../../public/config';
+import { transformParas, get_session_cache, get_local_cache, browserRedirect, remove_session_cache, deepObjectMerge, getSign } from '../../../public/common';
+import Loading from '../../components/Loading';
 
 const { TextArea, Search } = Input;
 const _pageSize = 200;
@@ -27,7 +26,7 @@ class TcCommunityAddFeeds extends React.Component {
       isFetching: false,
       visibleFriendsDrawer: false,
       tcFeedFriendsList: [],
-      feedInputTxt: 'nice thinkcar',
+      feedInputTxt: '',
       searchfeedInputTxt: '',
       previewVisible: false,
       previewImage: '',
@@ -98,6 +97,9 @@ class TcCommunityAddFeeds extends React.Component {
         },
         "topics": []
       },
+
+      files: [],
+      multiple: true,
     }
 
     this.initFun = this.initFun.bind(this)
@@ -113,6 +115,9 @@ class TcCommunityAddFeeds extends React.Component {
     this.handleChange = this.handleChange.bind(this)
     this.beforeUpload = this.beforeUpload.bind(this)
     this.tcGetFeedInfo = this.tcGetFeedInfo.bind(this)
+    this.handleChangeVideo = this.handleChangeVideo.bind(this)
+    this.onChange = this.onChange.bind(this)
+    this.onSegChange = this.onSegChange.bind(this)
 
   }
   componentDidMount () {
@@ -125,7 +130,7 @@ class TcCommunityAddFeeds extends React.Component {
   initFun (props) {
     var _getSeuserInfo = get_session_cache('tc_temporary_user_info');
     if (!sessionStorage.tc_access_token_token || !_getSeuserInfo) {
-      message.error(this.props.intl.formatMessage({ id: 'tcLoginAgain' }));
+      message.error(this.props.intl.formatMessage({ id: 'tc1_7' }));
       setTimeout(() => {
         this.props.history.push('/login')
       }, 2000)
@@ -138,15 +143,15 @@ class TcCommunityAddFeeds extends React.Component {
 
   tcFeedGetFriends (_searchTxt) {
     if (!sessionStorage.tc_access_token_token) {
-      message.error(this.props.intl.formatMessage({ id: 'tcLoginAgain' }));
+      message.error(this.props.intl.formatMessage({ id: 'tc1_7' }));
       setTimeout(() => {
         this.props.history.push('/login')
       }, 2000)
       return;
     }
-    this.setState({
-      isFetching: true
-    })
+    // this.setState({
+    //   isFetching: true
+    // })
     let _headers = {
       'Accept': 'application/json, text/plain, */*',
       'Content-type': 'application/x-www-form-urlencoded;charset=UTF-8'
@@ -173,7 +178,7 @@ class TcCommunityAddFeeds extends React.Component {
           remove_session_cache('tc_temporary_buy_car_data');
           remove_session_cache('tc_access_token_token');
         }
-        message.error(this.props.intl.formatMessage({ id: 'tcLoginAgain' }));
+        // message.error(this.props.intl.formatMessage({ id: 'tc1_7' }));
         setTimeout(() => {
           this.props.history.push('/login')
         }, 2000)
@@ -184,13 +189,14 @@ class TcCommunityAddFeeds extends React.Component {
     })
       .then(data => {
         this.setState({
-          isFetching: false,
+          // isFetching: false,
           tcFeedFriendsList: JSON.parse(data),
         });
       }).catch(error => {
-        this.setState({
-          isFetching: false
-        }, () => message.error(this.props.intl.formatMessage({ id: 'tcOperationFailure' })))
+        message.error(this.props.intl.formatMessage({ id: 'tc1_6' }));
+        // this.setState({
+        //   isFetching: false
+        // }, () => message.error(this.props.intl.formatMessage({ id: 'tc1_6' })))
       });
 
 
@@ -257,7 +263,7 @@ class TcCommunityAddFeeds extends React.Component {
     }
 
     if (!sessionStorage.tc_access_token_token) {
-      message.error(this.props.intl.formatMessage({ id: 'tcLoginAgain' }));
+      message.error(this.props.intl.formatMessage({ id: 'tc1_7' }));
       setTimeout(() => {
         this.props.history.push('/login')
       }, 2000)
@@ -287,7 +293,7 @@ class TcCommunityAddFeeds extends React.Component {
           remove_session_cache('tc_temporary_buy_car_data');
           remove_session_cache('tc_access_token_token');
         }
-        message.error(this.props.intl.formatMessage({ id: 'tcLoginAgain' }));
+        message.error(this.props.intl.formatMessage({ id: 'tc1_7' }));
         setTimeout(() => {
           this.props.history.push('/login')
         }, 2000)
@@ -297,13 +303,20 @@ class TcCommunityAddFeeds extends React.Component {
       }
     })
       .then(data => {
-        this.setState({
-          isFetching: false,
-        });
+        message.success(this.props.intl.formatMessage({ id: 'tcAddFeedSuccess' }));
+        setTimeout(() => {
+          this.setState({
+            isFetching: false,
+          }, () => {
+            remove_session_cache('tc_community_commentList_cache');
+            this.props.history.push('/community')
+          });
+        }, 2000)
+
       }).catch(error => {
         this.setState({
           isFetching: false
-        }, () => message.error(this.props.intl.formatMessage({ id: 'tcOperationFailure' })))
+        }, () => message.error(this.props.intl.formatMessage({ id: 'tc1_6' })))
       });
   };
 
@@ -355,6 +368,21 @@ class TcCommunityAddFeeds extends React.Component {
 
   handleChange ({ fileList }) {
     this.setState({ fileList });
+
+  }
+  handleChangeVideo (info) {
+    console.log(info);
+    // this.setState({ fileList });
+
+    if (info.file.status !== 'uploading') {
+      console.log(info.file, info.fileList);
+    }
+    if (info.file.status === 'done') {
+      message.success(`${info.file.name} file uploaded successfully`);
+      this.setState({ fileList: info.fileList });
+    } else if (info.file.status === 'error') {
+      message.error(`${info.file.name} file upload failed.`);
+    }
   }
 
   beforeUpload (file) {
@@ -409,11 +437,25 @@ class TcCommunityAddFeeds extends React.Component {
       });
   }
 
+  onChange (files, type, index) {
+    console.log(files, type, index);
+    this.setState({
+      files,
+    });
+  }
+  onSegChange (e) {
+    const index = e.nativeEvent.selectedSegmentIndex;
+    this.setState({
+      multiple: index === 1,
+    });
+  }
+
   render () {
-    let { isFetching, visibleFriendsDrawer, tcFeedFriendsList, feedInputTxt, searchfeedInputTxt, previewVisible, previewImage, fileList, feedInfo } = this.state;
+    let { isFetching, multiple, files, visibleFriendsDrawer, tcFeedFriendsList, feedInputTxt, searchfeedInputTxt, previewVisible, previewImage, fileList, feedInfo } = this.state;
     let { InitData, intl } = this.props;
     const gutter = 16;
     let _isMob = browserRedirect();
+    var _getloginType = get_local_cache('tc_community_type');
     // var _getSeuserInfo = get_session_cache('tc_temporary_user_info');
     // let _isOneself = {};
     // if (_getSeuserInfo) {
@@ -439,11 +481,51 @@ class TcCommunityAddFeeds extends React.Component {
       _repostableHtml = feedInfo.feed_content;
       feedInfo.images.length > 0 && (_repostableHtml = <span ><Icon type="picture" style={{ paddingRight: '2%', verticalAlign: 'middle' }} /><span style={{ fontSize: '12px' }}><FormattedMessage id="tcAddFeedViewPicture" /></span></span>)
       feedInfo.video && (_repostableHtml = <span ><Icon type="play-square" style={{ paddingRight: '2%', verticalAlign: 'middle' }} /><span style={{ fontSize: '12px' }}><FormattedMessage id="tcAddFeedViewVideo" /></span></span>)
+
+      if (feedInfo.feed_content) {
+        if (feedInfo.feed_content.indexOf('http://aws.ithinkcar.com') != -1 ||
+          feedInfo.feed_content.indexOf('https://aws.ithinkcar.com') != -1) {
+          _repostableHtml = <span ><Icon type="picture" style={{ paddingRight: '2%', verticalAlign: 'middle' }} /><span style={{ fontSize: '12px' }}>{feedInfo.feed_content}</span></span>;
+        }
+      }
     }
+    const _ttprops = {
+      name: 'file',
+      action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
+      headers: {
+        authorization: 'authorization-text',
+      },
+      onChange (info) {
+        if (info.file.status !== 'uploading') {
+          console.log(info.file, info.fileList);
+        }
+        if (info.file.status === 'done') {
+          message.success(`${info.file.name} file uploaded successfully`);
+        } else if (info.file.status === 'error') {
+          message.error(`${info.file.name} file upload failed.`);
+        }
+      },
+    };
+
 
     return (
       <div className="tc-community-add-feed-home-page" style={_isMob ? { padding: '0% 25%' } : {}}>
         <Row className="tc-community-add-feed-home-content" >
+          {/* <Upload {..._ttprops}>
+            <Button>
+              <Icon type="upload" /> Click to Upload
+    </Button>
+          </Upload>
+
+
+          <ImagePicker
+            files={files}
+            onChange={this.onChange}
+            onImageClick={(index, fs) => console.log(index, fs)}
+            selectable={files.length < 7}
+            multiple={this.state.multiple}
+          /> */}
+
           <h1><FormattedMessage id="tcFeedCommunityTitle" /></h1>
           <Row>
             <TextArea
@@ -456,7 +538,8 @@ class TcCommunityAddFeeds extends React.Component {
           {
             (this.props.match.params.type == 'picture' || this.props.match.params.type == 'topicspicture') && <Row style={{ padding: '2% 0' }}>
               <Upload
-                accept={InitData._uploadType.img}
+                // accept={InitData._uploadType.img}
+                accept={(_getloginType == "androidapp" || _getloginType == "iosapp") ? "" : InitData._uploadType.img}
                 listType="picture-card"
                 action={config.tcFiles}
                 fileList={fileList}
@@ -479,13 +562,14 @@ class TcCommunityAddFeeds extends React.Component {
           {
             (this.props.match.params.type == 'video' || this.props.match.params.type == 'topicsvideo') && <Row style={{ padding: '2% 0' }}>
               <Upload
-                accept={InitData._uploadType.video}
+                name='file'
+                accept={(_getloginType == "androidapp" || _getloginType == "iosapp") ? "" : InitData._uploadType.video}
                 listType="picture"
                 action={config.tcFiles}
-                fileList={fileList}
+                // fileList={fileList}
                 // onPreview={this.handlePreview}
                 // beforeUpload={this.beforeUpload}
-                onChange={this.handleChange}
+                onChange={this.handleChangeVideo}
                 headers={{
                   // 'Content-type': 'multipart/form-data',
                   "Authorization": 'Bearer' + sessionStorage.tc_access_token_token
@@ -541,7 +625,7 @@ class TcCommunityAddFeeds extends React.Component {
 
                     <Col span={3} style={{ textAlign: 'center', paddingTop: '1%' }} >
                       <Avatar
-                        src={item.avatar ? item.avatar.url : InitData._homeImgPath + 'Home/img/default_avatar.jpg'}
+                        src={item.avatar ? item.avatar.url : InitData._homeImgPath + '/Home/img/default_avatar.jpg'}
                         alt={item.name}
                       />
                     </Col>

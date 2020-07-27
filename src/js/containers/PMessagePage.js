@@ -30,33 +30,33 @@ class PMessagePage extends React.Component {
   render () {
     let { isFetching } = this.state;
     const gutter = 16;
-    let _type = 'success', _title = 'tcMessageTitlePaysuccess', _tip = 'tcMessageTipPaysuccess';
+    let _type = 'success', _title = 'tc4', _tip = 'tc8';
     if (this.props.match.params.type) {
       switch (this.props.match.params.type) {
         case 'orderok':
           _type = 'success';
-          _title = 'tcMessageTitlePaysuccess'
-          _tip = 'tcMessageTipPaysuccess'
+          _title = 'tc4'
+          _tip = 'tc8'
           break;
         case 'orderokerr':
           _type = 'error';
-          _title = 'tcMessageTitlePayfailure'
-          _tip = 'tcMessageTipPayfailure'
+          _title = 'tc3'
+          _tip = 'tc9'
           break;
         case 'orderokcancel':
           _type = 'warning';
-          _title = 'tcMessageTitlePaycancel'
-          _tip = 'tcMessageTipPaymentcancelled'
+          _title = 'tc5'
+          _tip = 'tc10'
           break;
         case 'orderPaid':
           _type = 'warning';
-          _title = 'tcMessageTipPayed'
-          _tip = 'tcMessageTitleHaveToPay'
+          _title = 'tc11'
+          _tip = 'tc6'
           break;
         default:
           _type = 'warning';
-          _title = 'tcMessageTitlePaycancel'
-          _tip = 'tcMessageTipPaymentcancelled'
+          _title = 'tc5'
+          _tip = 'tc10'
       }
     }
 

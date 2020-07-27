@@ -4,8 +4,7 @@ import { injectIntl, FormattedMessage } from 'react-intl';
 import request, { formatTime, get_session_cache, deepObjectMerge, getSign } from '../../public/common';
 import config from '../../public/config';
 import Loading from '../components/Loading'
-import choosethinkcar1 from '../../img/choosethinkcar1.png';
-import choosethinkcar1s from '../../img/choosethinkcar1s.png';
+
 
 class OrederListDetailPage extends React.Component {
   constructor(props, context) {
@@ -87,20 +86,20 @@ class OrederListDetailPage extends React.Component {
     // }
     return (<Row className={`tc-orderdetail-page-info`}>
       <Row className="tc-orderdetail-title1">
-        <FormattedMessage id="tcOrderListTip3" />
+        <FormattedMessage id="tc4_12" />
         <span style={{ paddingLeft: '3%' }} >{_orderTime}</span>
       </Row>
 
       <Row className="tc-orderdetail-title2">
         <Col span={10} >
-          <Row ><FormattedMessage id="tcOrderListTip4" /></Row>
+          <Row ><FormattedMessage id="tc4_13" /></Row>
           <Row >
             {itemdata.status_name}
           </Row>
         </Col>
         <Col span={4} className="tc-order-cart-line"></Col>
         <Col span={10} >
-          <Row ><FormattedMessage id="tcOrderListTip5" /></Row>
+          <Row ><FormattedMessage id="tc4_14" /></Row>
           <Row >
             {_deliveryTime}
           </Row>
@@ -108,7 +107,7 @@ class OrederListDetailPage extends React.Component {
       </Row>
 
       <Row className="tc-orderdetail-title3">
-        <FormattedMessage id="tcOrderTitle2" />
+        <FormattedMessage id="tc5_2" />
         <span>
           {`: ${itemdata.street1},${itemdata.street2 ? itemdata.street2 + ',' : ''}${itemdata.city},${itemdata.province},${itemdata.country}  ${itemdata.postal_code}`}
         </span>
@@ -160,22 +159,22 @@ class OrederListDetailPage extends React.Component {
       </Row>
       <Row className="tc-orderdetail-title3 tc-order-item-boder-bottom" >
         <Row className="tc-orderdetail-row">
-          <Col className=" tc-order-txt1" span={16} ><FormattedMessage id="tcOrderTitle4" />: </Col>
+          <Col className=" tc-order-txt1" span={16} ><FormattedMessage id="tc5_4" />: </Col>
           <Col className=" tc-order-txt2" span={8} >+${itemdata.shipping}</Col>
         </Row>
         <Row className="tc-orderdetail-row">
-          <Col className=" tc-order-txt1" span={16} ><FormattedMessage id="tcOrderListTip1" />: </Col>
+          <Col className=" tc-order-txt1" span={16} ><FormattedMessage id="tc4_10" />: </Col>
           <Col className=" tc-order-txt2 tc-order-txt-amount" span={8} >${itemdata.amount}</Col>
         </Row>
       </Row>
 
       <Row className="tc-orderdetail-title3">
         <Row>
-          <Col span={10}><FormattedMessage id="tcOrderTitle5" />: </Col>
+          <Col span={10}><FormattedMessage id="tc5_5" />: </Col>
           <Col span={14} >{itemdata.payment_type}</Col>
         </Row>
         <Row >
-          <Col span={10}><FormattedMessage id="tcOrderListTip2" />: </Col>
+          <Col span={10}><FormattedMessage id="tc4_11" />: </Col>
           <Col span={14} >{itemdata.order_no}</Col>
         </Row>
       </Row>

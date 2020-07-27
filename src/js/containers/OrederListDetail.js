@@ -2,8 +2,6 @@ import React from 'react'
 import { Button, Row, Col } from 'antd';
 import { FormattedMessage } from 'react-intl';
 import request, { formatTime, browserRedirect } from '../../public/common'
-import choosethinkcar1 from '../../img/choosethinkcar1.png'
-import choosethinkcar1s from '../../img/choosethinkcar1s.png'
 
 
 export default class OrederListDetail extends React.Component {
@@ -64,19 +62,7 @@ export default class OrederListDetail extends React.Component {
                 itemdata.cartList.length > 0 && itemdata.cartList.map((_item, _idx) => {
                   let _is = InitData._homeApiImgPath + (_item.goods_smimg || 'Application/Api/Public/images/thinkcar1s.png');
                   let _service_smimg = InitData._homeApiImgPath + (_item.service_smimg || 'Application/Api/Public/images/1car.jpg');
-                  // switch (_item.goods_id) {
-                  //   case '1':
-                  //     _is = choosethinkcar1s;
-                  //     break;
-                  //   case '2':
-                  //     _is = choosethinkcar1;
-                  //     break;
-                  //   case '3':
-                  //     _is = choosethinkcar1s;
-                  //     break;
-                  //   default:
-                  //     _is = choosethinkcar1s;
-                  // }
+
                   let _moreStatusShow = 'tc-order-more-status';
                   (moreStatus || _idx == 0) && (_moreStatusShow = '');
                   return <Row key={"tc_orderitem_cartlist_" + _item.id} className={_moreStatusShow}>
@@ -98,24 +84,24 @@ export default class OrederListDetail extends React.Component {
                         </Row>
                       </Col>
                       <Col className="tc-mobile-col-widthmax tx-orderdetail-cartlist" span={14}>
-                        <Row style={{ textAlign: 'left', paddingBottom: '1%' }}><FormattedMessage id="tcOrderListTip2" />: {_item.order_no}</Row>
+                        <Row style={{ textAlign: 'left', paddingBottom: '1%' }}><FormattedMessage id="tc4_11" />: {_item.order_no}</Row>
                         <Row >
                           <Col span={5} >
-                            <Row ><FormattedMessage id="tcOrderListTip3" /></Row>
+                            <Row ><FormattedMessage id="tc4_12" /></Row>
                             <Row >
                               {_orderTime}
                             </Row>
                           </Col>
                           <Col span={2} className="tc-order-cart-line"></Col>
                           <Col span={5} >
-                            <Row ><FormattedMessage id="tcOrderListTip4" /></Row>
+                            <Row ><FormattedMessage id="tc4_13" /></Row>
                             <Row >
                               {itemdata.status_name}
                             </Row>
                           </Col>
                           <Col span={2} className="tc-order-cart-line"></Col>
                           <Col span={5} >
-                            <Row ><FormattedMessage id="tcOrderListTip5" /></Row>
+                            <Row ><FormattedMessage id="tc4_14" /></Row>
                             <Row >
                               {_deliveryTime}
                             </Row>
@@ -144,24 +130,24 @@ export default class OrederListDetail extends React.Component {
                           </Row>
                         </Col>
                         <Col className="tc-mobile-col-widthmax tx-orderdetail-cartlist" span={14}>
-                          <Row style={{ textAlign: 'left', paddingBottom: '1%' }}><FormattedMessage id="tcOrderListTip2" />: {_item.order_no}</Row>
+                          <Row style={{ textAlign: 'left', paddingBottom: '1%' }}><FormattedMessage id="tc4_11" />: {_item.order_no}</Row>
                           <Row >
                             <Col span={5} >
-                              <Row ><FormattedMessage id="tcOrderListTip3" /></Row>
+                              <Row ><FormattedMessage id="tc4_12" /></Row>
                               <Row >
                                 {_orderTime}
                               </Row>
                             </Col>
                             <Col span={2} className="tc-order-cart-line"></Col>
                             <Col span={5} >
-                              <Row ><FormattedMessage id="tcOrderListTip4" /></Row>
+                              <Row ><FormattedMessage id="tc4_13" /></Row>
                               <Row >
                                 {itemdata.status_name}
                               </Row>
                             </Col>
                             <Col span={2} className="tc-order-cart-line"></Col>
                             <Col span={5} >
-                              <Row ><FormattedMessage id="tcOrderListTip5" /></Row>
+                              <Row ><FormattedMessage id="tc4_14" /></Row>
                               <Row >
                                 {_deliveryTime}
                               </Row>
@@ -178,36 +164,36 @@ export default class OrederListDetail extends React.Component {
                 moreStatus ?
                   <Row style={{ borderBottom: '1px solid #eee' }}>
                     <Row className="tc-orderdetail-row" gutter={[_row_span]}>
-                      <Col className="tc-mobile-col-widthmax" span={4}><FormattedMessage id="tcOrderTitle5" />: </Col>
+                      <Col className="tc-mobile-col-widthmax" span={4}><FormattedMessage id="tc5_5" />: </Col>
                       <Col className="tc-mobile-col-widthmax" span={14} style={{ textAlign: 'left' }}>{itemdata.payment_type}</Col>
                       <Col className="tc-mobile-col-widthmax tc-order-txt1" span={4} ><FormattedMessage id="tcService" />: </Col>
                       <Col className="tc-mobile-col-widthmax tc-order-txt2" span={2}>+${_servicePrice}</Col>
                     </Row>
                     <Row className="tc-orderdetail-row" gutter={[_row_span]}>
-                      <Col className="tc-mobile-col-widthmax" span={4}><FormattedMessage id="tcOrderTitle2" />: </Col>
+                      <Col className="tc-mobile-col-widthmax" span={4}><FormattedMessage id="tc5_2" />: </Col>
                       <Col className="tc-mobile-col-widthmax" span={14} style={{ textAlign: 'left' }}>
                         {`${itemdata.street1},${itemdata.street2 ? itemdata.street2 + ',' : ''}${itemdata.city},${itemdata.province},${itemdata.country}  ${itemdata.postal_code}`}
                       </Col>
-                      <Col className="tc-mobile-col-widthmax tc-order-txt1" span={4} ><FormattedMessage id="tcOrderTitle4" />: </Col>
+                      <Col className="tc-mobile-col-widthmax tc-order-txt1" span={4} ><FormattedMessage id="tc5_4" />: </Col>
                       <Col className="tc-mobile-col-widthmax tc-order-txt2" span={2} >+${itemdata.shipping}</Col>
                     </Row>
                     <Row className="tc-orderdetail-row" gutter={[_row_span]}>
                       <Col className="tc-mobile-col-widthmax" span={18} ></Col>
-                      <Col className="tc-mobile-col-widthmax tc-order-txt1" span={4} ><FormattedMessage id="tcOrderListTip1" />: </Col>
+                      <Col className="tc-mobile-col-widthmax tc-order-txt1" span={4} ><FormattedMessage id="tc4_10" />: </Col>
                       <Col className="tc-mobile-col-widthmax tc-order-txt2 tc-order-txt-amount" span={2} >${itemdata.amount}</Col>
                     </Row>
                   </Row>
                   : <Row style={{ borderBottom: '1px solid #eee' }} className="tc-orderdetail-row" gutter={[_row_span]}>
-                    <Col className="tc-mobile-col-widthmax" span={4}><FormattedMessage id="tcOrderTitle5" />: </Col>
+                    <Col className="tc-mobile-col-widthmax" span={4}><FormattedMessage id="tc5_5" />: </Col>
                     <Col className="tc-mobile-col-widthmax" span={14} style={{ textAlign: 'left' }}>{itemdata.payment_type}</Col>
-                    <Col className="tc-mobile-col-widthmax tc-order-txt1" span={4} ><FormattedMessage id="tcOrderListTip1" />: </Col>
+                    <Col className="tc-mobile-col-widthmax tc-order-txt1" span={4} ><FormattedMessage id="tc4_10" />: </Col>
                     <Col className="tc-mobile-col-widthmax tc-order-txt2 tc-order-txt-amount" span={2} >${itemdata.amount}</Col>
                   </Row>
               }
             </Row>
             <Row>
               <Button className="tc-roderdetail-btn-more" onClick={this.onChangeMoreStatus}>
-                {moreStatus ? <FormattedMessage id="tcOrderListBtnCOLLAPSE" /> : <FormattedMessage id="tcOrderListBtnMore" />}
+                {moreStatus ? <FormattedMessage id="tc4_16" /> : <FormattedMessage id="tc4_15" />}
               </Button>
             </Row>
           </Row>
@@ -228,9 +214,9 @@ export default class OrederListDetail extends React.Component {
             <Col className=" tc-order-txt2 tc-order-txt-amount" style={{ padding: '2% 0' }} span={4} >
               <p>${itemdata.amount}</p>
               <p className="tc-order-txt3">
-                <FormattedMessage id="tcOrderListMobileTip1" />
+                <FormattedMessage id="tcQuantity" />:
                 {_itemList.length}
-                <FormattedMessage id="tcOrderListMobileTip2" />
+                <FormattedMessage id="tc4_18" />
               </p>
             </Col>
           </Row>

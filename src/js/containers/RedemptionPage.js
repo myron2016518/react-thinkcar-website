@@ -1,7 +1,5 @@
 import React from 'react'
-//import {Link} from 'react-router-dom'
-import objectAssign from 'object-assign';//ie不支持Object.assign
-import { injectIntl, FormattedMessage, FormattedDate, defineMessages } from 'react-intl';
+import { injectIntl, FormattedMessage } from 'react-intl';
 import { Modal, Button, Row, Col, Form, Input, message } from 'antd';
 import request, { deepObjectMerge, getSign, transformStatus, transformTime, getProductByLang } from '../../public/common'
 import Loading from '../components/Loading'
@@ -112,7 +110,7 @@ class RedemptionPage extends React.Component {
               <Form.Item>
                 {getFieldDecorator('tcRedemptionInputEmail', {
                   rules: [{
-                    type: 'email', message: <FormattedMessage id="invalidEmail" />,
+                    type: 'email', message: <FormattedMessage id="tc1" />,
                   }, {
                     required: true, message: <FormattedMessage id="tcRedemptionInputEmail" />,
                   }],
